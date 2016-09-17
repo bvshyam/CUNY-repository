@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"606_01_Week2_HW_practice_Probability\"\nauthor: \"Shyam BV\"\ndate: \"September 11, 2016\"\noutput: html_document\n---\n\n2.5 Coin flips. If you flip a fair coin 10 times, what is the probability of\n(a) getting all tails?\n(b) getting all heads?\n(c) getting at least one tails?\n\n\n```{r flip-coin,eval=TRUE}\nflip_coin <- c(\"H\",\"T\")\n\nsample(flip_coin, size=10,replace=TRUE)\nsample(0:1, size=10,replace=TRUE)\n\n\n0.5^10\n1-0.0009765625\n```\n\n(a) 0.0009765625\n(b) 0.0009765625\n(c) 1-0.0009765625=0.9990234\n\n\n\n\n2.7 Swing voters. A 2012 Pew Research survey asked 2,373 randomly sampled registered voters\ntheir political a\"liation (Republican, Democrat, or Independent) and whether or not they identify\nas swing voters. 35% of respondents identified as Independent, 23% identified as swing voters, and\n11% identified as both.58\n(a) Are being Independent and being a swing voter disjoint, i.e. mutually exclusive?\n(b) Draw a Venn diagram summarizing the variables and their associated probabilities.\n(c) What percent of voters are Independent but not swing voters?\n(d) What percent of voters are Independent or swing voters?\n(e) What percent of voters are neither Independent nor swing voters?\n(f) Is the event that someone is a swing voter independent of the event that someone is a political\nIndependent?\n\n```{r swing-voters,eval=TRUE}\n\nlibrary(\"grid\")\nlibrary(\"futile.logger\")\nlibrary(\"VennDiagram\")\n\ndraw.pairwise.venn(35, 23, 11)\n(24/100) + (12/100) + (11/100)\n1 - ((24/100) + (12/100) + (11/100))\n\n```\n\n(a) No. \n(b) provided above\n(c) 24\n(d) 0.47\n(e) .53\n(f) They are dependent\n\n```{r poverty,eval=FALSE}\n\ndraw.pairwise.venn(14.6, 20.7, 4.2)\n\n```",
+    "created" : 1473608724470.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "3563079147",
+    "id" : "102A1666",
+    "lastKnownWriteTime" : 8296874535683646303,
+    "last_content_update" : 1473609407626,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -1,0 +1,99 @@
+---
+title: "Lab 0"
+author: "Shyam BV"
+date: "August 28, 2016"
+output: html_document
+---
+
+```{r}
+source("http://www.openintro.org/stat/data/arbuthnot.R")
+dim(arbuthnot)
+names(arbuthnot)
+arbuthnot$boys
+```
+
+## Excercise 1
+
+What command would you use to extract just the counts of girls baptized? Try it!
+
+```{r}
+NROW(arbuthnot$girls)
+plot(x = arbuthnot$year, y = arbuthnot$girls)
+plot(x = arbuthnot$year, y = arbuthnot$girls, type = "l")
+?plot
+```
+
+## Excercise 2
+
+Is there an apparent trend in the number of girls baptized over the years?
+How would you describe it?
+
+Yes. There is an increasing trend in the number of girls baptized over the years. Althought it did not follow perferct regression. It has an increasing trend.
+
+```{r}
+
+5218 + 4683
+arbuthnot$boys + arbuthnot$girls
+plot(arbuthnot$year, arbuthnot$boys + arbuthnot$girls, type = "l")
+5218 / 4683
+arbuthnot$boys / arbuthnot$girls
+5218 / (5218 + 4683)
+arbuthnot$boys / (arbuthnot$boys + arbuthnot$girls)
+```
+
+
+##Excercise 3
+
+Now, make a plot of the proportion of boys over time. What do you see? 
+
+```{r}
+plot(x = arbuthnot$year, y = arbuthnot$boys, type = "l")
+
+arbuthnot$boys > arbuthnot$girls
+
+
+```
+
+On Your Own:
+
+1. What years are included in this data set? What are the dimensions of the data frame and what are the variable or column names?
+
+```{r}
+source("https://www.openintro.org/stat/data/present.R")
+
+present$year
+dim(present)
+names(present)
+
+```
+
+2. How do these counts compare to Arbuthnot's? Are they on a similar scale?
+
+```{r}
+ncol(arbuthnot) > ncol(present)
+
+
+```
+
+3.  Make a plot that displays the boy-to-girl ratio for every year in the data set. What do you see? Does Arbuthnot's observation about boys being born in greater proportion than girls hold up in the U.S.? Include the plot in your response.
+
+```{r}
+plot(x = present$year, y =  present$boys/(present$girls + present$boys),  col="#FFCFFF", ylab="y-axix label", type="l")
+par(new=T)
+plot(x = present$year, y =  present$girls/(present$girls + present$boys),ylab="y-axix label", type="l")
+
+
+```
+
+
+First plot shows that there is an decreasing ratio of boys over years. 
+Second plot shows the increasing ratio of girls over years. 
+
+
+##Excercise 4
+
+```{r}
+present[which.max(present$boys+present$girls),1:3]
+
+```
+

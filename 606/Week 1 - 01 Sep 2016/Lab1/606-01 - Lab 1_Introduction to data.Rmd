@@ -1,0 +1,153 @@
+---
+title: "606-01 - Lab 1_Introduction to data"
+author: "Shyam BV"
+date: "September 3, 2016"
+output:
+  html_document:
+    css: lab.css
+    highlight: pygments
+    theme: cerulean
+    toc: yes
+  pdf_document:
+    toc: yes
+---
+
+```{r load-data, eval=TRUE}
+source("more/cdc.R")
+```
+
+1.  How many cases are there in this data set?  
+    
+```{r nrow, eval=TRUE}
+nrow(cdc)
+```
+
+Part 2:  How many variables? 
+
+```{r ncol, eval=TRUE}
+ncol(cdc)
+```
+
+Part 3: For each variable, identify its data type (e.g. categorical, discrete).
+
+```{r data-type, eval=TRUE}
+str(cdc)
+```
+
+2.  Create a numerical summary for `height` and `age`, and compute the 
+    interquartile range for each. 
+    
+```{r height-age, eval=TRUE}
+summary(cdc$height)
+summary(cdc$age)
+
+```
+
+    
+Part 2:  Compute the relative frequency distribution for `gender` and `exerany`.  
+    
+```{r relative-frequence, eval=TRUE}
+table(cdc$gender)/nrow(cdc)
+table(cdc$exerany)/nrow(cdc)
+```
+
+Part 3:  How many males are in the sample?
+
+```{r male-samples,eval=TRUE}
+table(cdc$gender)
+```
+
+Part 4: What proportion of the sample reports being in excellent health?
+
+```{r proportion, eval=TRUE}
+table(cdc$genhlth)/nrow(cdc)
+barplot(table(cdc$genhlth)/nrow(cdc))
+```
+
+3.  What does the mosaic plot reveal about smoking habits and gender?
+
+```{r mosaicplot,eval=TRUE}
+table(cdc$smoke100,cdc$gender)
+mosaicplot(table(cdc$smoke100,cdc$gender),main="Smoking habits and gender",xlab="Smoking habit",ylab="Gender")
+```
+
+4.  Create a new object called `under23_and_smoke` that contains all observations of respondents under the age of 23 that have smoked 100 cigarettes in their lifetime. Write the command you used to create the new object as the answer to this exercise.
+
+```{r subset,eval=TRUE}
+under23_and_smoke <- subset(cdc,cdc$age<23 & cdc$smoke100==1)
+head(under23_and_smoke)
+```
+
+5. What does this box plot show? Pick another categorical variable from the data set and see how it relates to BMI. List the variable you chose, why you might think it would have a relationship to BMI, and indicate what the figure seems to suggest. 
+
+
+```{r boxplot,eval=TRUE}
+bmi <- (cdc$weight/cdc$height^2)*703
+boxplot(bmi ~ cdc$exerany,main="BMI vs Exercise",ylab="BMI",xlab="Exercise")
+```
+
+From the above plot and data, it shows that the people who excercise under normal BMI (18.5 - 24.9). People who dont excercise have a higher BMI than normal.
+
+## On your own
+
+1.  Make a scatterplot of weight versus desired weight. Describe the relationship between these two variables.
+
+```{r ex-scatterplot,eval=TRUE}
+plot(cdc$weight,cdc$wtdesire)
+
+```
+
+There is a strong corelation between weight vs desired weight. Both are linear.
+
+2. Let's consider a new variable: the difference between desired weight 
+    (`wtdesire`) and current weight (`weight`). Create this new variable by 
+    subtracting the two columns in the data frame and assigning them to a new 
+    object called `wdiff`.
+    
+    
+```{r new-weight,eval=TRUE}
+wdiff <- cdc$wtdesire - cdc$weight
+```
+
+3. What type of data is `wdiff`? If an observation `wdiff` is 0, what does 
+    this mean about the person's weight and desired weight. What if `wdiff` is 
+    positive or negative?
+    
+    
+Answer: If the `widff` is 0, then the desired weight and current weight is equal. So he is on ideal weight.
+if possitive, then the weight of the person is less. He still need to gain this much weight to be in ideal range.
+if negative, then the weight of the person is more. He need to reduce this much weight to be in ideal range.
+
+
+4.  Describe the distribution of `wdiff` in terms of its center, shape, and 
+    spread, including any plots you use. What does this tell us about how people 
+    feel about their current weight?
+    
+```{r distribution, eval=TRUE}
+hist(wdiff,breaks=50)
+
+```
+
+Above chart shows that the center is around 0 and the shape is a bell curve. Also it is not widely spread.  
+This means that of the people are near their ideal weight.
+
+5. Using numerical summaries and a side-by-side box plot, determine if men tend
+    to view their weight differently than women.
+    
+```{r}
+cdcc_withdiff <- data.frame(cdc,wdiff)
+plot(cdcc_withdiff$gender,cdcc_withdiff$wdiff)
+
+```
+
+The median is almost equal for men and women. 
+
+6. Now it's time to get creative. Find the mean and standard deviation of weight and determine what proportion of the weights are within one standard deviation of the mean.
+
+```{r tendency,eval=TRUE}
+cdc_meanweight <- mean(cdc$weight)
+cdc_sdweight <- sd(cdc$weight)
+nrow(subset(cdc,cdc$weight > (cdc_meanweight - cdc_sdweight) & (cdc_meanweight - cdc_sdweight)))/nrow(cdc)
+
+```
+Around 86% fall under one Standard deviation.
