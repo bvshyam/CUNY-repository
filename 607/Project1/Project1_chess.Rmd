@@ -2,7 +2,7 @@
 title: "Week3_Project1_Chess"
 author: "Shyam BV"
 date: "September 17, 2016"
-output: pdf_document
+output: html_document
 ---
 
 ```
@@ -114,6 +114,9 @@ avg_df[is.na(avg_df)] <- 0
 
 ```
 
+
+**Finding average by replacing all the previous player scores**
+
 ```{r findavg,eval=TRUE}
 
 
@@ -155,6 +158,6 @@ avg_df1$Sum  <- rowMeans(avg_df1[,3:9],1)
 remove(chess_data,csvdf,without_symbols_df,columns,combined_data,datalist,i,j,str_location,avg_df)
 
 head(avg_df1)
-
+ 
 ```
 
