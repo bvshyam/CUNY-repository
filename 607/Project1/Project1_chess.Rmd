@@ -152,8 +152,9 @@ avg_df1$Sum  <- rowMeans(avg_df1[,3:9],1)
 
 #Remove unwanted fields
 
-remove(chess_data,csvdf,without_symbols,without_symbols_df,columns,combined_data,datalist,i,j,str_location,avg_df)
+remove(chess_data,csvdf,without_symbols_df,columns,combined_data,datalist,i,j,str_location,avg_df)
 
+head(avg_df1)
 
 ```
 
