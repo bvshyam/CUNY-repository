@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"606-01_Week3_Random_variables\"\nauthor: \"Shyam BV\"\ndate: \"September 24, 2016\"\noutput: html_document\n---\n\n",
+    "created" : 1474734272014.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3953990275",
+    "id" : "31282AA4",
+    "lastKnownWriteTime" : 1474734310,
+    "last_content_update" : 1474734310511,
+    "path" : "C:/CUNY/Courses/CUNY-repository/606/Week3-09_Sep2016/606-01_Week3_Random_variables.Rmd",
+    "project_path" : "606-01_Week3_Random_variables.Rmd",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
