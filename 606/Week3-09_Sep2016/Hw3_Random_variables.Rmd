@@ -1,0 +1,388 @@
+---
+title: "Hw3_Random_variables"
+author: "Shyam BV"
+date: "September 25, 2016"
+output: pdf_document
+---
+
+
+
+```{r library-load,eval=TRUE}
+library(utils)
+library("combinat")
+library(ggplot2)
+load("C:/CUNY/Courses/CUNY-repository/606/Week3-09_Sep2016/Lab3/more/bdims.RData")
+
+```
+
+
+3.2 Area under the curve, Part II. What percent of a standard normal distribution N(u = 0, ! = 1) is found in each region? Be sure to draw a graph. 
+(a) Z > −1.13 (b) Z < 0.18 (c) Z > 8 (d) |Z| < 0.5
+
+
+```{r problem3.2,eval=TRUE}
+
+#a
+
+pa <- ggplot(data.frame(x = c(-3, 3)), aes(x = x)) +
+  stat_function(fun = dnorm)
+
+funcShaded <- function(x) {
+  y <- dnorm(x, mean = 0, sd = 1)
+  y[x < -1.13] <- NA
+  return(y)
+}
+pa <- pa + stat_function(fun=funcShaded, geom="area", fill="#84CA72", alpha=0.2)
+pa
+
+#Probability of the shaded area
+1-pnorm(-1.13,0,1)
+
+
+#b <.18
+
+pb <- ggplot(data.frame(x = c(-3, 3)), aes(x = x)) +
+  stat_function(fun = dnorm)
+
+funcShaded <- function(x) {
+  y <- dnorm(x, mean = 0, sd = 1)
+  y[x > .18] <- NA
+  return(y)
+}
+pb <- pb + stat_function(fun=funcShaded, geom="area", fill="#84CA72", alpha=0.2)
+pb
+
+
+#Probability of the shaded area
+pnorm(.18,0,1)
+
+
+#c - −0.4 < Z < 1.5
+
+funcShaded <- function(x) {
+  y <- dnorm(x, mean = 0, sd = 1)
+  y[x < 8 ] <- NA
+  return(y)
+}
+
+pc <- ggplot(data.frame(x = c(-3, 3)), aes(x = x)) +
+  stat_function(fun = dnorm)+ stat_function(fun=funcShaded, geom="area", fill="#84CA72", alpha=0.2)
+
+pc
+
+#Probability of the shaded area
+pnorm(8,0,1)
+
+
+#d |Z| >2
+
+funcShaded <- function(x) {
+  y <- dnorm(x, mean = 0, sd = 1)
+  y[ x < 0.5] <- NA
+  
+  return(y)
+}
+funcShaded1 <- function(x) {
+  y <- dnorm(x, mean = 0, sd = 1)
+  y[ x > -.5] <- NA
+  
+  return(y)
+}
+
+pd <- ggplot(data.frame(x = c(-3, 3)), aes(x = x)) +
+  stat_function(fun = dnorm)+ stat_function(fun=funcShaded, geom="area", fill="#84CA72", alpha=0.2)+
+  stat_function(fun=funcShaded1, geom="area", fill="#84CA72", alpha=0.2)
+
+pd
+
+#Probability of the shaded area
+pnorm(-.5,0,1) +(1-pnorm(.5,0,1))
+
+```
+
+
+3.4 Triathlon times, Part I. In triathlons, it is common for racers to be placed into age
+and gender groups. Friends Leo and Mary both completed the Hermosa Beach Triathlon, where
+Leo competed in the Men, Ages 30 - 34 group while Mary competed in the Women, Ages 25 -
+  29 group. Leo completed the race in 1:22:28 (4948 seconds), while Mary completed the race in
+1:31:53 (5513 seconds). Obviously Leo finished faster, but they are curious about how they did
+within their respective groups. Can you help them? Here is some information on the performance
+of their groups:
+   The finishing times of the Men, Ages 30 - 34 group has a mean of 4313 seconds with a
+standard deviation of 583 seconds.
+ The finishing times of the Women, Ages 25 - 29 group has a mean of 5261 seconds with a
+standard deviation of 807 seconds.
+ The distributions of finishing times for both groups are approximately Normal.
+Remember: a better performance corresponds to a faster finish.
+
+
+
+```{r problem3.4,eval=TRUE}
+leo <- 4948
+menmean =4313
+mensd=583
+
+mary <- 5513
+wmenmean =5261
+wmensd=807
+```
+
+
+
+(a) Write down the short-hand for these two normal distributions.
+
+```{r problem3.4a,eval=TRUE}
+#Leo is in below percentile
+pnorm(leo,menmean,mensd)
+#Mary is in below percentile
+pnorm(mary,wmenmean,wmensd)
+
+```
+
+
+(b) What are the Z-scores for Leo’s and Mary’s finishing times? What do these Z-scores tell you?
+
+```{r problem3.4b,eval=TRUE}
+#Leo is around 1.1 Standard deviations away from mean. So it is little bit away from the mean.
+zleo <- (leo-menmean)/mensd
+
+#Mary is around .31 Standard deviations away from mean. So it is near the mean.
+zmary <- (mary-wmenmean)/wmensd
+
+```
+
+(c) Did Leo or Mary rank better in their respective groups? Explain your reasoning.
+
+```{r problem3.4c,eval=TRUE}
+
+#Leo Percentile 
+pnorm(leo,menmean,mensd)
+#Mary Percentile
+pnorm(mary,wmenmean,wmensd)
+
+#It shows that Leo has better percentile than Mary.
+
+```
+
+
+
+(d) What percent of the triathletes did Leo finish faster than in his group?
+
+```{r problem3.4d,eval=TRUE}
+1-pnorm(leo,menmean,mensd)
+
+#Around 14 percentage finished faster than Leo.
+```
+
+
+(e) What percent of the triathletes did Mary finish faster than in her group?
+
+
+```{r problem3.4e,eval=TRUE}
+
+1-pnorm(mary,wmenmean,wmensd)
+
+#Around 38 percentage finished faster than Mary.
+
+```
+
+
+(f) If the distributions of finishing times are not nearly normal, would your answers to parts (b) - (e) change? Explain your reasoning.
+
+No. If the distribution are not normal, the answer (b) and (e) will remain the same.
+
+
+3.18 Heights of female college students. Below are heights of 25 female college students.
+
+(a) The mean height is 61.52 inches with a standard deviation of 4.58 inches. Use this information
+to determine if the heights approximately follow the 68-95-99.7% Rule.
+
+
+```{r problem3.18a,eval=TRUE}
+
+femaleheights <- c(54,55,56,56,57,58,58,59,60,60,60,61,61,62,62,63,63,63,64,65,65,67,67,69,73)
+
+summary(femaleheights)
+meanfheight <- mean(femaleheights)
+
+#Only  
+length(femaleheights)*.685 
+#=
+length(femaleheights[femaleheights < (meanfheight+sd(femaleheights)) & femaleheights > (meanfheight-sd(femaleheights))])
+
+#Only  
+length(femaleheights)*.95 
+#=
+length(femaleheights[femaleheights < (meanfheight+sd(femaleheights)*2) & femaleheights > (meanfheight-sd(femaleheights)*2)])
+
+#Only  
+length(femaleheights)*.997 
+#=
+length(femaleheights[femaleheights < (meanfheight+sd(femaleheights)*3) & femaleheights > (meanfheight-sd(femaleheights)*3)])
+
+```
+
+
+(b) Do these data appear to follow a normal distribution? Explain your reasoning using the graphs
+provided below.
+
+
+```{r problem3.18b,eval=TRUE}
+
+qqnormsim(femaleheights)
+hist(femaleheights,probability = TRUE )
+lines(50:75,dnorm(50:75,mean(femaleheights),sd(femaleheights)), col="blue")
+
+#Above charts shows that the heights are normally distributed. It matches with the randomly generated normal distribution charts.
+```
+
+
+
+3.22 Defective rate. A machine that produces a special type of transistor (a component of
+                                                                           computers) has a 2% defective rate. The production is considered a random process where each
+transistor is independent of the others.
+
+
+(a) What is the probability that the 10th transistor produced is the first with a defect?
+
+```{r problem3.22a,eval=TRUE}
+
+(1 - .02)^9*.02
+
+
+```
+
+
+(b) What is the probability that the machine produces no defective transistors in a batch of 100?
+
+```{r problem3.22b,eval=TRUE}
+
+(1 - .02)^100
+
+```
+
+
+(c) On average, how many transistors would you expect to be produced before the first with a
+defect? What is the standard deviation?
+
+```{r problem3.22c,eval=TRUE}
+
+#mean. We would expect around 50 transistors
+1/0.02
+#sd
+sqrt((1-0.02)/0.02^2)
+
+
+```
+
+
+(d) Another machine that also produces transistors has a 5% defective rate where each transistor
+is produced independent of the others. On average how many transistors would you expect to
+be produced with this machine before the first with a defect? What is the standard deviation?
+
+```{r problem3.22d,eval=TRUE}
+
+#mean. We would expect around 20 transistors
+1/0.05
+#sd
+sqrt((1-0.05)/0.05^2)
+
+
+```
+
+
+(e) Based on your answers to parts (c) and (d), how does increasing the probability of an event
+affect the mean and standard deviation of the wait time until success?
+
+Increasing the probability of success, will inversely affect the mean and mean. So if the probability is 50%, then the mean and SD will be less. So we might expect failure very frequently.
+
+
+
+3.38 Male children. While it is often assumed that the probabilities of having a boy or a girl
+are the same, the actual probability of having a boy is slightly higher at 0.51. Suppose a couple
+plans to have 3 kids.
+
+(a) Use the binomial model to calculate the probability that two of them will be boys.
+
+```{r problem3.38a,eval=TRUE}
+n=3
+k=2
+p=.51
+
+#probability that two of them will be boys are
+
+dbinom(k,n,p)
+
+```
+
+
+(b) Write out all possible orderings of 3 children, 2 of whom are boys. Use these scenarios to
+calculate the same probability from part (a) but using the addition rule for disjoint outcomes.
+Confirm that your answers from parts (a) and (b) match.
+
+
+```{r problem3.38b,eval=TRUE}
+
+# All possible outcomes
+
+permn(c("boy","boy","girl"))
+
+#As we are counting for six times, we need to multiply by 6. Then we have counted two times. So we need to divide by 2. Or unique outcomes
+(p*p*(1-p))*(6/2)
+
+
+```
+
+(c) If we wanted to calculate the probability that a couple who plans to have 8 kids will have
+3 boys, briefly describe why the approach from part (b) would be more tedious than the
+approach from part (a).
+
+```{r problem3.38c,eval=TRUE}
+
+#Actual probability of getting 3 boys out of 8 kids is 20.98
+dbinom(3,8,.51)
+
+#By regular method
+
+(p*p*p*(1-p)*(1-p)*(1-p)*(1-p)*(1-p))*length(combn(c("boy","boy","boy","girl","girl","girl","girl","girl"),3)) 
+
+# It is more tedious to do manually. Because we need to calculate the combinations and then multiply with the probability of each event
+
+```
+
+
+3.42 Serving in volleyball. A not-so-skilled volleyball player has a 15% chance of making the
+serve, which involves hitting the ball so it passes over the net on a trajectory such that it will land
+in the opposing team’s court. Suppose that her serves are independent of each other.
+
+(a) What is the probability that on the 10th try she will make her 3rd successful serve?
+
+
+```{r problem3.42a,eval=TRUE}
+#Probability of 3rd successful serve in 
+dbinom(2,9,.15)
+
+n <- 10    #number of attempts
+k <- 3     #successful serves
+p <- 0.15  #successful serve prob
+
+
+factorial(n - 1) / (factorial(k-1) * (factorial(n - k))) * p^k * (1-p)^(n-k)
+
+```
+
+
+(b) Suppose she has made two successful serves in nine attempts. What is the probability that
+her 10th serve will be successful?
+
+
+As these serves are independent of each other, the probability of any one individual serve is 15%.
+
+
+
+(c) Even though parts (a) and (b) discuss the same scenario, the probabilities you calculated
+should be different. Can you explain the reason for this discrepancy?
+
+
+Probability of single event is different than the probability of combinations. (a) is about future serves. (b) is about single successful event.
+
