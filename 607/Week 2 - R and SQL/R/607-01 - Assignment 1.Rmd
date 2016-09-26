@@ -1,0 +1,107 @@
+---
+title: "607-01 - Week 2 Assignment"
+author: "Shyam BV"
+date: "September 5, 2016"
+output: 
+  html_document: 
+    highlight: pygments
+    theme: journal
+---
+
+## Introduction
+
+In this assignment, we will be fetching data from different databases from MySQL and making some basic transformation on source data. Also get some meaningful insights out of the data which we have.
+
+## Description
+
+Two CSV data is stored in different databases in MySQL. 
+
+1. TB data is loaded in `tb` database.
+2. Movie reviews data is loaded in `movies` database.
+
+Below steps will provide the steps to fetch and analyze the data. 
+
+## 1. Install and load additional packages which are required
+
+```{r package-load,eval=TRUE}
+library("reshape")
+library("DBI")
+library("tidyr")
+library("ggplot2")
+```
+
+
+## 2. Making connection with `tb` database
+
+```{r dbconnect,eval=TRUE}
+con <- dbConnect(RMySQL::MySQL(),dbname="tb",user="root",password="admin")
+con
+
+```
+
+
+## 3. Fetching data from `tb` table and providing a summary
+
+```{r importdata,eval=TRUE}
+tb_data <- dbGetQuery(con,"Select * from tb")
+summary(tb_data)
+dbDisconnect(con)
+```
+
+
+## 4. Making connection with `movies` database
+
+```{r connect,eval=TRUE}
+con_movies <- dbConnect(RMySQL::MySQL(),dbname="movies",user="root",password="admin")
+con_movies
+```
+
+## 5. Fetching data from `reviews` table and providing a summary of data
+
+```{r load-data,eval=TRUE}
+
+moviereviews <- dbGetQuery(con_movies,"select * from reviews")
+summary(moviereviews)
+head(moviereviews)
+
+```
+
+
+Lets derive some insights out of the data.
+
+## Lets organize the input data. We can split the title and year to different columns. 
+
+```{r splitmoviename,eval=TRUE}
+moviereviews_year <- separate(moviereviews, Title, c("Title","Year"),sep="\\(")
+## l;;
+moviereviews_year$Year <- gsub("\\)","",moviereviews_year$Year)
+head(moviereviews_year)
+```
+
+## Below are the movies released in each year
+
+```{r summary,eval=TRUE}
+table(moviereviews_year$Year)
+```
+
+## Historically below are the total words received in each year
+
+```{r highestrankorder,eval=TRUE}
+moviereviews_consolidate <- aggregate(moviereviews_year$Votes,by=list(Category=moviereviews_year$Year),FUN=sum)
+```
+
+## Below is the average reviews which is received in each year
+
+```{r highestreviews,eval=TRUE}
+
+aggregate(moviereviews_year[,2],list(moviereviews_year$Year),mean)
+```
+
+## Plot between the movie released Year and Votes received on each year
+
+```{r votes-received,eval=TRUE}
+plot(moviereviews_consolidate$Category,moviereviews_consolidate$x, xlab="Year", ylab = "Votes Received",main="Votes received per year") 
+
+```
+
+Above plot means that there were more number of reviews in past than the recent years. 

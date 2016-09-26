@@ -1,0 +1,7 @@
+name: Publish Document
+account: rpubs
+server: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/210931/72385a38622b42bba16ce588b3d12ae7
+bundleId: https://api.rpubs.com/api/v1/document/210931/72385a38622b42bba16ce588b3d12ae7
+url: http://rpubs.com/shyambv/210931/edit
+when: 1474413027.866
