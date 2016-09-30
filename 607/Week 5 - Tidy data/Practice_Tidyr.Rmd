@@ -1,0 +1,41 @@
+---
+title: "Tidyr_practice"
+author: "Shyam BV"
+date: "September 29, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(tidyr)
+library(devtools)
+devtools::install_github("rstudio/EDAWR")
+library(EDAWR)
+
+```
+
+
+```{r read-data,eval=TRUE}
+
+pedels <- read.csv("https://raw.githubusercontent.com/jbryer/DATA606Fall2016/master/Data/Data%20from%20openintro.org/Ch%201%20Exercise%20Data/iris.csv",header = TRUE,sep = ",")
+
+select(pedels,child:elderly)
+
+filter(pedels, pedels$Sepal.Length == 5.1)
+
+pedels %>% filter(pedels$Sepal.Length == 5.1)
+
+
+storms
+tb
+cases
+names(cases)[-2]
+
+gather(storms,"year")
+
+
+
+```
+

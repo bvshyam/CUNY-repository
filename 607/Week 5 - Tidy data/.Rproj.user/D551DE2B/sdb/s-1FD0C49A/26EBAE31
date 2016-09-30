@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"Tidyr_practice\"\nauthor: \"Shyam BV\"\ndate: \"September 29, 2016\"\noutput: html_document\n---\n\n```{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = TRUE)\n\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(devtools)\ndevtools::install_github(\"rstudio/EDAWR\")\nlibrary(EDAWR)\n\n```\n\n\n```{r read-data,eval=TRUE}\n\npedels <- read.csv(\"https://raw.githubusercontent.com/jbryer/DATA606Fall2016/master/Data/Data%20from%20openintro.org/Ch%201%20Exercise%20Data/iris.csv\",header = TRUE,sep = \",\")\n\nselect(pedels,child:elderly)\n\nfilter(pedels, pedels$Sepal.Length == 5.1)\n\npedels %>% filter(pedels$Sepal.Length == 5.1)\n\n\nstorms\ntb\ncases\nnames(cases)[-2]\n\nstorm %>% storm$data1 <- str_lo\n   \n  gather(storms,\"year\",)\n\n\n\n```\n\n",
+    "created" : 1475147635270.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1829771410",
+    "id" : "26EBAE31",
+    "lastKnownWriteTime" : 1475272201,
+    "last_content_update" : 1475273095054,
+    "path" : "C:/CUNY/Courses/CUNY-repository/607/Week 5 - Tidy data/Practice_Tidyr.Rmd",
+    "project_path" : "Practice_Tidyr.Rmd",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
