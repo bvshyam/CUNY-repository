@@ -2,40 +2,42 @@
 title: "Tidyr_practice"
 author: "Shyam BV"
 date: "September 29, 2016"
-output: html_document
+output: pdf_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup1, eval=TRUE}
+
 
 library(dplyr)
 library(tidyr)
 library(devtools)
-devtools::install_github("rstudio/EDAWR")
+#devtools::install_github("rstudio/EDAWR")
 library(EDAWR)
+library(stringr)
 
+install.packages("rmarkdown")
+library(rmarkdown)
 ```
 
 
 ```{r read-data,eval=TRUE}
 
-pedels <- read.csv("https://raw.githubusercontent.com/jbryer/DATA606Fall2016/master/Data/Data%20from%20openintro.org/Ch%201%20Exercise%20Data/iris.csv",header = TRUE,sep = ",")
 
-select(pedels,child:elderly)
-
-filter(pedels, pedels$Sepal.Length == 5.1)
-
-pedels %>% filter(pedels$Sepal.Length == 5.1)
-
-
-storms
+test1 <- storms
 tb
 cases
 names(cases)[-2]
 
-gather(storms,"year")
+storms %>% data.frame(year =str_sub(storms$date,1,4)) %>% 
+   
+storm <- data.frame(storm,str_sub(storm$date))
 
+head(storms)
+test <- storms %>% data.frame(year =str_sub(storms$date,1,4)) %>%
+  
+gather(test1,"year","measure",3:4)
 
+   
 
 ```
 
