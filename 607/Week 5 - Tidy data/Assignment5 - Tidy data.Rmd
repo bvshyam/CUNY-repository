@@ -1,37 +1,69 @@
 ---
-title: "Test"
+title: "Assignment 5 - Tidy data"
 author: "Shyam BV"
 date: "October 1, 2016"
-output: pdf_document
+output: html_document
 ---
 
-```{r setup1, eval=TRUE}
-install.packages("dplyr")
-install.packages("zoo")
+
+**Problem**
+
+The chart above describes arrival delays for two airlines across five destinations. Your task is to: (1) Create a .CSV file (or optionally, a MySQL database!) that includes all of the information above. You’re encouraged to use a “wide” structure similar to how the information appears above, so that you can practice tidying and transformations as described below. (2) Read the information from your .CSV file into R, and use tidyr and dplyr as needed to tidy and transform your data. (3) Perform analysis to compare the arrival delays for the two airlines
+
+**Data:**
+
+,,Los Angeles,Phoenix,Sand Diego,San Francisco,Seattle Alaska,on time,497,221,212,503,1841 ,delayed,62,12,20,102,305 ,,,,,, AM West,on time,694,4840,383,320,201 ,delayed,117,415,65,129,61
+
+**Load library**
+
+Install and load necessary library
+
+```{r setup1, eval=TRUE,include=FALSE}
 
 
 library(zoo)
 library(dplyr)
 library(tidyr)
 library(stringr)
+library(knitr)
 ```
 
 
+**Data manupulation**
+
 ```{r read-data,eval=TRUE}
+
+#Load the csv file to flights dataframe
 
 flights <- read.csv("Data/flights.csv",header=TRUE,sep=",",na.strings = c("","NA")) 
 
-test <- flights[rowSums(is.na(flights))<4,] %>% mutate(flight.name=na.locf(X)) %>% select(-X) %>% gather("location","timings",2:6) %>% spread("X.1","timings")
+
+#Below are the steps followed
+# 1. Remove all the NA's in the dataset
+# 2. Add a new column with updated flight names. Some has NA in the data
+# 3. Remove the unecesary columns
+# 4. Change the data from rows to columns using Gather
+# 5. Change the data from columns to rows using spread
 
 
-test1 <- spread(test,"X.1","timings")
-  
+flights.alter <- flights[rowSums(is.na(flights))<4,] %>% mutate(flight.name=na.locf(X)) %>% select(-X) %>% gather("location","timings",2:6,factor_key=TRUE) %>% spread("X.1","timings")
 
-gather(test,"flight.name","timings",2:6)
 
-test1 <-  test %>% group_by(X) %>% ungroup(X) 
+kable(flights.alter, align = 'l')
 
-filter(flights, flights$Phoenix > 20 )
+```
+
+**Compare the delay and ontime data**
+
+```{r compare,eval=TRUE}
+
+summary(flights.alter)
+
+summarise(flights.alter, avg_delay = mean(delayed), avg_on_time = mean(`on time`))
+
+# Total mean time by airlines
+
+group_by(flights.alter, flight.name) %>% summarise(avg_delay = mean(delayed), avg_on_time = mean(`on time`)) 
 
 ```
 
