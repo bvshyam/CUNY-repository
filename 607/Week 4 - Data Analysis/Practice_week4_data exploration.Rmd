@@ -1,0 +1,103 @@
+---
+title: "Data Exploration"
+author: "Shyam BV"
+date: "October 2, 2016"
+output: html_document
+---
+
+```{r loadlibrary,eval=TRUE,include=FALSE}
+
+#install.packages("plotly")
+
+library(ggplot2)
+
+library(ggvis)
+library(shiny)
+#load("data/maacs.Rda")
+
+```
+
+```{r loaddata,eval=TRUE}
+
+pedals <- read.csv("https://raw.githubusercontent.com/jbryer/DATA606Fall2016/master/Data/Data%20from%20openintro.org/Ch%201%20Exercise%20Data/iris.csv",header = TRUE,sep=",")
+
+
+head(mpg)
+
+qplot(displ,hwy,data=mpg,color=drv,geom=c("point","smooth")) 
+
+qplot(hwy,data=mpg,fill=drv,facets = drv~.) 
+
+qplot(displ,hwy,data=mpg,color=manufacturer,facets = drv~manufacturer) 
+
+
+
+
+#head(maacs)
+#str(maacs)
+
+#qplot(log(eno),data=maacs,geom="density",color=mopos)
+
+#qplot(logpm25,log(eno),data=maacs,color=mopos,shape=mopos)
+
+#qplot(logpm25,log(eno),data=maacs,color=mopos,shape=mopos,geom=c("point","smooth"), facets = .~mopos, method="lm")
+
+#g <- ggplot(maacs,aes(logpm25,NocturnalSympt))
+
+#summary(g)
+
+#g +geom_smooth(method = "lm") + geom_point() 
+
+
+#g +geom_smooth(method = "lm") + geom_point() + facet_grid(.~ bmicat) + theme_bw()
+
+
+#g + geom_point(color="steelblue",size=4,alpha = 1/2) 
+
+
+#g + geom_point(aes(color= bmicat),size=4,alpha = 1/2) + labs(title="NAACS")
+
+
+
+
+
+
+
+
+#GGVIS
+
+mtcars %>% ggvis(x= ~wt,y=~mpg,fill=~factor(cyl)) %>% layer_points() %>% layer_smooths() 
+
+
+
+mtcars %>% ggvis(x= ~wt) %>% layer_histograms(width =  input_slider(min=1,max=20,value=11))
+
+str(mtcars)
+
+mtcars %>% ggvis(~mpg, ~disp, size = ~vs) %>% layer_points()
+
+
+#mtcars %>%   ggvis(~wt, ~mpg, size := input_slider(10, 100), opacity := input_slider(0, 1)) %>%   layer_points() %>%    add_tooltip(function(df) df$wt) %>% layer_paths((fill :="red"))
+
+
+#Plotly
+
+
+plot_ly(z = ~volcano, type = "surface")
+
+plot_ly(mtcars,x=~mpg,y=~disp,z=~drat)
+
+add_lines(plot_ly(economics, x = ~date, y = ~unemploy/pop))
+
+
+p <- plot_ly(iris, x = ~Sepal.Width, y = ~Sepal.Length) 
+add_markers(p, color = ~Petal.Length, size = ~Petal.Length)
+add_markers(p, color = ~Species)
+add_markers(p, color = ~Species, colors = "Set1")
+add_markers(p, symbol = ~Species)
+add_paths(p, linetype = ~Species)
+
+
+
+```
+

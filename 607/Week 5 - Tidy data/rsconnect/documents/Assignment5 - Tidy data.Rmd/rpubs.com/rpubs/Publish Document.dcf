@@ -1,0 +1,7 @@
+name: Publish Document
+account: rpubs
+server: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/214582/7abe31f86c49483fa5f5a7794f1fedcb
+bundleId: https://api.rpubs.com/api/v1/document/214582/7abe31f86c49483fa5f5a7794f1fedcb
+url: http://rpubs.com/shyambv/214582
+when: 1475453690.363

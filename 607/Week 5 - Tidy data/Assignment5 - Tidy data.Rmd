@@ -10,7 +10,7 @@ output: html_document
 
 The chart above describes arrival delays for two airlines across five destinations. Your task is to: (1) Create a .CSV file (or optionally, a MySQL database!) that includes all of the information above. You’re encouraged to use a “wide” structure similar to how the information appears above, so that you can practice tidying and transformations as described below. (2) Read the information from your .CSV file into R, and use tidyr and dplyr as needed to tidy and transform your data. (3) Perform analysis to compare the arrival delays for the two airlines
 
-**Data:**
+**Data**
 
 ,,Los Angeles,Phoenix,Sand Diego,San Francisco,Seattle Alaska,on time,497,221,212,503,1841 ,delayed,62,12,20,102,305 ,,,,,, AM West,on time,694,4840,383,320,201 ,delayed,117,415,65,129,61
 
@@ -20,12 +20,16 @@ Install and load necessary library
 
 ```{r setup1, eval=TRUE,include=FALSE}
 
+install.packages("plotly")
 
 library(zoo)
 library(dplyr)
 library(tidyr)
-library(stringr)
 library(knitr)
+library(ggvis)
+library(ggplot2)
+library(plotly)
+
 ```
 
 
@@ -64,6 +68,32 @@ summarise(flights.alter, avg_delay = mean(delayed), avg_on_time = mean(`on time`
 # Total mean time by airlines
 
 group_by(flights.alter, flight.name) %>% summarise(avg_delay = mean(delayed), avg_on_time = mean(`on time`)) 
+
+```
+
+
+**Charts comparision**
+
+```{r charts, eval=TRUE}
+
+# comparision with location and delay via ggplot
+
+ggplot(flights.alter, aes(location,delayed,`on time`)) + geom_point(aes(color=flight.name),size=4,alpha=1/2)  + geom_smooth(method = "lm") +
+  facet_grid(.~flight.name)
+
+
+# comparision with delay and on time via ggplot
+
+g <- ggplot(flights.alter, aes(delayed,`on time`)) + geom_point(aes(color=flight.name),size=4,alpha=1/2)  + geom_smooth(method = "lm") +
+  facet_grid(.~flight.name)
+ggplotly(g)
+
+
+# comparision with delay and on time via ggvis
+
+
+flights.alter %>% ggvis(x= ~ location,y =~delayed) %>% layer_points(fill = ~factor(flight.name))  
+
 
 ```
 
