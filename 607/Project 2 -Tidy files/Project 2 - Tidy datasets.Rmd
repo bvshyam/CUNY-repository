@@ -1,0 +1,138 @@
+---
+title: "Project 2 - Tidyr and dplyr"
+author: "Shyam BV"
+date: "October 3, 2016"
+output: html_document
+---
+
+Problem 1:
+
+These files contain complete loan data for all loans issued through the time period stated, including the current loan status (Current, Late, Fully Paid, etc.) and latest payment information. The file containing loan data through the "present" contains complete loan data for all loans issued through the previous completed calendar quarter.
+
+Insights required
+
+1. Split term column and calculate the loan duration
+2. Correct loan years and NA's in that column 
+3. Add new column to get the total payment with intrest balance
+4. Filter subset based on purpose colum and get the purpose
+5. Summary based on purpose
+
+**Load required data**
+```{r loaddata,eval=TRUE,include=FALSE}
+
+loans <- read.csv("Data/Lending_club_loan_original.csv",header = TRUE,skip = 1,sep = ",",nrows = 100)
+
+```
+
+**Load required packages**
+
+```{r loadlibrary,eval=TRUE,include=FALSE}
+#install.packages("plotly")
+#install.packages("lubridate")
+#install.packages('DT')
+
+library(dplyr)  
+library(tidyr)
+library(plotly)
+library(ggplot2)
+library(stringr)
+library(lubridate)
+library(knitr)
+library(zoo)
+library(jsonlite)
+```
+
+**Manipulations on data**
+
+```{r dataset1,eval=TRUE}
+
+loans_sample <- sample_n(loans,100)
+
+
+loans_summary <-  
+loans_sample %>% select(c(id,loan_amnt,funded_amnt,term,int_rate,emp_length,home_ownership,annual_inc,verification_status,issue_d,loan_status,purpose,total_pymnt_inv)) %>% 
+  mutate(term1=as.numeric(str_trim(str_replace(term,"months","")))) %>% 
+    mutate(issue_date=as.Date(str_replace(paste(as.character(issue_d),-2015)," ",""),"%d-%b-%Y")) %>% 
+      select(-term,issue_d) %>% 
+        mutate(emp_length=str_replace(emp_length,c("n/a"),"NA")) %>% 
+          mutate(total_pymnt=(funded_amnt+(funded_amnt*(as.numeric(str_replace(as.character(int_rate),"%","")))*(term1/12))/100)) %>% 
+            group_by(purpose) %>%  summarize(summary = sum(total_pymnt)) %>%  ungroup(purpose)
+
+
+remove(loans_sample1,test)
+
+plot_ly(loans_summary,x=~purpose,y=~summary)
+
+```
+
+
+
+Problem 2:
+
+This data comes from the Open Food Facts database, a free, open, and collaborative database of food products around the world.
+
+
+Insights required
+
+1. Clean NA's in columns/rows and select required columns
+2. Calculate sum of all foods
+3. Filter required data and remove NA data 
+4. Expand countries to columns
+5. Show the final output of the data
+
+
+```{r dataset2,eval=TRUE}
+
+foodfacts <- read.csv("Data/FoodFacts.csv",header = TRUE,sep = ",",nrows = 100,na.strings = c("",NA,"NA","n/a"),skipNul = TRUE)
+
+
+                               
+foodfacts_nona <- foodfacts[,!apply(foodfacts, 2, function(x) all(is.na(x)))]  %>% mutate_each(funs(replace(., is.na(.), 0)), c(energy_100g:nutrition_score_uk_100g)) %>%  
+  mutate(totalcal=energy_100g + fat_100g + trans_fat_100g +  carbohydrates_100g + starch_100g + proteins_100g + sodium_100g + vitamin_c_100g + calcium_100g + fruits_vegetables_nuts_100g + nutrition_score_uk_100g + energy_from_fat_100g + saturated_fat_100g + cholesterol_100g + sugars_100g + fiber_100g + salt_100g + vitamin_a_100g + vitamin_b9_100g + iron_100g + nutrition_score_fr_100g+nutrition_score_uk_100g) %>%  select(-creator,-(energy_100g:nutrition_score_uk_100g),-(ingredients_text:main_category_en),-created_t,-last_modified_t,-generic_name,-packaging,-brands,-categories,-categories_en,-(origins:countries_tags),-image_small_url,-url) %>%  arrange(code) %>% mutate(image_url=na.locf(image_url)) %>% filter(! is.na(countries_en) ) %>% spread(countries_en,totalcal) %>%   mutate_each(funs(replace(.,is.na(.),0)),France,`France,United Kingdom`,Germany,Spain,`United Kingdom`,`United States`) %>% select(code,product_name,France:`United States`)
+
+
+#If image is required
+
+#foodfacts_nona$pic <- sprintf('![](%s)',foodfacts_nona$url)
+
+#kable(head(foodfacts_nona),format="html")
+
+kable(head(foodfacts_nona))
+```
+
+Problem 3:
+
+Medical historical spend for each year. 
+
+1. Change datatypes of the columns
+2. Correct NA's and missing values
+3. Gather the years into single column
+4. Plot charts via year
+
+
+```{r dataset3,eval=TRUE}
+
+
+healthspend <- read.csv("Data/NHE2014.csv",header = TRUE,sep = ",",skip=1 , strip.white = TRUE, blank.lines.skip = TRUE, na.strings = c("-",""),stringsAsFactors = FALSE) 
+
+
+healthspend$`Expenditure.Amount..Millions.` <- as.factor(healthspend$`Expenditure.Amount..Millions.`)
+
+
+expense_year <- healthspend[!apply(healthspend,1,function(x) all(is.na(x))),] %>%  rename(expense_type=`Expenditure.Amount..Millions.`) %>% 
+  mutate_each(funs(replace(.,is.na(.),0)), c(X1960:X2014)) %>% 
+  mutate_each(funs(str_replace(.,",","")), c(X1960:X2014)) %>% 
+  mutate_each(funs(as.numeric(.)), c(X1960:X2014)) %>% 
+  gather(xyear,value = "amount",-expense_type) %>% filter(amount>0) %>% 
+    mutate(year=str_sub(xyear,2,5)) %>% select(-xyear)
+
+summary_expense <- expense_year %>% group_by(year) %>%  summarise(sum=sum(amount))
+
+ggplot(summary_expense,aes(year,sum)) + geom_point(size=3,alpha=1/2) +geom_smooth(method="lm") 
+
+
+plot_ly(expense_year,x=~year,y=~amount)
+
+
+```
+
