@@ -48,6 +48,10 @@ hist(area)
 
 1.  Describe this population distribution.
 
+**The distribution of area is right skewed. It is unimodel. Mean is around 1500. And SD is of `r sd(area)`**
+
+
+
 ## The unknown sampling distribution
 
 In this lab we have access to the entire population, but this is rarely the 
@@ -70,6 +74,16 @@ home sales.
 
 2.  Describe the distribution of this sample. How does it compare to the 
     distribution of the population?
+
+```{r excercise2,eval=TRUE}
+summary(samp1)
+hist(samp1)
+
+```
+
+
+
+
 
 If we're interested in estimating the average living area in homes in Ames 
 using the sample, our best single guess is the sample mean.

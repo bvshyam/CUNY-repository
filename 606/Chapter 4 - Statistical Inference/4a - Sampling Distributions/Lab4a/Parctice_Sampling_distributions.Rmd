@@ -1,0 +1,36 @@
+---
+title: "Confidence Intervals"
+author: "Shyam BV"
+date: "October 3, 2016"
+output: html_document
+---
+```{r intervals,eval=TRUE}
+
+z_scores <- seq(-3, 3, by = .1)
+
+z_scores1 <- data.frame(z_scores)
+
+library(plotly)
+
+plot_ly(z_scores1,x=~z_scores,y= ~ dnorm(z_scores),type = "area")
+
+plot(pnorm(z_scores), # Plot where y = values and x = index of the value in the vector
+     xaxt = "n", # Don't label the x-axis
+     type = "l", # Make it a line plot
+     main = "cdf of the Standard Normal",
+     xlab= "Quantiles",
+     ylab="Probability Density") 
+
+
+quantiles <- seq(0, 1, by = .05)
+quantiles
+
+
+plot(qnorm(quantiles),
+     type = "l", # We want a line graph
+     xaxt = "n", # No x-axis
+     xlab="Probability Density",
+     ylab="Z-scores")
+
+```
+
