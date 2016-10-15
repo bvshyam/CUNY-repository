@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<books>
+	<book>
+	  <id>b1</id>
+		<Book_Title>Datascience for Business</Book_Title>
+<Authors>Foster Provost, Tom Fawcett</Authors>
+<ISBN_code>12345</ISBN_code>
+<PriceUSD>100</PriceUSD>
+	</book>
+
+	<book>
+	  	  <id>b2</id>
+		<Book_Title>OpenIntro Statistics: Third Edition</Book_Title>
+<Authors>David M Diez, Christopher D Barr , Mine Cetinkaya-Rundelt</Authors>
+<ISBN_code>123456</ISBN_code>
+<PriceUSD>50</PriceUSD>
+	</book>
+
+	<book>
+	  	  <id>b3</id>
+		<Book_Title>Automated Data Collection with R</Book_Title>
+<Authors>Simon Munzert , Christian Rubba , Peter Meibner , Dominic Nyhuis</Authors>
+<ISBN_code>1234567</ISBN_code>
+<PriceUSD>99</PriceUSD>
+	</book>
+
+</books>

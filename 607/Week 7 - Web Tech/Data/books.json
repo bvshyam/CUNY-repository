@@ -1,0 +1,3 @@
+[{"Bookid":"b1","Book Title":"Datascience fo r Business","Authors":"Foster Provost, Tom Fawcett","ISBN code":"12345","Price(USD)":"100"},
+{"Bookid":"b2","Book Title":"OpenIntro Statistics: Third Edition","Authors":"David M Diez, Christopher D Barr , Mine Cetinkaya-Rundel","ISBN code":"123456","Price(USD)":"50"},
+{"Bookid":"b3","Book Title":"Automated Data Collection with R","Authors":"Simon Munzert  , Christian Rubba  , Peter Meibner , Dominic Nyhuis","ISBN code":"1234567","Price(USD)":"99"}] 

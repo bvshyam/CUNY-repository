@@ -1,0 +1,6 @@
+{"books":[
+	{"Book Title" :"Datascience fo r Business","OpenIntro Statistics: Third Edition","Automated Data Collection with R" }  
+{"Authors" : "Foster Provost, Tom Fawcett","David M Diez, Christopher D Barr , Mine Cetinkaya-Rundel ","imon Munzert  , Christian Rubba  , Peter Meibner , Dominic Nyhuis"}
+{"ISBN code": "12345","123456","1234567"}
+"Price(USD):{100,50,99}
+]}

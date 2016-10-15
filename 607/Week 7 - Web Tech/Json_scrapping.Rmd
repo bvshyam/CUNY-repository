@@ -1,0 +1,118 @@
+---
+title: "Web Scrapping"
+author: "Shyam BV"
+date: "October 13, 2016"
+output: html_document
+---
+
+```{r loadlibrary,eval=TRUE}
+install.packages("gdata")
+install.packages("RCurl")
+install.packages("XML")
+install.packages("httr")
+
+library(jsonlite)
+library("httr")
+
+
+library(XML)
+
+library(gdata)
+library(RCurl)
+```
+
+
+```{r jsondata, eval=TRUE}
+
+miser = "http://mbostock.github.io/protovis/ex/miserables.js"
+
+miserables = readLines(miser)
+
+miserables = miserables[-c(1:11)]
+
+miserables[1] <- "{"
+
+miserables[length(miserables)] <- "}"
+
+miserables_str = paste(miserables, collapse = "")
+
+mis1 = RJSONIO::fromJSON(miserables_str)
+misjsonlite = jsonlite::fromJSON(miserables_str)
+
+mis1[[1]][1]
+
+test <- data.frame(mis1)
+
+```
+
+
+
+#bing search
+```{r jsondata, eval=TRUE}
+
+   doc <- getURL("http://www.bing.com/search?q=cran")
+  
+   cal_park_links = getHTMLLinks(doc)
+   
+   cal_park_links_filter = 
+     
+     str_extract(cal_park_links,"http[s]?://[a-z].+")
+
+
+
+npca = "https://www.npca.org/search?type=parks"
+park_forms = getHTMLFormDescription(npca)
+
+
+
+
+searchterm <- "cran"
+
+  bing <- paste("http://www.bing.com/search?q=",searchterm,"%20book%20amazon") %>% str_replace(" ","")
+  
+
+
+   cal_park_links = getHTMLLinks(doc)
+   
+   cal_park_links_filter_df = str_extract(cal_park_links,"http[s]?://[a-z].+") %>% na.omit() %>% data.frame() %>% mutate(cal_park_links_filter=str_)
+
+
+   str(cal_park_links_filter)
+
+
+getForm("https://www.amazon.com/s/ref=nb_sb_noss",.params =c( url="search-alias%3Daps", field-keywords = "Datascience+for+Business+book"))
+
+getForm("https://www.amazon.com/",site-search="Automated Data Collection with R")
+
+  getForm("http://www.google.com/search", hl="en", lr="",
+          ie="ISO-8859-1", q="RCurl", btnG="Search")
+
+  
+  getForm("https://www.amazon.com/",field-keywords= "Automated Data Collection with R")
+
+  getForm("http://www.google.com/search", hl="en", lr="",ie="ISO-8859-1", q="RCurl", btnG="Search")
+  
+  
+  amazonurl <- ""
+   amazonurl <- "https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=" %>% paste(amazonurl,"Datascience%20for%20Business",collapse="") %>% str_replace_all(" ","")
+  
+   
+   amazon_links = readLines(amazonurl,50)
+   
+   cal_park_links_filter_df = str_extract(cal_park_links,"http[s]?://[a-z].+") %>% na.omit() %>% data.frame()
+   
+   
+   
+
+test <- 
+  
+  postForm("http://www.energy.ca.gov",search_ca_textfield="datascience") %>% str_extract("*datascience*")
+
+  
+  
+  site-search
+  
+```
+
+
+

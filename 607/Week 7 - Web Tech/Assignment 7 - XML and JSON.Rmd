@@ -1,0 +1,38 @@
+---
+title: "Assignment 7 - XML and JSON"
+author: "Shyam BV"
+date: "October 14, 2016"
+output: html_document
+---
+
+Pick three of your favorite books on one of your favorite subjects. At least one of the books should have more than one author. For each book, include the title, authors, and two or three other attributes that you find interesting.
+
+Take the information that you’ve selected about these three books, and separately create three files which store the book’s information in HTML (using an html table), XML, and JSON formats (e.g. “books.html”,“books.xml”, and “books.json”). To help you better understand the different file structures, I’d prefer that youcreate each of these files “by hand” unless you’re already very comfortable with the file formats.
+
+Write R code, using your packages of choice, to load the information from each of the three sources into separate R data frames. Are the three data frames identical?
+
+```{r libraries,eval=TRUE}
+library(jsonlite)
+library(XML)
+library(dplyr)
+
+```
+
+
+All the input files(HTML,json and XML) are manually created and stored in filelocation
+
+```{r convertformat,eval=TRUE}
+
+bookshtml.df1  <- readLines("./Data/books.html") %>%  htmlParse() %>% readHTMLTable(which = 1)
+
+booksjson.df2 <- fromJSON("./Data/books.json")
+
+booksxml.df3 <- xmlParse("./Data/books.xml") %>% xmlToDataFrame()
+
+
+```
+
+Three dataframes are unique.
+
+
+
