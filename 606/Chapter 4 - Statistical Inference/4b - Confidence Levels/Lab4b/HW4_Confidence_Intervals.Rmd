@@ -290,7 +290,6 @@ As the sample size is 15(less than the standard 30), we might need to use t-dist
 ```{r problem4.40c,eval=TRUE}
 
 #t distribution
-(mean(samplelight)-10500)/((sd(samplelight))/sqrt(15))
 
 1-pt((10500-9000)/((sd(samplelight))/sqrt(15)),14)
 ```
@@ -309,10 +308,15 @@ rsample<- seq(mean - (3 * (1000/sqrt(15))), mean + (3 * (1000/sqrt(15))), length
 hnorm <- dnorm(nsample,mean,1000)
 hrandom<- dnorm(rsample,mean,(1000/sqrt(15)))
 
+dataset <- data.frame(nsample,rsample,hnorm,hrandom)
+
 par(mfrow = c(2, 1))
 
 plot(nsample,hnorm,type="l")
 plot(rsample,hrandom,type="l")
+
+
+p <- ggplot2::ggplot()
 
 ```
 
