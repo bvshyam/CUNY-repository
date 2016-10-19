@@ -15,24 +15,48 @@ Write R code, using your packages of choice, to load the information from each o
 library(jsonlite)
 library(XML)
 library(dplyr)
-
+library(RCurl)
+library(stringr)
 ```
 
 
 All the input files(HTML,json and XML) are manually created and stored in filelocation
 
 ```{r convertformat,eval=TRUE}
+#books HTML
 
 bookshtml.df1  <- readLines("./Data/books.html") %>%  htmlParse() %>% readHTMLTable(which = 1)
 
+#Books JSON
+
 booksjson.df2 <- fromJSON("./Data/books.json")
+
+
+#Books XML
 
 booksxml.df3 <- xmlParse("./Data/books.xml") %>% xmlToDataFrame()
 
 
 ```
 
-Three dataframes are unique.
+Conculsion:  Three dataframes where were converted from HTML, XML, JSON are unique.
+
+
+```{r moreanalysis,eval=TRUE}
+
+#Fetching xml data from HTML page and then convert it to Json
+
+bookshtml.link <- getURL("https://msdn.microsoft.com/en-us/library/ms762258(v=vs.85).aspx") %>%  htmlParse(asText = TRUE)
+
+bookshtml.xml <- xpathSApply(bookshtml.link,"//div[@class='codeSnippetContainerCode']",xmlValue)
+
+booksexact <- bookshtml.xml[1] %>%  str_replace_all("[\r\n]","") %>%  str_trim(side = "both")
+
+books.xml.parse <- xmlParse(booksexact) %>% xmlToDataFrame()
+
+books.json <- toJSON(books.xml.parse)
+
+```
 
 
 
