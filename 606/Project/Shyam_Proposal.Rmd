@@ -21,7 +21,7 @@ if (before && options$fig.show!='none') par(mar=c(4,4,.2,.1),cex.lab=.95,cex.axi
 ```
 
 ```{r loaddata,eval=TRUE}
-# load data of 2016 Q1 Link - https://www.lendingclub.com/info/download-data.action
+# load data of 2016 Q1
 
 loandata <- read.csv ("./data/LoanStats_2016Q1.csv",header = TRUE,skip = 1, sep = ",",stringsAsFactors = FALSE,skipNul = TRUE) %>% sample_n(1000)
 
