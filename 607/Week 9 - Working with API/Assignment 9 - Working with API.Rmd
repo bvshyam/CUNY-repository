@@ -1,0 +1,128 @@
+---
+title: "Working with API"
+author: "Shyam BV"
+date: "October 24, 2016"
+output:
+  html_document:
+    fontsize: 17pt
+    highlight: pygments
+    theme: cerulean
+---
+
+
+####The New York Times web site provides a rich set of APIs, as described here: http://developer.nytimes.com/docs You’ll need to start by signing up for an API key.
+
+####Your task is to choose one of the New York Times APIs, construct an interface in R to read in the JSON data, and transform it to an R dataframe.
+
+####Below are the libraries which are used. 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#install.packages("tidyjson")
+
+library(tidyjson)
+library(dplyr)
+library(tidyr)
+library(jsonlite)
+library(httr)
+library(DT)
+
+```
+
+
+**Once registraion is done with the New York times developer website, we will receive a key to access datasets in developer website. For each section a key needs to be requested.**
+
+```{r moviesdataset,eval=TRUE,warning=FALSE,tidy=TRUE, tidy.opts=list(width.cutoff=80)}
+
+#First let's fetch movie dataset paramenters using GET method
+
+#From API documentation, we can pass order by field
+
+
+nytimes_movie_get <- GET("https://api.nytimes.com/svc/movies/v2/reviews/all.json",query = list(api_key = "5ca6581c5c0c4d22a89d258eaeb17846",order="by-title",offset=20))
+
+nytimes_movie_get
+
+
+# Lets convert JSON to dataframe
+
+nytimes_movie_df <- fromJSON("https://api.nytimes.com/svc/movies/v2/reviews/all.json?api_key=5ca6581c5c0c4d22a89d258eaeb17846") %>% data.frame()
+
+
+head(nytimes_movie_df,1)
+
+```
+
+
+**In this API call, we will fetch NYtimes symantic dataset**
+
+```{r semanticdataset,eval=TRUE,warning=FALSE,tidy=TRUE, tidy.opts=list(width.cutoff=80)}
+
+
+#Get Semantic JSON
+
+  nytimes <- GET("https://api.nytimes.com/svc/semantic/v2/concept/search.json",query = list(api_key = "5ca6581c5c0c4d22a89d258eaeb17846",query="Active")) 
+
+  # Lets convert JSON to dataframe 
+
+  
+nytimes.semantic.df <- fromJSON("https://api.nytimes.com/svc/semantic/v2/concept/search.json?api_key=5ca6581c5c0c4d22a89d258eaeb17846&query=Active") %>%  data.frame()
+
+head(nytimes.semantic.df,2)
+
+
+
+```
+
+###Presidential  candidates dataset from propublica API (https://propublica.github.io/campaign-finance-api-docs/#presidential-candidate-totals)
+
+
+```{r congressapi,eval=TRUE,warning=FALSE,tidy=TRUE, tidy.opts=list(width.cutoff=50)}
+
+#Keys are passed to header of the URL
+
+key <- c("M28yQdX0TI2adVJZmO2yu8T1dnrw5hZfZ9z15Cqi")
+names(key) <- "X-API-Key"
+
+presidential_get <- GET("https://api.propublica.org/campaign-finance/v1/2016/president/totals.json", add_headers(.headers = key),content_type_json()) 
+
+#Convert in into JSON
+presidential_get.df <- content(presidential_get) %>% .$results %>% toJSON() %>% fromJSON()
+
+head(presidential_get.df,2)
+
+
+```
+
+********
+
+###Full contact API from website https://www.fullcontact.com/developer/
+
+This website can be used to fetch many information of persons via his email and phonenumber. 
+
+
+```{r fullcontactkey,include=FALSE}
+fullkey <- c("dd3032a4fca36eb5")
+
+```
+
+
+**Likelihood of a person presence according fullcontact**
+
+```{r fullcontact,eval=TRUE}
+
+#Get key from fullcontact
+names(fullkey) <- "X-FullContact-APIKey"
+
+#Full contact info likelihood
+
+fullcontact_get.df.new <- GET("https://api.fullcontact.com/v2/name/normalizer.json?q=Hillary%20Clinton",add_headers(.headers =fullkey),content_type_json()) %>% content(.) %>% toJSON() %>% fromJSON()
+
+paste("Likelihood of the person is ",fullcontact_get.df.new$likelihood*100,"%")
+
+
+```
+
+
+

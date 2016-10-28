@@ -1,0 +1,312 @@
+---
+title: "Project 3 - Data Science jobs"
+author: "Shyam BV"
+date: "October 17, 2016"
+output: html_document
+---
+
+
+#Loading necessary packages for analysis
+
+```{r library, eval=TRUE}
+
+knitr::opts_chunk$set(message = FALSE, echo=TRUE)
+
+library(RCurl)
+library(dplyr)
+library(lubridate)
+library(jsonlite)
+library(ggplot2)
+library(plotly)
+library(stringr)
+library(tidyr)
+library(RMySQL)
+library(knitr)
+library(DT)
+```
+
+
+```{r dbconnect, eval=TRUE,warning=FALSE,tidy=TRUE, tidy.opts=list(width.cutoff=80)}
+
+
+#conn <- mysql_dbconn("crime","root","WhiteLotus21")
+#conn <- mysql_dbconn('mygroup','mygroup#01','mygroup.c5rotlbjbl71.us-east-1.rds.amazonaws.com','crimedb')
+
+
+
+conn <- dbConnect(MySQL(),
+                 user = 'mygroup',
+                 password = 'mygroup#01',
+                 host = 'mygroup.c5rotlbjbl71.us-east-1.rds.amazonaws.com',
+                 dbname = 'crimedb')
+
+
+# List the database tables in crime schema
+entdbtables <- dbListTables(conn)
+
+```
+
+
+## We are fetching the data from JSON file. 
+
+This JSON has two parts. First section has the meta data and second section will have the actual data
+
+
+```{r sfo-loaddata,eval=TRUE,warning=FALSE,tidy=TRUE, tidy.opts=list(width.cutoff=80)}
+#JSON Load
+
+sf_crim.json <- fromJSON("https://raw.githubusercontent.com/bvshyam/Project3_cuny_607/master/Data/sfo_dec2015.json")
+
+#Look for data in JSON
+sf_crimedata <-sf_crim.json[['data']]
+
+
+#Select the necessary columns in the JSON
+
+sf_crime.df <- data.frame(offenseid = sapply(sf_crimedata,function(x) x[[1]]), Category = sapply(sf_crimedata,function(x) x[[10]]), DayOfWeek = sapply(sf_crimedata,function(x) x[[12]]), Date = as.Date(substr(sapply(sf_crimedata,function(x) x[[13]]),1,10),"%Y-%m-%d"),Time =  sapply(sf_crimedata,function(x) x[[14]]),PdDistrict = sapply(sf_crimedata,function(x) x[[15]]),Location= paste(sapply(sf_crimedata,function(x) x[[19]]),",", sapply(sf_crimedata,function(x) x[[18]])), month = month.abb[month(as.Date(substr(sapply(sf_crimedata,function(x) x[[13]]),1,10),"%Y-%m-%d"))], offensearea = sapply(sf_crimedata,function(x) x[[15]]) )
+
+
+sf_crime_changes<- sf_crime.df 
+
+# Adding Time period for each day
+
+sf_crime_changes <- mutate(sf_crime_changes,Hour= round(as.numeric(str_replace_all(sf_crime_changes$Time,":",".")))) %>%  
+  mutate(Date= as.Date(sf_crime_changes$Date,"%m/%d/%Y")) 
+
+sf_crime_changes <- sf_crime_changes %>% mutate(timeframe= sapply(sf_crime_changes$Hour, function(x) { if(x >6 & x <= 11) {"Morning"} else if(x >11 & x <= 16) {"Noon"} else if(x >16 & x <= 20) {"Evening"}  else if(x <=6 | x>20) {"Night" }}))
+
+
+# Selecing the columns and calculating the additional columns
+
+sf_crime_db <- select(sf_crime_changes,offenseid=offenseid,offense=Category,offensedate=Date,offensetime=Time,dayofweek=DayOfWeek,offensehour=Hour,offensemonth=month,offensearea=offensearea) %>% mutate(citycode="SFO")
+
+```
+
+## Database connection and insert
+
+```{r sfo-datainsert,eval=TRUE,warning=FALSE,tidy=TRUE, tidy.opts=list(width.cutoff=80)}
+
+# Arrange the columns for database insert
+
+sf_crime_db_1 <- select(sf_crime_db,citycode, offenseid, offense, offenselocaldate = offensedate, offenselocaltime = offensetime, dayofweek, offensehour, offensemonth, offensearea)
+
+
+# Bulk insert from dataframe to MYSQL table called crimedata
+
+#dbWriteTable(conn, value = sf_crime_db_1, name = "crimedata", row.names=F, append = TRUE ) 
+
+
+```
+
+
+## Analysis on SFO data
+
+Now we have the required data. We will make some analysis and plot the graphs.
+
+
+```{r sfo-houroffense,eval=TRUE,warning=FALSE,tidy=TRUE, tidy.opts=list(width.cutoff=80)}
+
+# Select the required columns for comparing hour and offense
+
+sfo_crime_hour <- sf_crime_changes %>% select( Hour, Category) %>% group_by(Hour, Category) %>%  summarise(total =n()) %>% dplyr::arrange(total) 
+
+
+# Hour vs Offense
+    
+    p <- ggplot(sfo_crime_hour, aes( x= sfo_crime_hour$Hour,y=sfo_crime_hour$total)) + geom_line(aes(color=Category)) + ggtitle("Hour vs Offense")  + xlab("Hour") +  ylab("Offense")
+    ggplotly(p)
+
+
+
+# Analyze Crime by offense 
+
+category_count <- table(sf_crime_changes$Category) %>% data.frame() %>% setNames(c("Offense","Frequency"))
+
+datatable(category_count)
+
+#Plot a scattered plot by comparing Offense vs Frequency(occurrence)
+
+
+
+a <- list(
+  autotick = TRUE,
+  tick0 = 0,
+  dtick = 1,
+  size=24,
+    showticklabels = FALSE,
+showlegend = FALSE,
+  tickcolor = toRGB("white"),
+zeroline = FALSE,
+  showline = FALSE,
+  showticklabels = FALSE,
+  showgrid = FALSE,
+visible = FALSE,
+title = "Offense"
+)
+
+b <- list(
+title = "Crime count"
+)
+
+plot_ly(x=~category_count$Offense,y=~category_count$Frequency,type="scatter",color = category_count$Offense ) %>% layout(xaxis =a,yaxis=b,title = "Offense vs Frequency")
+
+
+
+
+```
+
+
+
+#Analyze Crime by Date
+
+```{r sfodatefrequency,eval=TRUE,warning=FALSE,tidy=TRUE, tidy.opts=list(width.cutoff=80)}
+
+#Plot a scattered plot by comparing Offense Date vs Frequency(occurrence)
+
+category_date <- table(sf_crime_changes$Date) %>% data.frame() %>%  setNames(c("Offense_date","Frequency")) 
+
+category_date$Offense_date <- str_replace(category_date$Offense_date,"/2015|2015-","")
+
+datatable(category_date)
+
+#Plot a scattered plot by comparing Offense Date vs Frequency(occurrence)
+
+
+a1 <- list(
+  autotick = TRUE,
+  tick0 = 0,
+  dtick = 1,
+  size=24,
+showlegend = FALSE,
+tickangle =45,
+title=FALSE
+)
+
+b1 <- list(
+title = "Crime count"
+)
+
+plot_ly(x=~category_date$Offense_date,y=~category_date$Frequency,type="area") %>% 
+  layout(xaxis =a1,yaxis=b1,title = "Date vs Frequency")
+
+
+```
+
+
+
+#Analyze by timeframe and top crimes
+
+
+```{r sfo-timefrequency,eval=TRUE,warning=FALSE,tidy=TRUE, tidy.opts=list(width.cutoff=80)}
+
+
+#Crime according to timeframe and Day
+
+crimesbyday <- table(sf_crime_changes$DayOfWeek,sf_crime_changes$timeframe) %>% data.frame() %>% setNames(c("Day","Day_category","Frequency"))
+
+
+datatable(crimesbyday)
+
+
+
+#Top crimes greater than 5%
+
+
+mostcrimes <- table(sf_crime_changes$DayOfWeek,sf_crime_changes$Category) %>% data.frame() %>% spread(Var1,Freq) %>% mutate(summary=rowSums(.[,2:8],1))
+
+
+topcrimes <- mostcrimes[(mostcrimes$summary/sum(mostcrimes$summary))> .05,] %>% data.frame()
+
+
+datatable(topcrimes)
+
+
+```
+
+
+
+
+```{r tidy=TRUE, eval=TRUE,warning=FALSE,tidy=TRUE, tidy.opts=list(width.cutoff=80)}
+#DATE_FORMAT(offenselocaltime,'%H:%i:%s')
+
+if(isIdCurrent(conn))
+{
+     allcitycrimedata <-  dbGetQuery(conn,"select crimedata.citycode, offenseid, offense, offenselocaldate, offenselocaltime, dayofweek, offensehour, offensemonth, offensearea from crimedata, city where city.citycode = crimedata.citycode")
+    
+     
+ for (i in seq(1,nrow(allcitycrimedata),1)) 
+{    
+
+      if(grepl('LARCENY|ROBBERY|THEFT|STOLEN|EMBEZZLEMENT', allcitycrimedata$offense[i], ignore.case=TRUE ))
+     {
+           allcitycrimedata$category[i] <- 'LARCENY'
+     }
+      else if(grepl('RAPE|SEX OFFENSE|SEXUAL|BATTERY|PROSTITUTION', allcitycrimedata$offense[i], ignore.case=TRUE ))
+     {
+         allcitycrimedata$category[i] <- 'SEX OFFENSE'
+     }
+      
+      else if(grepl('BURGLARY', allcitycrimedata$offense[i], ignore.case=TRUE ))
+     {
+           allcitycrimedata$category[i] <- 'BURGLARY'
+      }
+       else if(grepl('MURDER|HOMICIDE', allcitycrimedata$offense[i], ignore.case=TRUE ))
+     {
+          allcitycrimedata$category[i] <- 'MURDER'
+      }
+      else if(grepl('NARCOTIC|LIQUOR', allcitycrimedata$offense[i], ignore.case=TRUE ))
+     {
+          allcitycrimedata$category[i] <- 'NARCOTIC'
+      }
+      else if(grepl('OTHER|SUICIDE|NON CRIMINAL|NON-CRIMINAL|NON - CRIMINAL|SUSPICIOUS|DECEPTIVE|INTERFERENCE|INTIMIDATION|STALKING|TRESSPASS|SECONDARY|RUNAWAY|MISSING|TRESPASS', allcitycrimedata$offense[i], ignore.case=TRUE ))
+     {
+       allcitycrimedata$category[i] <- 'OTHER'
+     }
+     else if( grepl('FORGERY|FRAUD|BAD CHECKS|EXTORTION', allcitycrimedata$offense[i], ignore.case=TRUE ))
+      {
+           allcitycrimedata$category[i] <- 'FRAUD'
+      }
+     else if( grepl('PUBLIC INDECENCY|OBSCENITY|DRUNKENNESS|CONDUCT|PUBLIC PEACE|WARRANTS|WEAPON|VEHICLE|LICENSE|DRIVING|BRIBERY|GAMBLING', allcitycrimedata$offense[i], ignore.case=TRUE ))
+      {
+          allcitycrimedata$category[i] <- 'MISCONDUCT'
+      }
+       else if( grepl('FAMILY|KIDNAPPING', allcitycrimedata$offense[i], ignore.case=TRUE ))
+      {
+         allcitycrimedata$category[i] <- 'FAMILY'
+      } 
+      else if( grepl('CHILDREN', allcitycrimedata$offense[i], ignore.case=TRUE ))
+      {
+          allcitycrimedata$category[i] <- 'CHILD ABUSE'
+       }
+       else if( grepl('VANDALISM|DAMAGE|ARSON', allcitycrimedata$offense[i], ignore.case=TRUE ))
+      {
+          allcitycrimedata$category[i] <- 'VANDALISM'
+      }
+      else if( grepl('ASSAULT', allcitycrimedata$offense[i], ignore.case=TRUE ))
+      {
+          allcitycrimedata$category[i] <- 'ASSAULT'
+      }
+     
+ }      # end of for loop
+    
+
+}
+
+```
+
+```{r sfo-removetables,eval=TRUE,warning=FALSE,tidy=TRUE, tidy.opts=list(width.cutoff=80)}
+
+
+#remove SFO tables and variables
+
+remove(sf_crime_db,sf_crime_db_1,sf_crime,sf_day_offense,sfo_crime_hour,topcrimes,sfo_crimedata_hourDF,entdbtables,a,b,a1,b1,category_count,crimesbyday,mostcrimes,sf_crime.df,i,p,sf_crim.json,sf_crimedata)
+
+#Disconnect db
+
+dbDisconnect(conn)
+
+```
+
+
+
+

@@ -1,0 +1,131 @@
+Load the required packages for analysis:
+```{r}
+library(plyr)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(lubridate)
+library(RMySQL)
+```
+
+Load the data into R from an external source:
+```{r}
+chicago <- read.csv("https://raw.githubusercontent.com/bvshyam/Project3_cuny_607/master/Data/chicago_dec2015.csv", header=TRUE, sep=",", stringsAsFactors = FALSE,na.strings = c("",NA,"n/a","N/A","NA"))
+```
+
+Clean the data! As the data is in a format of "M/D/Y H:M:S", we need to break that down and separate the data so we can get more fine grained analysis with it. To do so, we use
+the lubridate and stringr library. String allows us to use regular expressions to filter data, and lubridate provides easy to use, nicely abstracted functions to transform the data
+into time formats. As the timestamp is in the AM/PM format, we have to convert everything to twenty four hour time so that you as the analyst can tell the difference. Otherwise, the data will
+just all show a 12 hr format with no distinction. Once this occurs, we can perform calculations on the data. We are also going to extract out the hours, minutes, and seconds of the crime.
+```{r}
+crimeDates <- as.Date(chicago$Date, "%m/%d/%Y")
+twentyFourHourTime <- as.POSIXct(chicago$Date, format = "%m/%d/%Y %I:%M:%S %p")
+chicagoTimes <- unlist(str_extract_all(twentyFourHourTime, pattern="\\d{1,2}\\:\\d{1,2}\\:\\d{1,2}"))
+partOfDay <- unlist(str_extract_all(chicago$Date, pattern="[[:alpha:]]{2}"))
+dayOfWeek <- wday(crimeDates, label = TRUE)
+crimeMonth <- month(crimeDates, label = TRUE)
+crimeTimeStamp <- hms(chicagoTimes)
+crimeHr <- hour(crimeTimeStamp)
+crimeMin <- minute(crimeTimeStamp)
+crimeSec <- second(crimeTimeStamp)
+```
+
+Once the data has been cleaned, we need to put it into a new data frame for further analysis.
+```{r}
+cleanedData <- data.frame(
+crimeType = chicago$Primary.Type,
+wasArrestMade = chicago$Arrest,
+district = chicago$District,
+location = chicago$Location.Description,
+crimeDates,
+dayOfWeek,
+crimeMonth,
+crimeHr,
+crimeMin,
+crimeSec,
+latitude = chicago$Latitude,
+longitude =chicago$Longitude
+)
+```
+For the purpose of adding the data into the shared database, I need to add the time and crime id.
+
+```{r}
+cleanedData$offenseid <- chicago$ID
+cleanedData$offenselocaltime <- chicagoTimes
+```
+
+Create a dataframe in the format expected in the database
+```{r}
+dataForDB <- data.frame (
+cityCode = "CHI",
+offenseid = cleanedData$offenseid,
+offense = cleanedData$crimeType,
+offenselocaldate =cleanedData$crimeDates,
+offenselocaltime = cleanedData$offenselocaltime,
+offensehour= cleanedData$crimeHr,
+offensemonth= cleanedData$crimeMonth,
+offensearea = cleanedData$location
+)
+
+dataForDB$dayofweek <- weekdays(as.Date(crimeDates))
+
+dataForDB <- dataForDB[c(1,2,3,4,5,9,6,7,8)]
+```
+
+Create the connection to the database, and insert the data
+```{r}
+conn <- dbConnect(MySQL(),
+                 user = 'mygroup',
+                 password = 'mygroup#01',
+                 host = 'mygroup.c5rotlbjbl71.us-east-1.rds.amazonaws.com',
+                 dbname = 'crimedb')
+
+dbWriteTable(conn, value = dataForDB, name = "crimedata", row.names=F, append = TRUE ) 
+```
+
+What we are most interested in for the analysis is finding how the primary crime types compare in terms of arrest rates. 
+First, we need to group the data by the primary type and arrest data (true or false). We can then count how many of each occurred. 
+```{r}
+table(cleanedData$crimeType, cleanedData$wasArrestMade )
+```
+Here we see that the narcotics crime type has the highest number of arrests, while the theft crime type has the highest number of non-arrests.
+
+We can then find out where one is most likely to get arrested by grouping the data together based on a crime type, arrest boolean, and location. Once this is done, we can compare the data of
+arrests and non arrests. The following barplot shows the arrests that did occur as "true", and arrests that did not occur as "false"
+```{r}
+
+arrestByLocation <- table(cleanedData$wasArrestMade, cleanedData$location )
+barplot(arrestByLocation, main="Arrests By Location", xlab="Location", col=c("darkblue","red"), legend = rownames(arrestByLocation))
+```
+
+The same data can be viewed in a neater format via the group by command
+```{r}
+groupedCrimesByLocation <- cleanedData %>% group_by(crimeType, wasArrestMade, location) %>% summarise(Total=n())
+
+arrestOnly <- filter(groupedCrimesByLocation, wasArrestMade %in% "true")
+
+arrestOnly
+
+arrestOnly[which.max(arrestOnly$Total),]
+
+noArrest <- filter(groupedCrimesByLocation, wasArrestMade %in% "false")
+
+noArrest
+
+noArrest[which.max(noArrest$Total),]
+```
+As the data shows, more people are likely to be arrested for a narcotics charge on the street. It also shows that one has a greater chance of not being
+arrested for theft on the street as well.
+
+Speaking of arrests, one interesting observation would be to find what day of the week someone is likely to be arrested.
+```{r}
+table(cleanedData$wasArrestMade, cleanedData$dayOfWeek )
+```
+Based on this information, Tuesday is the day when most people are arrested for the sample.
+
+Now, how do we find the average time someone is arrested? Well, we need to find the mean of the timestamp from the Chicago data. Since we did the conversion  of 12 hr time to 24 hr,
+we can perform a "mean" calculation against the variable to find the time. 
+```{r}
+mean(twentyFourHourTime)
+```
+The average time that someone  would be arrested in this sample is on 12/15/15 at 1:59AM.

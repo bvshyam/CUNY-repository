@@ -1,0 +1,88 @@
+---
+title: "Project 3 - Data Science jobs"
+author: "Shyam BV"
+date: "October 17, 2016"
+output: html_document
+---
+
+```{r library, eval=TRUE}
+#install.packages("data.tree")
+library(RCurl)
+library(dplyr)
+library(utils)
+library(lubridate)
+library(jsonlite)
+library(data.tree)
+library(ggplot2)
+library(plotly)
+library(stringr)
+library(tidyr)
+```
+
+
+
+```{r loaddata,eval=TRUE}
+#JSON Load
+
+sf_crim.json <- fromJSON("Data/sfo_dec2015.json")
+
+sf_crimedata <-sf_crim.json[['data']]
+
+sf_crime.df <- data.frame(Category = sapply(sf_crimedata,function(x) x[[10]]), DayOfWeek = sapply(sf_crimedata,function(x) x[[12]]), Date = sapply(sf_crimedata,function(x) x[[13]]), Time =  sapply(sf_crimedata,function(x) x[[14]]),PdDistrict = sapply(sf_crimedata,function(x) x[[15]]),Location1= sapply(sf_crimedata,function(x) x[[18]]),Location2= sapply(sf_crimedata,function(x) x[[19]]))
+
+# , month=months(as.Date(sapply(sf_crimedata,function(x) x[[13]]),"%Y%m/%d/%Y"))
+
+
+
+
+#CSV Load
+
+sf_crime <- read.csv("Data/sfo_dec2015.csv", header = TRUE, sep="," , stringsAsFactors = FALSE,na.strings = c("",NA,"n/a","N/A","NA")) %>% select(Category,DayOfWeek,Date,Time,PdDistrict,Resolution,Location) %>% mutate(month = months(as.Date(Date,"%m/%d/%Y")))
+
+
+sf_crime_changes<- sf_crime 
+
+
+sf_crime_changes <- mutate(sf_crime_changes,Time= as.numeric(str_replace_all(sf_crime_changes$Time,":","."))) %>%  
+  mutate(Date= as.Date(sf_crime_changes$Date,"%m/%d/%Y")) %>% 
+mutate(timeframe= sapply(sf_crime_changes$Time, function(x) { if(x >6 & x <= 11) {"Morning"} else if(x >11 & x <= 16) {"Noon"} else if(x >16 & x <= 20) {"Evening"}  else if(x <=6 | x>20) {"Night" }}))
+
+
+# Analyze Crime by frequency
+
+category_count <- table(sf_crime$Category) %>% data.frame()
+category_count
+
+plot_ly(x=~category_count$Var1,y=~category_count$Freq,type="scatter")
+
+#Analyze Crime by Date
+
+category_date <- table(sf_crime$Date) %>% data.frame()
+
+
+plot_ly(x=~category_date$Var1,y=~category_count$Freq,type="area")
+
+
+
+#Analyze by time
+
+
+#Crime according to timeframe and Day
+
+crimesbyday <- table(sf_crime_changes$DayOfWeek,sf_crime_changes$timeframe) 
+
+
+#Top crimes greater than 5%
+
+
+mostcrimes <- table(sf_crime_changes$DayOfWeek,sf_crime_changes$Category) %>% data.frame() %>% spread(Var1,Freq) %>% mutate(summary=rowSums(.[,2:8],1))
+
+topcrimes <- mostcrimes[(mostcrimes$summary/sum(mostcrimes$summary))> .05,]
+
+
+#Webscrapping 
+
+
+
+```
+

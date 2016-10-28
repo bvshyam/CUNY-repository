@@ -1,0 +1,19 @@
+---
+title: "a8"
+author: "Upal Chowdhury"
+date: "October 23, 2016"
+output: html_document
+---
+
+```{r}
+#install.packages("jpeg")  
+library(jpeg)
+
+img <- readJPEG("<type the path name>", native = TRUE)
+
+if(exists("rasterImage")){
+      plot(1:2, type='n')
+      rasterImage(img,1,1,2,2)
+}
+```
+

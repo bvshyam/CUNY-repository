@@ -1,0 +1,120 @@
+---
+title: "Categorical Data "
+author: "Shyam BV"
+date: "October 26, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(knitr)
+#library(combinat)
+
+normalPlot <- function(mean=0, sd=1, bounds=c(-1,1), tails=FALSE) {
+	x <- seq(-4,4,length=100)*sd + mean
+	hx <- dnorm(x,mean,sd)
+
+	plot(x, hx, type="n", xlab="x-Axis", ylab="",
+		 main="Normal Distribution", axes=FALSE)
+	lines(x, hx)
+
+	if(tails) {
+		i.low <- x <= bounds[1]
+		i.high <- x >= bounds[2]
+		polygon(c(x[i.low],bounds[1]), c(hx[i.low], 0), col="red")
+		polygon(c(bounds[2],x[i.high]), c(0,hx[i.high]), col="red")
+	} else {
+		i <- x >= bounds[1] & x <= bounds[2]
+		polygon(c(bounds[1],x[i],bounds[2]), c(0,hx[i],0), col="red")
+		area <- pnorm(bounds[2], mean, sd) - pnorm(bounds[1], mean, sd)
+		if(diff(bounds) > 0) {
+			result <- paste("P(",bounds[1],"< x <",bounds[2],") =",
+							signif(area, digits=3))
+			mtext(result,3)
+		}
+	}
+	axis(1)
+}
+
+```
+
+6.11 Study abroad. 
+
+A survey on 1,509 high school seniors who took the SAT and who completed an optional web survey between April 25 and April 30, 2007 shows that 55% of high school seniors are fairly certain that they will participate in a study abroad program in college.
+
+
+**(a) Is this sample a representative sample from the population of all high school seniors in the US? Explain your reasoning.**
+
+No. This is an optional online survey and the sample is taken only from the students who took SAT.
+ Additionally only the students who are interested in taking survey have completed it.
+
+Conditions for sampling distribution
+
+1. Sample observations are independent.
+2. We are expected to see least 10 successes and 10 failures in our sample propotion. 
+
+```{r problem6.11a,eval=TRUE}
+
+n <- 1509
+p <- .55
+
+success <- n*p
+
+failure <- n*(1-p)
+
+success 
+failure
+```
+
+By these conditions, we can say that sampling distribution conditions are met. But this is an optional online survey, only the high school seniors who are interested in survey are completing it. 
+
+
+
+**(b) Let’s suppose the conditions for inference are met. Even if your answer to part (a) indicated that this approach would not be reliable, this analysis may still be interesting to carry out (though not report). Construct a 90% confidence interval for the proportion of high school seniors (of those who took the SAT) who are fairly certain they will participate in a study abroad program in college, and interpret this interval in context.**
+
+standard error :
+$$\sqrt{((p*(1-p))/n)}$$
+
+```{r problem6.11b,eval=TRUE}
+
+se <-  sqrt((p*(1-p))/n)
+
+z <- qnorm(.95)
+
+cip <- p+z*se
+
+cin <- p-z*se
+
+
+#Add chart
+#90% Confidence interval for the proption of high school seniors are `r (cin,cip)` 
+
+```
+
+We are 90% confident that 53% to 57% of high school seniors who took the SAT are fairly certain that they
+will participate in a study abroad program in college.
+
+
+**(c) What does “90% confidence” mean?**
+
+90% confidence means, the interval from of the high school seniors who attend college. We are 90% confidence that the propotion of high school seniors who attends college is between 53% to 57%.
+
+90% of such random samples would produce a 90% confidence interval that includes the true proportion.
+
+
+```{r problem6.11c,eval=TRUE}
+
+normalPlot(p,se,bounds = c(0.528,0.571),tails=FALSE) 
+
+
+```
+
+
+**(d) Based on this interval, would it be appropriate to claim that the majority of high school seniors are fairly certain that they will participate in a study abroad program in college?**
+
+Based on the confidence interval results which we got, it is fairly certain to say that majority of high school seniors are fairly certain that they will participate in a study abroad.
+
+
+
+

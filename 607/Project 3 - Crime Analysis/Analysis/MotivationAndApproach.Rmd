@@ -1,0 +1,59 @@
+---
+title: "MotivationAndApproach.Rmd"
+author: "Kumudini Bhave, Shyam BV, Mark Halpin, Upal Chowdhury"
+date: "October 18, 2016"
+output:
+  html_document:
+    fontsize: 17pt
+    highlight: pygments
+    theme: cerulean
+    toc: yes
+---
+
+********
+
+## Motivation
+
+The project motivation has been to successfully demonstrate a team work, soft skills which also form the foundation of a good Data Scientist. And with collaboration help study crime data and come up with insights.
+
+
+
+## Efforts
+
+We collaborated together as a team of Kumudini Bhave, Shyam BV, Mark Halpin since Oct 16 to be joined in by Upal Chowdhury.
+Our team demonstrated great team work with work distribution, accommodation and tolerance and healthy collaboration .
+
+
+Shyam, Mark did great work over finding interesting datasets and worked /analyzed on SFO , Chicago crime datasets. Kumudini contributed to working and analyzing on NYC crime data, doing across cities plot and integrating the individual Rmds. Upal was very instrumental in setting the much required database on cloud and helping us be all in sync.
+Having a database on cloud made it greatly possible to have all data in one place  and reinforced the strength of the project.
+Upal also did some interesting mappings of the three cities SFO, NYC and Chicago crime datasets.And prepared the ER diagram and Workflow diagram
+
+
+## Difficulties Faced
+
+We did have initial dilemma as we started off with multiyear crime data but over period realised that only a months data could be handled by the environment.
+It consumed some time for this realization.
+
+We also had issues with integration of Rmd files as JSON data loading would time out. 
+
+
+## Findings
+
+With our team work, we were succesfully able to study crime across the major cities on East Coast, West Coast and Mid-West of USA . 
+The Plots an our findings are captured in the main Rmd file.
+
+
+
+## Which are the most valued data science skills?
+
+The most valued data science skills :
+Our team worked together and could demonstrate the essential and most valued data science skills.
+We found the apt dataset for our project that engaged our curiousity to find about crime in different cities.
+We worked through unstructured /structured data
+We scraped data in different formats of XML, CSV, JSON
+We worked in SQL and posted to relational databases
+We used R for Coding 
+We worked on large datasets and performed data mining.
+Lastly and most importantly, we are a team globally dispersed across timezones , we worked round the clock to deliver the united effort.
+
+
