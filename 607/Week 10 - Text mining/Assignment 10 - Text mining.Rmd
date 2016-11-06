@@ -1,0 +1,213 @@
+---
+title: "Text Mining"
+author: "Shyam BV"
+date: "November 3, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#install.packages("dt")
+
+
+library(stringr)
+library(tm)
+library(SnowballC)
+library(RWeka)
+library(RTextTools)
+library(topicmodels)
+library(rio)
+library(tidyr)
+library(DT)
+```
+
+#http://insights.dice.com/2016/11/01/h1b-reform-companies/?CMPID=EM_RE_UP_JS_AD_DA_CP_&utm_source=Responsys&utm_medium=Email&utm_content=&utm_campaign=Advisory_DiceAdvisor
+
+
+#ham
+C:\Users\paperspace\Google Drive\CUNY\Courses\CUNY-repository\607\Week 10 - Text mining\Data\20030228_easy_ham.tar\20030228_easy_ham\easy_ham
+
+#Spam
+C:\Users\paperspace\Google Drive\CUNY\Courses\CUNY-repository\607\Week 10 - Text mining\Data\20050311_spam_2.tar\20050311_spam_2\spam_2
+
+#Data file change + extension
+
+```{r dataextension,eval=TRUE}
+
+#Ham
+filenames_ham <-  list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/")
+
+
+full_ham_corpus <- Corpus(VectorSource(""))
+
+
+for(i in 1:length(filenames_ham)) {
+
+temp_ham <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames_ham[i])) %>% str_c(collapse = "")
+
+temp_ham_corpus <- Corpus(VectorSource(temp_ham))
+
+full_ham_corpus <- c(full_ham_corpus,temp_ham_corpus)
+}
+
+#spam
+
+filenames_spam <-  list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20050311_spam_2.tar/20050311_spam_2/spam_2")
+
+
+full_spam_corpus <- Corpus(VectorSource(""))
+
+
+for(i in 1:length(filenames_spam)) {
+
+temp_spam <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20050311_spam_2.tar/20050311_spam_2/spam_2/",filenames_spam[i])) %>% str_c(collapse = "")
+
+temp_spam_corpus <- Corpus(VectorSource(temp_spam))
+
+full_spam_corpus <- c(full_spam_corpus,temp_spam_corpus)
+}
+
+
+```
+
+
+
+#Sample data setup
+
+```{r datasetup,eval=TRUE}
+
+#full spam - 1396, ham - 2500
+
+#full spam - 1396, ham - 2500
+#1396+2500+2
+
+total_corpus <- Corpus(VectorSource(""))
+total_corpus1 <- Corpus(VectorSource(""))
+
+
+total_corpus <- c(full_ham_corpus,full_spam_corpus)
+
+total_corpus1 <- total_corpus
+
+
+```
+
+
+
+#copy the data to Corpus
+
+
+#Create transformations
+
+```{r transformations, eval=TRUE}
+
+total_corpus1 <- tm_map(total_corpus1, removeNumbers)
+
+total_corpus1 <- tm_map(total_corpus1, removeWords,words=stopwords("en"))
+
+
+total_corpus1 <- tm_map(total_corpus1, str_replace_all, pattern = "[[:punct:]]", replacement = " ")
+
+
+total_corpus1 <- tm_map(total_corpus1,stripWhitespace)
+
+
+total_corpus1 <- tm_map(total_corpus1,removePunctuation)
+
+#needtolook - Need to remove more symbols
+
+#f <- content_transformer(function(x,pattern) gsub(pattern,"",x))
+#total_corpus1 <- tm_map(total_corpus1,f,"!\"#$\%&'*+,./)(:;<=>?@\[\\^`{|}~")
+
+
+total_corpus1 <- tm_map(total_corpus1, tolower)
+
+
+#needtolook - Even spacing
+#replacespaces <- content_transformer(function(x) str_tr) 
+
+#total_corpus1 <- tm_map(total_corpus1, replacespaces)
+
+#test <- total_corpus1[[2]]$content
+
+#str_trim(test)
+
+
+total_corpus1 <- tm_map(total_corpus1, stemDocument)
+
+total_corpus1 <- tm_map(total_corpus1, PlainTextDocument)
+
+# needtolook - filter unwanted data
+
+total_corpus1[lapply(total_corpus1,length)>1]
+
+
+#nrow(total_corpus1[[3]]$content)
+
+
+
+#tm_filter(total_corpus1,function(x) length(x) >0 )
+
+#length(total_corpus1[[4]]$content)
+
+#total_corpus1[[4]]$content$chars
+
+
+for(i in 1:300){
+ meta(total_corpus1[[i]], "category") <- "ham"
+}
+
+
+for(i in 2502:2801){
+   meta(total_corpus1[[i]], "category") <- "spam"
+}
+
+rearrange_total_corpus <- c(total_corpus1[c(1:300)],total_corpus1[c(2502:2801)],total_corpus1[c(301:2501)],
+                            total_corpus1[c(2802:length(total_corpus1))])
+
+
+```
+
+
+#Create term document matrix
+
+```{r dtmofdata,eval=TRUE}
+
+dtm_total_corpus <- DocumentTermMatrix(rearrange_total_corpus)
+
+dtm_total_corpus <- removeSparseTerms(dtm_total_corpus,.80)
+
+```
+
+
+
+#Create container
+
+
+```{r container,eval=TRUE}
+category_label <- unlist(meta(rearrange_total_corpus,"category"))
+
+container <- create_container(dtm_total_corpus,category_label,trainSize = 1:length(unlist(meta(rearrange_total_corpus,"category"))),testSize = (length(unlist(meta(rearrange_total_corpus,"category"))) +1) :length(rearrange_total_corpus),virgin = FALSE)
+
+```
+
+
+#create an supervised model
+
+
+```{r supervisedprogram}
+
+svm_model <- train_model(container, "SVM")
+svm_out <- classify_model(container, svm_model)
+
+datatable(svm_out)
+
+summary(svm_out)
+
+#nrow(dplyr::filter(svm_out,svm_out$SVM_LABEL=="ham"))
+
+
+```
+
+Conclusion: The created model predicts the future emails.

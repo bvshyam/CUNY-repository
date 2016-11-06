@@ -1,0 +1,512 @@
+total_corpus1[[4]]
+total_corpus1[[4]]$chars
+total_corpus1[[4]]
+total_corpus1[[4]]$content$chars
+total_corpus1[[4]]$Content$chars
+total_corpus1[[4]]$Content
+total_corpus1[[4]]$content
+total_corpus1 <- tm_map(total_corpus1, removeNumbers)
+total_corpus1 <- tm_map(total_corpus1, removeWords,words=stopwords("en"))
+total_corpus1 <- tm_map(total_corpus1, str_replace_all, pattern = "[[:punct:]]", replacement = " ")
+total_corpus1 <- tm_map(total_corpus1,stripWhitespace)
+total_corpus1 <- tm_map(total_corpus1,removePunctuation)
+#needtolook - Need to remove more symbols
+#f <- content_transformer(function(x,pattern) gsub(pattern,"",x))
+#total_corpus1 <- tm_map(total_corpus1,f,"!\"#$\%&'*+,./)(:;<=>?@\[\\^`{|}~")
+total_corpus1 <- tm_map(total_corpus1, tolower)
+#needtolook - Even spacing
+#replacespaces <- content_transformer(function(x) str_tr)
+#total_corpus1 <- tm_map(total_corpus1, replacespaces)
+#test <- total_corpus1[[2]]$content
+#str_trim(test)
+total_corpus1 <- tm_map(total_corpus1, stemDocument)
+total_corpus1 <- tm_map(total_corpus1, PlainTextDocument)
+#tm_filter(total_corpus1,function(x) length(x) >0 )
+#length(total_corpus1[[4]]$content)
+#total_corpus1[[4]]$content$chars
+for(i in 1:12){
+if(i<=6) meta(total_corpus1[[i]], "category") <- "spam"
+else if(i>6 & i<=12) meta(total_corpus1[[i]], "category") <- "ham"
+}
+#meta(total_corpus1),"category")
+dtm_total_corpus <- DocumentTermMatrix(total_corpus1)
+dtm_total_corpus <- removeSparseTerms(dtm_total_corpus,.80)
+total_corpus1
+container <- create_container(dtm_total_corpus,category_label,trainSize = 1:12,testSize = 13:23,virgin = FALSE)
+svm_model <- train_model(container, "SVM")
+svm_model <- train_model(container, "SVM")
+svm_out <- classify_model(container, svm_model)
+svm_out
+knitr::opts_chunk$set(echo = TRUE)
+#install.packages("rio")
+library(stringr)
+library(tm)
+library(SnowballC)
+library(RWeka)
+library(RTextTools)
+library(topicmodels)
+library(rio)
+tmp <- readLines("Data/sample_ham/00001.txt")
+tmp <- str_c(tmp, collapse = "")
+spam_corpus <- Corpus(VectorSource(""))
+ham_corpus <- Corpus(VectorSource(""))
+total_corpus <- Corpus(VectorSource(""))
+total_corpus1 <- Corpus(VectorSource(""))
+predict_corpus <- Corpus(VectorSource(""))
+#needtolook - need to dynamically change the number
+for(i in 1:5){
+tmp_spam <- readLines(str_c("Data/sample_spam/0000", i, ".txt"))
+tmp_spam <- str_c(tmp_spam, collapse = "")
+if(length(tmp_spam) != 0){
+tmp_spam_corpus <- Corpus(VectorSource(tmp_spam))
+#needtolook -  need to look for empty corpus
+spam_corpus <- c(spam_corpus,tmp_spam_corpus)
+#meta(spam_corpus[[i]], "category") <- "spam"
+}
+tmp_ham <- readLines(str_c("Data/sample_ham/0000", i, ".txt"))
+tmp_ham <- str_c(tmp_ham, collapse = "")
+if(length(tmp_ham) != 0){
+tmp_ham_corpus <- Corpus(VectorSource(tmp_ham))
+ham_corpus <- c(ham_corpus,tmp_ham_corpus)
+#  meta(ham_corpus[[i]], "category") <- "ham"
+}
+}
+#meta(spam_corpus[[6]],"category") <- "spam"
+#meta(ham_corpus[[6]],"category") <- "ham"
+total_corpus <- c(spam_corpus,ham_corpus)
+#meta(ham_corpus,"category")
+#meta(spam_corpus,"category")
+#meta(total_corpus,"category")
+total_corpus1 <- total_corpus
+#meta(total_corpus1,"category")
+for(i in 6:15){
+tmp_predict <- readLines(str_c("Data/sample_train/", i, ".txt"))
+tmp_predict <- str_c(tmp_predict, collapse = "")
+tmp_predict_corpus <- Corpus(VectorSource(tmp_predict))
+predict_corpus <- c(predict_corpus,tmp_predict_corpus)
+}
+total_corpus1 <- c(spam_corpus,ham_corpus,predict_corpus)
+total_corpus1 <- tm_map(total_corpus1, removeNumbers)
+total_corpus1 <- tm_map(total_corpus1, removeWords,words=stopwords("en"))
+total_corpus1 <- tm_map(total_corpus1, str_replace_all, pattern = "[[:punct:]]", replacement = " ")
+total_corpus1 <- tm_map(total_corpus1,stripWhitespace)
+total_corpus1 <- tm_map(total_corpus1,removePunctuation)
+#needtolook - Need to remove more symbols
+#f <- content_transformer(function(x,pattern) gsub(pattern,"",x))
+#total_corpus1 <- tm_map(total_corpus1,f,"!\"#$\%&'*+,./)(:;<=>?@\[\\^`{|}~")
+total_corpus1 <- tm_map(total_corpus1, tolower)
+#needtolook - Even spacing
+#replacespaces <- content_transformer(function(x) str_tr)
+#total_corpus1 <- tm_map(total_corpus1, replacespaces)
+#test <- total_corpus1[[2]]$content
+#str_trim(test)
+total_corpus1 <- tm_map(total_corpus1, stemDocument)
+total_corpus1 <- tm_map(total_corpus1, PlainTextDocument)
+#tm_filter(total_corpus1,function(x) length(x) >0 )
+#length(total_corpus1[[4]]$content)
+#total_corpus1[[4]]$content$chars
+for(i in 1:12){
+if(i<=6) meta(total_corpus1[[i]], "category") <- "spam"
+else if(i>6 & i<=12) meta(total_corpus1[[i]], "category") <- "ham"
+}
+#meta(total_corpus1),"category")
+dtm_total_corpus <- DocumentTermMatrix(total_corpus1)
+dtm_total_corpus <- removeSparseTerms(dtm_total_corpus,.80)
+category_label <- unlist(meta(total_corpus1,"category"))
+container <- create_container(dtm_total_corpus,category_label,trainSize = 1:12,testSize = 13:23,virgin = FALSE)
+svm_model <- train_model(container, "SVM")
+svm_out <- classify_model(container, svm_model)
+svm_out
+readLines("Data/sample_ham/00020.d10651e31fcb92630c6229ec773cfe26")
+readLines("Data/filechange/00020.d10651e31fcb92630c6229ec773cfe26")
+readLines("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/00020.d10651e31fcb92630c6229ec773cfe26")
+readLines("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/*")
+list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham)
+list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham")
+list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/")
+filenames <-  list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/")
+filenames
+length(filenames)
+filenames[1]
+svm_out
+total_corpus1
+total_corpus1[[23]]
+predict_corpus
+predict_corpus[[1]]$content
+filenames[1]
+str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames[i])
+readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames[i]))
+for(i in 1:5) {
+temp_ham <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames[i]))
+temp_ham
+}
+for(i in 1:5) {
+temp_ham <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames[i]))
+temp_ham
+}
+temp_ham
+readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames[i]))
+readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames[i])) %>% str_c(collapse = "")
+Corpus(VectorSource(temp_ham))
+Corpus(VectorSource(tmp_spam))
+for(i in 1:5) {
+temp_ham <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames[i])) %>% str_c(collapse = "")
+temp_ham_corpus <- Corpus(VectorSource(temp_ham))
+spam_corpus <- c(spam_corpus,temp_ham_corpus)
+}
+spam_corpus
+spam_corpus <- Corpus(VectorSource(""))
+for(i in 1:5) {
+temp_ham <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames[i])) %>% str_c(collapse = "")
+temp_ham_corpus <- Corpus(VectorSource(temp_ham))
+spam_corpus <- c(spam_corpus,temp_ham_corpus)
+}
+spam_corpus
+full_ham_corpus <- Corpus(VectorSource(""))
+for(i in 1:5) {
+temp_ham <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames[i])) %>% str_c(collapse = "")
+temp_ham_corpus <- Corpus(VectorSource(temp_ham))
+full_ham_corpus <- c(full_ham_corpus,temp_ham_corpus)
+}
+full_ham_corpus
+full_ham_corpus[[1]]
+full_ham_corpus[[2]]
+full_ham_corpus[[2]]$content
+full_ham_corpus <- Corpus(VectorSource(""))
+for(i in 1:length(filenames)) {
+temp_ham <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames[i])) %>% str_c(collapse = "")
+temp_ham_corpus <- Corpus(VectorSource(temp_ham))
+full_ham_corpus <- c(full_ham_corpus,temp_ham_corpus)
+}
+for(i in 1:length(filenames)) {
+temp_ham <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames[i])) %>% str_c(collapse = "")
+temp_ham_corpus <- Corpus(VectorSource(temp_ham))
+full_ham_corpus <- c(full_ham_corpus,temp_ham_corpus)
+}
+filenames <-  list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/")
+full_ham_corpus <- Corpus(VectorSource(""))
+for(i in 1:length(filenames)) {
+temp_ham <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames[i])) %>% str_c(collapse = "")
+temp_ham_corpus <- Corpus(VectorSource(temp_ham))
+full_ham_corpus <- c(full_ham_corpus,temp_ham_corpus)
+}
+full_ham_corpus
+#Ham
+filenames_ham <-  list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/")
+full_ham_corpus <- Corpus(VectorSource(""))
+for(i in 1:length(filenames_ham)) {
+temp_ham <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames_ham[i])) %>% str_c(collapse = "")
+temp_ham_corpus <- Corpus(VectorSource(temp_ham))
+full_ham_corpus <- c(full_ham_corpus,temp_ham_corpus)
+}
+#spam
+filenames_spam <-  list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/")
+full_spam_corpus <- Corpus(VectorSource(""))
+for(i in 1:length(filenames_spam)) {
+temp_spam <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20050311_spam_2.tar/20050311_spam_2/spam_2",filenames_spam[i])) %>% str_c(collapse = "")
+temp_spam_corpus <- Corpus(VectorSource(temp_spam))
+full_spam_corpus <- c(full_spam_corpus,temp_spam_corpus)
+}
+filenames_spam <-  list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20050311_spam_2.tar/20050311_spam_2/spam_2")
+full_spam_corpus <- Corpus(VectorSource(""))
+for(i in 1:length(filenames_spam)) {
+temp_spam <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20050311_spam_2.tar/20050311_spam_2/spam_2",filenames_spam[i])) %>% str_c(collapse = "")
+temp_spam_corpus <- Corpus(VectorSource(temp_spam))
+full_spam_corpus <- c(full_spam_corpus,temp_spam_corpus)
+}
+filenames_spam <-  list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20050311_spam_2.tar/20050311_spam_2/spam_2")
+full_spam_corpus <- Corpus(VectorSource(""))
+for(i in 1:length(filenames_spam)) {
+temp_spam <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20050311_spam_2.tar/20050311_spam_2/spam_2/",filenames_spam[i])) %>% str_c(collapse = "")
+temp_spam_corpus <- Corpus(VectorSource(temp_spam))
+full_spam_corpus <- c(full_spam_corpus,temp_spam_corpus)
+}
+#Ham
+filenames_ham <-  list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/")
+full_ham_corpus <- Corpus(VectorSource(""))
+for(i in 1:length(filenames_ham)) {
+temp_ham <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames_ham[i])) %>% str_c(collapse = "")
+temp_ham_corpus <- Corpus(VectorSource(temp_ham))
+full_ham_corpus <- c(full_ham_corpus,temp_ham_corpus)
+}
+#spam
+filenames_spam <-  list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20050311_spam_2.tar/20050311_spam_2/spam_2")
+full_spam_corpus <- Corpus(VectorSource(""))
+for(i in 1:length(filenames_spam)) {
+temp_spam <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20050311_spam_2.tar/20050311_spam_2/spam_2/",filenames_spam[i])) %>% str_c(collapse = "")
+temp_spam_corpus <- Corpus(VectorSource(temp_spam))
+full_spam_corpus <- c(full_spam_corpus,temp_spam_corpus)
+}
+full_ham_corpus
+full_spam_corpus
+total_corpus <- Corpus(VectorSource(""))
+total_corpus1 <- Corpus(VectorSource(""))
+predict_corpus <- Corpus(VectorSource(""))
+#full spam - 1396, ham - 2500
+#full spam - 1396, ham - 2500
+total_corpus <- Corpus(VectorSource(""))
+total_corpus1 <- Corpus(VectorSource(""))
+total_corpus <- c(full_ham_corpus,full_spam_corpus)
+total_corpus1 <- total_corpus
+total_corpus1
+total_corpus1[[1]]
+total_corpus1[[1397]]
+total_corpus1[[1398]]
+total_corpus1[[2501]]
+total_corpus1[[2502]]
+for(i in 1:300){
+meta(total_corpus1[[i]], "category") <- "ham"
+}
+for(i in 2502:2802){
+meta(total_corpus1[[i]], "category") <- "spam"
+}
+meta(total_corpus1[[2]]),"category")
+meta(total_corpus1[[2]],"category")
+meta(total_corpus1[[2]])
+meta(total_corpus1[[2802]])
+dtm_total_corpus <- DocumentTermMatrix(total_corpus1)
+dtm_total_corpus <- removeSparseTerms(dtm_total_corpus,.80)
+dtm_total_corpus
+unlist(meta(total_corpus1,"category"))
+knitr::opts_chunk$set(echo = TRUE)
+library(RCurl)
+library(XML)
+library(stringr)
+library(tm)
+library(SnowballC)
+library(RWeka)
+library(RTextTools)
+library(topicmodels)
+library(httr)
+#install.packages("RTextTools")
+length(predictionData)
+predictionContainer <- create_container(predMatrix, labels=rep(0,predSize), testSize=c(1:2,3:5), virgin=FALSE)
+predictionContainer
+category_label <- unlist(meta(total_corpus1,"category"))
+category_label <- unlist(meta(total_corpus1,"category"))
+container <- create_container(dtm_total_corpus,category_label,trainSize = c(1:300,2502:2802),
+testSize = c(301:2501,2803:length(total_corpus1)),virgin = FALSE)
+length(1:300)
+length(2502:2802)
+2502-300
+total_corpus1[[1:300]]
+total_corpus1[[300]]
+total_corpus1[[1:300]]
+corpus(total_corpus1,1)
+Corpus(total_corpus1,1)
+total_corpus1[c(1:5)]
+total_corpus1[c(1:300)]
+c(total_corpus1[c(1:300)],total_corpus1[c(2502:2801)],total_corpus1[c(301:2501)],
+total_corpus1[c(2802:length(total_corpus1))])
+1396+2500+2
+rearrange_total_corpus <- c(total_corpus1[c(1:300)],total_corpus1[c(2502:2801)],total_corpus1[c(301:2501)],
+total_corpus1[c(2802:length(total_corpus1))])
+meta(rearrange_total_corpus,"category")
+meta(rearrange_total_corpus[c(1:600)],"category")
+dtm_total_corpus <- DocumentTermMatrix(rearrange_total_corpus)
+dtm_total_corpus <- removeSparseTerms(dtm_total_corpus,.80)
+category_label <- unlist(meta(rearrange_total_corpus,"category"))
+container <- create_container(dtm_total_corpus,category_label,trainSize = 1:600,
+testSize = 601:length(total_corpus1),virgin = FALSE)
+length(unlist(meta(rearrange_total_corpus,"category")))
+length(rearrange_total_corpus)
+create_container(dtm_total_corpus,category_label,trainSize = 1:601,
+testSize = 602:length(rearrange_total_corpus),virgin = FALSE)
+container <- create_container(dtm_total_corpus,category_label,trainSize = 1:601,
+testSize = 602:length(rearrange_total_corpus),virgin = FALSE)
+svm_model <- train_model(container, "SVM")
+svm_out <- classify_model(container, svm_model)
+svm_out
+View(svm_out)
+svm_out$SVM_LABEL=="spam"
+length(svm_out$SVM_LABEL=="spam")
+3898-600
+length(svm_out$SVM_LABEL=="spam")
+library(tidyr)
+Filters
+length(dplyr::filter(svm_out=="spam"))
+dplyr::filter(svm_out=="spam")
+dplyr::filter(svm_out,svm_out$SVM_LABEL=="spam")
+length(dplyr::filter(svm_out,svm_out$SVM_LABEL=="spam"))
+dplyr::filter(svm_out,svm_out$SVM_LABEL=="spam")
+nrow(dplyr::filter(svm_out,svm_out$SVM_LABEL=="spam"))
+nrow(dplyr::filter(svm_out,svm_out$SVM_LABEL=="ham"))
+2500-300
+knitr::opts_chunk$set(echo = TRUE)
+#install.packages("rio")
+library(stringr)
+library(tm)
+library(SnowballC)
+library(RWeka)
+library(RTextTools)
+library(topicmodels)
+library(rio)
+library(tidyr)
+#Ham
+filenames_ham <-  list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/")
+full_ham_corpus <- Corpus(VectorSource(""))
+for(i in 1:length(filenames_ham)) {
+temp_ham <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames_ham[i])) %>% str_c(collapse = "")
+temp_ham_corpus <- Corpus(VectorSource(temp_ham))
+full_ham_corpus <- c(full_ham_corpus,temp_ham_corpus)
+}
+#spam
+filenames_spam <-  list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20050311_spam_2.tar/20050311_spam_2/spam_2")
+full_spam_corpus <- Corpus(VectorSource(""))
+for(i in 1:length(filenames_spam)) {
+temp_spam <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20050311_spam_2.tar/20050311_spam_2/spam_2/",filenames_spam[i])) %>% str_c(collapse = "")
+temp_spam_corpus <- Corpus(VectorSource(temp_spam))
+full_spam_corpus <- c(full_spam_corpus,temp_spam_corpus)
+}
+#full spam - 1396, ham - 2500
+#full spam - 1396, ham - 2500
+#1396+2500+2
+total_corpus <- Corpus(VectorSource(""))
+total_corpus1 <- Corpus(VectorSource(""))
+total_corpus <- c(full_ham_corpus,full_spam_corpus)
+total_corpus1 <- total_corpus
+total_corpus1 <- tm_map(total_corpus1, removeNumbers)
+total_corpus1 <- tm_map(total_corpus1, removeWords,words=stopwords("en"))
+total_corpus1 <- tm_map(total_corpus1, str_replace_all, pattern = "[[:punct:]]", replacement = " ")
+total_corpus1 <- tm_map(total_corpus1,stripWhitespace)
+total_corpus1 <- tm_map(total_corpus1,removePunctuation)
+#needtolook - Need to remove more symbols
+#f <- content_transformer(function(x,pattern) gsub(pattern,"",x))
+#total_corpus1 <- tm_map(total_corpus1,f,"!\"#$\%&'*+,./)(:;<=>?@\[\\^`{|}~")
+total_corpus1 <- tm_map(total_corpus1, tolower)
+#needtolook - Even spacing
+#replacespaces <- content_transformer(function(x) str_tr)
+#total_corpus1 <- tm_map(total_corpus1, replacespaces)
+#test <- total_corpus1[[2]]$content
+#str_trim(test)
+total_corpus1 <- tm_map(total_corpus1, stemDocument)
+total_corpus1 <- tm_map(total_corpus1, PlainTextDocument)
+#tm_filter(total_corpus1,function(x) length(x) >0 )
+#length(total_corpus1[[4]]$content)
+#total_corpus1[[4]]$content$chars
+for(i in 1:300){
+meta(total_corpus1[[i]], "category") <- "ham"
+}
+for(i in 2502:2801){
+meta(total_corpus1[[i]], "category") <- "spam"
+}
+rearrange_total_corpus <- c(total_corpus1[c(1:300)],total_corpus1[c(2502:2801)],total_corpus1[c(301:2501)],
+total_corpus1[c(2802:length(total_corpus1))])
+dtm_total_corpus <- DocumentTermMatrix(rearrange_total_corpus)
+dtm_total_corpus <- removeSparseTerms(dtm_total_corpus,.80)
+category_label <- length(unlist(meta(rearrange_total_corpus,"category")))
+container <- create_container(dtm_total_corpus,category_label,trainSize = 1:601,
+testSize = 602:length(rearrange_total_corpus),virgin = FALSE)
+rearrange_total_corpus
+meta(rearrange_total_corpus[c(1:600)],"category")
+container <- create_container(dtm_total_corpus,category_label,trainSize = 1:601,testSize = 602:length(rearrange_total_corpus),virgin = FALSE)
+distinct(meta(rearrange_total_corpus[c(1:600)],"category"))
+unique(meta(rearrange_total_corpus[c(1:600)],"category"))
+nrow(meta(rearrange_total_corpus[c(1:600)],"category"))
+nrows(meta(rearrange_total_corpus[c(1:600)],"category"))
+nrow(meta(rearrange_total_corpus[c(1:600)],"category"))
+container <- create_container(dtm_total_corpus,category_label,trainSize = 1:600,testSize = 601:length(rearrange_total_corpus),virgin = FALSE)
+meta(rearrange_total_corpus[c(1:600)],"category")
+unique(meta(rearrange_total_corpus[c(1:600)],"category"))
+length(unlist(meta(rearrange_total_corpus,"category")))
+category_label <- unlist(meta(rearrange_total_corpus,"category"))
+container <- create_container(dtm_total_corpus,category_label,trainSize = 1:length(unlist(meta(rearrange_total_corpus,"category"))),testSize = length(unlist(meta(rearrange_total_corpus,"category")))+1:length(rearrange_total_corpus),virgin = FALSE)
+length(unlist(meta(rearrange_total_corpus,"category")))
+length(unlist(meta(rearrange_total_corpus,"category")))+1
+length(rearrange_total_corpus)
+create_container(dtm_total_corpus,category_label,trainSize = 1:length(unlist(meta(rearrange_total_corpus,"category"))),testSize = length(unlist(meta(rearrange_total_corpus,"category")))+1:length(rearrange_total_corpus),virgin = FALSE)
+create_container(dtm_total_corpus,category_label,trainSize = 1:600,testSize = 601:length(rearrange_total_corpus),virgin = FALSE)
+create_container(dtm_total_corpus,category_label,trainSize = 1:length(unlist(meta(rearrange_total_corpus,"category"))),testSize = 601:length(rearrange_total_corpus),virgin = FALSE)
+create_container(dtm_total_corpus,category_label,trainSize = 1:length(unlist(meta(rearrange_total_corpus,"category"))),testSize = (length(unlist(meta(rearrange_total_corpus,"category"))) +1) :length(rearrange_total_corpus),virgin = FALSE)
+container <- create_container(dtm_total_corpus,category_label,trainSize = 1:length(unlist(meta(rearrange_total_corpus,"category"))),testSize = (length(unlist(meta(rearrange_total_corpus,"category"))) +1) :length(rearrange_total_corpus),virgin = FALSE)
+svm_model <- train_model(container, "SVM")
+svm_out <- classify_model(container, svm_model)
+svm_out
+nrow(dplyr::filter(svm_out,svm_out$SVM_LABEL=="ham"))
+3898-600
+2500-300
+summary(svm_out)
+svm_out
+knitr::opts_chunk$set(echo = TRUE)
+#install.packages("rio")
+library(stringr)
+library(tm)
+library(SnowballC)
+library(RWeka)
+library(RTextTools)
+library(topicmodels)
+library(rio)
+library(tidyr)
+#Ham
+filenames_ham <-  list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/")
+full_ham_corpus <- Corpus(VectorSource(""))
+for(i in 1:length(filenames_ham)) {
+temp_ham <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20030228_easy_ham.tar/20030228_easy_ham/easy_ham/",filenames_ham[i])) %>% str_c(collapse = "")
+temp_ham_corpus <- Corpus(VectorSource(temp_ham))
+full_ham_corpus <- c(full_ham_corpus,temp_ham_corpus)
+}
+#spam
+filenames_spam <-  list.files("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20050311_spam_2.tar/20050311_spam_2/spam_2")
+full_spam_corpus <- Corpus(VectorSource(""))
+for(i in 1:length(filenames_spam)) {
+temp_spam <- readLines(str_c("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Data/20050311_spam_2.tar/20050311_spam_2/spam_2/",filenames_spam[i])) %>% str_c(collapse = "")
+temp_spam_corpus <- Corpus(VectorSource(temp_spam))
+full_spam_corpus <- c(full_spam_corpus,temp_spam_corpus)
+}
+#full spam - 1396, ham - 2500
+#full spam - 1396, ham - 2500
+#1396+2500+2
+total_corpus <- Corpus(VectorSource(""))
+total_corpus1 <- Corpus(VectorSource(""))
+total_corpus <- c(full_ham_corpus,full_spam_corpus)
+total_corpus1 <- total_corpus
+total_corpus1 <- tm_map(total_corpus1, removeNumbers)
+total_corpus1 <- tm_map(total_corpus1, removeWords,words=stopwords("en"))
+total_corpus1 <- tm_map(total_corpus1, str_replace_all, pattern = "[[:punct:]]", replacement = " ")
+total_corpus1 <- tm_map(total_corpus1,stripWhitespace)
+total_corpus1 <- tm_map(total_corpus1,removePunctuation)
+#needtolook - Need to remove more symbols
+#f <- content_transformer(function(x,pattern) gsub(pattern,"",x))
+#total_corpus1 <- tm_map(total_corpus1,f,"!\"#$\%&'*+,./)(:;<=>?@\[\\^`{|}~")
+total_corpus1 <- tm_map(total_corpus1, tolower)
+#needtolook - Even spacing
+#replacespaces <- content_transformer(function(x) str_tr)
+#total_corpus1 <- tm_map(total_corpus1, replacespaces)
+#test <- total_corpus1[[2]]$content
+#str_trim(test)
+total_corpus1 <- tm_map(total_corpus1, stemDocument)
+total_corpus1 <- tm_map(total_corpus1, PlainTextDocument)
+#tm_filter(total_corpus1,function(x) length(x) >0 )
+#length(total_corpus1[[4]]$content)
+#total_corpus1[[4]]$content$chars
+for(i in 1:300){
+meta(total_corpus1[[i]], "category") <- "ham"
+}
+for(i in 2502:2801){
+meta(total_corpus1[[i]], "category") <- "spam"
+}
+rearrange_total_corpus <- c(total_corpus1[c(1:300)],total_corpus1[c(2502:2801)],total_corpus1[c(301:2501)],
+total_corpus1[c(2802:length(total_corpus1))])
+dtm_total_corpus <- DocumentTermMatrix(rearrange_total_corpus)
+dtm_total_corpus <- removeSparseTerms(dtm_total_corpus,.80)
+category_label <- unlist(meta(rearrange_total_corpus,"category"))
+container <- create_container(dtm_total_corpus,category_label,trainSize = 1:length(unlist(meta(rearrange_total_corpus,"category"))),testSize = (length(unlist(meta(rearrange_total_corpus,"category"))) +1) :length(rearrange_total_corpus),virgin = FALSE)
+svm_model <- train_model(container, "SVM")
+svm_out <- classify_model(container, svm_model)
+svm_out
+summary(svm_out)
+#nrow(dplyr::filter(svm_out,svm_out$SVM_LABEL=="ham"))
+total_corpus1[lapply(total_corpus1,length)>0]
+total_corpus1
+total_corpus1[lapply(total_corpus1,length)>1]
+total_corpus1[[1]]$content
+length(total_corpus1[[1]]$content)
+length(total_corpus1[[2]]$content)
+length(total_corpus1[[3]]$content)
+total_corpus1[[3]]$content
+nrow(total_corpus1[[3]]$content)
+datatable(svm_out)
+library(dt)
+install.packages("dt")
+library(DT)
+datatable(svm_out)

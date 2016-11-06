@@ -1,0 +1,63 @@
+---
+title: "SVM Tutorial"
+author: "Shyam BV"
+date: "November 5, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(RCurl)
+library(XML)
+library(stringr)
+library(tm)
+library(SnowballC)
+library(RWeka)
+library(RTextTools)
+library(topicmodels)
+library(httr)
+
+#install.packages("RTextTools")
+
+```
+
+```{r inputdata}
+
+data <- read.csv("C:/Users/paperspace/Google Drive/CUNY/Courses/CUNY-repository/607/Week 10 - Text mining/Practice/sunnyData.csv", sep=",", header = TRUE)
+
+
+test <- Corpus(VectorSource(data))
+
+test[[3]]$content
+
+test_dtm <- TermDocumentMatrix(test)
+
+
+DocumentTermMatrix(test)
+
+
+
+dtMatrix <- create_matrix(data["Text"])
+
+container <- create_container(matrix = dtMatrix,labels = data$IsSunny,trainSize = 1:11,virgin = FALSE)
+
+model <- train_model(container,"SVM",kernel = "linear",cost=1)
+
+predictionData <- list("sunny sunny sunny rainy rainy", "rainy sunny rainy rainy", "hello", "", "this is another rainy world")
+
+
+predMatrix <- create_matrix(predictionData, originalMatrix = dtMatrix)
+
+colnames(predMatrix)
+
+
+# create the corresponding container
+predSize = length(predictionData)
+predictionContainer <- create_container(predMatrix, labels=rep(0,predSize), testSize=c(1:2,3:5), virgin=FALSE)
+
+results <- classify_model(predictionContainer, model)
+results
+
+
+```
+
