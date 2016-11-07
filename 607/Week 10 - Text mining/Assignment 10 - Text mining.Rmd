@@ -5,11 +5,13 @@ date: "November 3, 2016"
 output: html_document
 ---
 
+
+Corpus Link:  https://spamassassin.apache.org/publiccorpus/
+
+Corpus consists of Spam and ham emails. These emails are analyzed with a sample size of 300 emails. Prediction is made on the future emails.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
-#install.packages("dt")
-
 
 library(stringr)
 library(tm)
@@ -22,16 +24,8 @@ library(tidyr)
 library(DT)
 ```
 
-#http://insights.dice.com/2016/11/01/h1b-reform-companies/?CMPID=EM_RE_UP_JS_AD_DA_CP_&utm_source=Responsys&utm_medium=Email&utm_content=&utm_campaign=Advisory_DiceAdvisor
 
-
-#ham
-C:\Users\paperspace\Google Drive\CUNY\Courses\CUNY-repository\607\Week 10 - Text mining\Data\20030228_easy_ham.tar\20030228_easy_ham\easy_ham
-
-#Spam
-C:\Users\paperspace\Google Drive\CUNY\Courses\CUNY-repository\607\Week 10 - Text mining\Data\20050311_spam_2.tar\20050311_spam_2\spam_2
-
-#Data file change + extension
+###Loading all the necessary files to corpus
 
 ```{r dataextension,eval=TRUE}
 
@@ -73,14 +67,12 @@ full_spam_corpus <- c(full_spam_corpus,temp_spam_corpus)
 
 
 
-#Sample data setup
+###Sample data setup 
+
+Combine all the datasets which has spam and ham emails
+
 
 ```{r datasetup,eval=TRUE}
-
-#full spam - 1396, ham - 2500
-
-#full spam - 1396, ham - 2500
-#1396+2500+2
 
 total_corpus <- Corpus(VectorSource(""))
 total_corpus1 <- Corpus(VectorSource(""))
@@ -95,10 +87,10 @@ total_corpus1 <- total_corpus
 
 
 
-#copy the data to Corpus
+###Create transformations
 
+Perform transformations on the core corpus
 
-#Create transformations
 
 ```{r transformations, eval=TRUE}
 
@@ -115,43 +107,16 @@ total_corpus1 <- tm_map(total_corpus1,stripWhitespace)
 
 total_corpus1 <- tm_map(total_corpus1,removePunctuation)
 
-#needtolook - Need to remove more symbols
-
-#f <- content_transformer(function(x,pattern) gsub(pattern,"",x))
-#total_corpus1 <- tm_map(total_corpus1,f,"!\"#$\%&'*+,./)(:;<=>?@\[\\^`{|}~")
 
 
 total_corpus1 <- tm_map(total_corpus1, tolower)
 
-
-#needtolook - Even spacing
-#replacespaces <- content_transformer(function(x) str_tr) 
-
-#total_corpus1 <- tm_map(total_corpus1, replacespaces)
-
-#test <- total_corpus1[[2]]$content
-
-#str_trim(test)
 
 
 total_corpus1 <- tm_map(total_corpus1, stemDocument)
 
 total_corpus1 <- tm_map(total_corpus1, PlainTextDocument)
 
-# needtolook - filter unwanted data
-
-total_corpus1[lapply(total_corpus1,length)>1]
-
-
-#nrow(total_corpus1[[3]]$content)
-
-
-
-#tm_filter(total_corpus1,function(x) length(x) >0 )
-
-#length(total_corpus1[[4]]$content)
-
-#total_corpus1[[4]]$content$chars
 
 
 for(i in 1:300){
@@ -163,14 +128,19 @@ for(i in 2502:2801){
    meta(total_corpus1[[i]], "category") <- "spam"
 }
 
-rearrange_total_corpus <- c(total_corpus1[c(1:300)],total_corpus1[c(2502:2801)],total_corpus1[c(301:2501)],
+rearrange_total_corpus <- c(total_corpus1[c(2:300)],total_corpus1[c(2503:2801)],total_corpus1[c(301:2501)],
                             total_corpus1[c(2802:length(total_corpus1))])
+
 
 
 ```
 
 
-#Create term document matrix
+###Create term document matrix
+
+
+Create a document term matrix and remove the sparse terms at 80%
+
 
 ```{r dtmofdata,eval=TRUE}
 
@@ -182,8 +152,9 @@ dtm_total_corpus <- removeSparseTerms(dtm_total_corpus,.80)
 
 
 
-#Create container
+###Create container
 
+Gather all the documents in a container
 
 ```{r container,eval=TRUE}
 category_label <- unlist(meta(rearrange_total_corpus,"category"))
@@ -193,8 +164,10 @@ container <- create_container(dtm_total_corpus,category_label,trainSize = 1:leng
 ```
 
 
-#create an supervised model
+###create an supervised model
 
+
+Train the SVM model and show the output
 
 ```{r supervisedprogram}
 
@@ -205,9 +178,7 @@ datatable(svm_out)
 
 summary(svm_out)
 
-#nrow(dplyr::filter(svm_out,svm_out$SVM_LABEL=="ham"))
-
 
 ```
 
-Conclusion: The created model predicts the future emails.
+Conclusion: The created model predicts the future emails.  It correctly predicts around 90% of emails. We can provide more training corpus to get the perfect model. 
