@@ -1,0 +1,71 @@
+---
+title: "Recommendation Systems Discussions"
+author: "Shyam BV"
+date: "November 8, 2016"
+output: html_document
+---
+
+
+###Question:
+
+Building the Next New York Times Recommendation Engine - The New York Times.pdf Amazon-Recommendations Item to Item Collaborative Filtering .pdf 
+
+Your task is to analyze an existing recommender system that you find interesting.  You should:
+
+1. Perform a Scenario Design analysis as described below.  Consider whether it makes sense for your selected recommender system to perform scenario design twice, once for the organization (e.g. Amazon.com) and once for the organization's customers.
+
+2. Attempt to reverse engineer what you can about the site, from the site interface and any available information that you can find on the Internet or elsewhere.
+
+3. Include specific recommendations about how to improve the site's recommendation capabilities going forward. 
+
+4. Create your report using an R Markdown file, and create a discussion thread with a link to the GitHub repo where your Markdown file notebook resides.  You are not expected to need to write code for this discussion assignment.
+
+Here are two examples of the kinds of papers that might be helpful backgrounders for your research in #2 above (if you had chosen amazon.com or nytimes.com as your web site):
+
+- Greg Linden, Brent Smith, and Jeremy York, "Amazon.com Recommendations:  Item-to-Item Collaborative Filtering,"  IEEE Internet Computing, 2003(!).  https://datajobs.com/data-science-repo/Recommender-Systems-[Amazon].pdf
+
+- Alex Spangher, "Building the Next New York Times Recommendation Engine", Aug 11, 2015.  http://open.blogs.nytimes.com/2015/08/11/building-the-next-new-york-times-recommendation-engine/
+
+*********************
+
+###Discussion:
+
+**Recommendation System: Youtube.com**
+
+Millions of Youtube videos are uploaded daily. Youtube figures out the new content and provides proper recommendation on the videos which needs to be watched.
+
+#### 1. Scenario Design
+
+a. What are the target users?
+
+Many users across the world are using youtube. It provides personalized recommendation for each individual users.
+
+
+b. What are their key goals?
+
+Key goal is to provide personalized recommendation according to users likes. By doing this they can make the user to watch more videos and show ads for that specfic user. 
+
+
+c. How can I help them accomplish their goals?
+
+We can accomplish the user goals by providing correct recommendation vides to watch. So the user will watch more videos and spend more time on youtube. 
+
+*********************
+
+
+####2. Attempt to reverse engineer what you can about the site, from the site interface and any available information that you can find on the Internet or elsewhere.
+
+**Youtube recommendation algorithm:** http://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45530.pdf
+
+Google has released a detailed documentation on the algorithm which is used in youtube. It provides recommendations based on the search keywords and historical content. The whole algorithm is build on top of Google brain. 
+
+
+*********************
+
+####3. Include specific recommendations about how to improve the site's recommendation capabilities going forward. 
+
+The algorithm which is currently used is great. Google is already tracking all the user searches and even it provides appropriate ads. Below are some improvements which I can think.
+
+- Although it provides proper recommendations, it does not provide proper recommendations if the user is new to youtube or if he has not signed into google account. Algorithm should take clues from the user google searches or from cache and provide video recommendations.
+
+- It still uses the tags on videos. If the tags are wrong, then the recommendations might go wrong. So automatic tags should get created by scanning the complete video.

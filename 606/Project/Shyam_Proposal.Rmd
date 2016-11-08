@@ -1,17 +1,21 @@
 ---
-title: "Project Proposal"
+title: "Kickstarter Projects"
 author: "Shyam BV"
-date: "October 15, 2016"
-output: pdf_document
+date: "November 7, 2016"
+output: html_document
 ---
 
-```{r include=FALSE, cache=FALSE}
+__--------------------------------------------------------------------------------------------------------------------------__
+
+
+```{r test,include=FALSE, cache=FALSE}
 # DO NOT REMOVE
 # THIS IS FOR SETTING SOME PLOTTING PARAMETERS SO THAT YOUR PLOTS DON'T TAKE UP TOO MUCH SPACE
 # IF YOU WOULD LIKE TO CHANGE THESE, SEE HELP FILES ON THE par() FUNCTION
 # OR ASK FOR HELP
 library(dplyr)
 library(knitr)
+library(stringr)
 ## set global chunk options
 opts_chunk$set(fig.path='figure/manual-', cache.path='cache/manual-', fig.align='center', fig.show='hold', par=TRUE)
 ## tune details of base graphics (http://yihui.name/knitr/hooks)
@@ -20,12 +24,39 @@ if (before && options$fig.show!='none') par(mar=c(4,4,.2,.1),cex.lab=.95,cex.axi
 })
 ```
 
+
+
 ```{r loaddata,eval=TRUE}
 # load data of 2016 Q1
 
-loandata <- read.csv ("./data/LoanStats_2016Q1.csv",header = TRUE,skip = 1, sep = ",",stringsAsFactors = FALSE,skipNul = TRUE) %>% sample_n(1000)
+set.seed(7340)
+
+#Getting the sample size of 1000 from loans stats 2016 Q1 dataset 
+
+loans_sample <- read.csv ("C:/Users/Shyam/Google Drive/CUNY/Assignment_Repositories/606 - Project/LoanStats_2016Q1.csv",header = TRUE,skip = 1, sep = ",",stringsAsFactors = FALSE,skipNul = TRUE) %>% sample_n(1000)
 
 
+# 1. Select the required columns
+# 2. Convert the column term to numeric
+# 3. Remove unwanted columns and change the NA data(if any)
+# 4. Calculate the total payment by each customer adding the interest rate
+
+loans_summary <-  
+loans_sample %>% select(c(id,loan_amnt,funded_amnt,term,int_rate,emp_length,home_ownership,annual_inc,verification_status,issue_d,loan_status,purpose,total_pymnt_inv)) %>% 
+  mutate(term1=as.numeric(str_trim(str_replace(term,"months","")))) %>% 
+      select(-term) %>% 
+        mutate(emp_length=str_replace(emp_length,c("n/a"),"NA")) %>% 
+          mutate(total_pymnt=(funded_amnt+(funded_amnt*(as.numeric(str_replace(as.character(int_rate),"%","")))*(term1/12))/100))
+
+
+#Changing required columns as factors and numeric
+
+loans_summary$home_ownership <- as.factor(loans_summary$home_ownership)
+
+loans_summary$verification_status <- as.factor(loans_summary$verification_status)
+
+loans_summary$purpose <- as.factor(loans_summary$purpose)
+loans_summary$loan_status <- as.factor(loans_summary$loan_status)
 
 ```
 
@@ -35,6 +66,8 @@ loandata <- read.csv ("./data/LoanStats_2016Q1.csv",header = TRUE,skip = 1, sep 
 **You should phrase your research question in a way that matches up with the scope of inference your dataset allows for.**
 
 Below are some research questions from Sample data
+
+1. Is loan 
 
 1. What is the mean funded loan amount different purpose and comparision?
 2. Which state has highest loan request? 
@@ -70,6 +103,7 @@ This is an observational study.
 
 Link: https://www.lendingclub.com/info/download-data.action
 
+__--------------------------------------------------------------------------------------------------------------------------__
 
 ### Response 
 
@@ -83,6 +117,7 @@ In all conditionals the response variable is provided loan amount to a person. I
 **What is the explanatory variable, and what type is it (numerical/categorical)?**
 
 Explanatory variable are state, purpose, loan quantity. 
+__--------------------------------------------------------------------------------------------------------------------------__
 
 
 ### Relevant summary statistics 

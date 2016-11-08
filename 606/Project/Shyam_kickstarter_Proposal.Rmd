@@ -1,0 +1,53 @@
+---
+title: "Kickstarter Projects"
+author: "Shyam BV"
+date: "November 7, 2016"
+output: html_document
+---
+
+
+```{r include=FALSE, cache=FALSE}
+# DO NOT REMOVE
+# THIS IS FOR SETTING SOME PLOTTING PARAMETERS SO THAT YOUR PLOTS DON'T TAKE UP TOO MUCH SPACE
+# IF YOU WOULD LIKE TO CHANGE THESE, SEE HELP FILES ON THE par() FUNCTION
+# OR ASK FOR HELP
+library(dplyr)
+library(knitr)
+## set global chunk options
+opts_chunk$set(fig.path='figure/manual-', cache.path='cache/manual-', fig.align='center', fig.show='hold', par=TRUE)
+## tune details of base graphics (http://yihui.name/knitr/hooks)
+knit_hooks$set(par=function(before, options, envir){
+if (before && options$fig.show!='none') par(mar=c(4,4,.2,.1),cex.lab=.95,cex.axis=.9,mgp=c(2,.7,0),tcl=-.3)
+})
+```
+
+
+
+```{r loaddata,eval=TRUE}
+# load data of 2016 Q1
+
+kickstarter <- read.csv ("./data/kickstarter_projects.csv",header = TRUE, sep = ",",stringsAsFactors = FALSE,na.strings = c("Null","NULL","n/a","na")) %>% select ( id,	kickstarter_id,	name,	blurb,main_category,	sub_category,	launched_at,	deadline,	state,	goal,	pledged,	percentage_funded,	backers_count,	became_overachiever_at,		underdog_chosen_by_user_id,	photo,	web_url,	currency)
+
+
+summary(kickstarter)
+```
+
+
+### Research question 
+
+**You should phrase your research question in a way that matches up with the scope of inference your dataset allows for.**
+
+1. Are technology focussed companies more likely to fail?
+2. What is the projected funding for all the projects in 2016?
+3. Is success rate is directly related to the goal amount?
+4. Will the goal be achieved if the project has more days?
+5. Confidence interval of the goal amount
+
+
+### Cases 
+
+**What are the cases, and how many are there?**
+
+
+
+https://drive.google.com/file/d/0B1fUxQl4wYFrM0M4YUxqSVlIVVk/view
