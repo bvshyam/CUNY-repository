@@ -1,6 +1,6 @@
 ---
-title: DATA 606 Data Project Proposal
-author: Jason Bryer, Ph.D.
+title: "DATA 606 Data Project Proposal"
+author: "Jason Bryer, Ph.D."
 ---
 
 ### Data Preparation

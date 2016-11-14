@@ -1,11 +1,10 @@
 ---
-title: "Kickstarter Projects"
+title: "Lending Loans"
 author: "Shyam BV"
 date: "November 7, 2016"
 output: html_document
 ---
 
-__--------------------------------------------------------------------------------------------------------------------------__
 
 
 ```{r test,include=FALSE, cache=FALSE}
@@ -16,12 +15,45 @@ __------------------------------------------------------------------------------
 library(dplyr)
 library(knitr)
 library(stringr)
+library(ggplot2)
+library(plotly)
+
+load("data/nc.RData")
+
 ## set global chunk options
 opts_chunk$set(fig.path='figure/manual-', cache.path='cache/manual-', fig.align='center', fig.show='hold', par=TRUE)
 ## tune details of base graphics (http://yihui.name/knitr/hooks)
 knit_hooks$set(par=function(before, options, envir){
 if (before && options$fig.show!='none') par(mar=c(4,4,.2,.1),cex.lab=.95,cex.axis=.9,mgp=c(2,.7,0),tcl=-.3)
 })
+
+normalPlot <- function(mean=0, sd=1, bounds=c(-1,1), tails=FALSE) {
+	x <- seq(-4,4,length=100)*sd + mean
+	hx <- dnorm(x,mean,sd)
+
+	plot(x, hx, type="n", xlab="x-Axis", ylab="",
+		 main="Normal Distribution", axes=FALSE)
+	lines(x, hx)
+
+	if(tails) {
+		i.low <- x <= bounds[1]
+		i.high <- x >= bounds[2]
+		polygon(c(x[i.low],bounds[1]), c(hx[i.low], 0), col="red")
+		polygon(c(bounds[2],x[i.high]), c(0,hx[i.high]), col="red")
+	} else {
+		i <- x >= bounds[1] & x <= bounds[2]
+		polygon(c(bounds[1],x[i],bounds[2]), c(0,hx[i],0), col="red")
+		area <- pnorm(bounds[2], mean, sd) - pnorm(bounds[1], mean, sd)
+		if(diff(bounds) > 0) {
+			result <- paste("P(",bounds[1],"< x <",bounds[2],") =",
+							signif(area, digits=3))
+			mtext(result,3)
+		}
+	}
+	axis(1)
+}
+
+
 ```
 
 
@@ -33,7 +65,10 @@ set.seed(7340)
 
 #Getting the sample size of 1000 from loans stats 2016 Q1 dataset 
 
-loans_sample <- read.csv ("C:/Users/Shyam/Google Drive/CUNY/Assignment_Repositories/606 - Project/LoanStats_2016Q1.csv",header = TRUE,skip = 1, sep = ",",stringsAsFactors = FALSE,skipNul = TRUE) %>% sample_n(1000)
+loans_sample <- read.csv ("C:/Users/Shyam/Google Drive/CUNY/Assignment_Repositories/606 - Project/LoanStats_securev1_2016Q1.csv",header = TRUE,skip = 1, sep = ",",stringsAsFactors = FALSE,skipNul = TRUE) %>% sample_n(1000)
+
+#loans_sample <- read.csv ("C:/Users/paperspace/Google Drive/CUNY/Assignment_Repositories/606 - Project/LoanStats_securev1_2016Q1.csv",header = TRUE,skip = 1, sep = ",",stringsAsFactors = FALSE,skipNul = TRUE) %>% sample_n(1000,replace = FALSE)
+
 
 
 # 1. Select the required columns
@@ -42,12 +77,18 @@ loans_sample <- read.csv ("C:/Users/Shyam/Google Drive/CUNY/Assignment_Repositor
 # 4. Calculate the total payment by each customer adding the interest rate
 
 loans_summary <-  
-loans_sample %>% select(c(id,loan_amnt,funded_amnt,term,int_rate,emp_length,home_ownership,annual_inc,verification_status,issue_d,loan_status,purpose,total_pymnt_inv)) %>% 
-  mutate(term1=as.numeric(str_trim(str_replace(term,"months","")))) %>% 
-      select(-term) %>% 
+loans_sample %>% select(c(id,loan_amnt,funded_amnt,term,int_rate,emp_length,home_ownership,annual_inc,verification_status,addr_state,fico_range_low,fico_range_high,issue_d,loan_status,purpose,total_pymnt_inv)) %>% 
+  mutate(fico_score=(fico_range_low+fico_range_high)/2) %>% 
+    mutate(term1=as.numeric(str_trim(str_replace(term,"months","")))) %>% 
+      select(-term,-fico_range_low,-fico_range_high) %>% 
         mutate(emp_length=str_replace(emp_length,c("n/a"),"NA")) %>% 
-          mutate(total_pymnt=(funded_amnt+(funded_amnt*(as.numeric(str_replace(as.character(int_rate),"%","")))*(term1/12))/100))
+          mutate(int_rate=(as.numeric(str_replace(as.character(int_rate),"%",""))))  %>%  mutate(total_pymnt=(funded_amnt+(funded_amnt*int_rate*(term1/12))/100))
 
+
+
+#Change interest rate to numeric
+
+loans_summary$int_rate <- as.numeric(loans_summary$int_rate)
 
 #Changing required columns as factors and numeric
 
@@ -58,6 +99,8 @@ loans_summary$verification_status <- as.factor(loans_summary$verification_status
 loans_summary$purpose <- as.factor(loans_summary$purpose)
 loans_summary$loan_status <- as.factor(loans_summary$loan_status)
 
+#As we are concentrated on home ownership, we are replacing OWN to 
+
 ```
 
 
@@ -67,27 +110,25 @@ loans_summary$loan_status <- as.factor(loans_summary$loan_status)
 
 Below are some research questions from Sample data
 
-1. Is loan 
-
-1. What is the mean funded loan amount different purpose and comparision?
-2. Which state has highest loan request? 
-3. What is the range or interval of Lending loan for one quarter?
-4. What will be the revenue for next month or quarter?
-5. How many loans requests will Lending loan get for next month?
+1. Is loan interest % predictive of credit score?
+2. Is loan funded amount are equal for different purpose of loan request?
+3. Does different states have equal interest rate?
+4. Does home ownership really impact FICO scores or just by chance?
+5. Number of loan requests which will be received in next month
 
 
 ### Cases 
 
 **What are the cases, and how many are there?**
 
-For 2016 Q1, there are around 133K observations. We might need some sample data from it.
+For 2016 Q1, there are around 133K observations. For modelling purposes, I have taken a sample of 1000 rows. 
 
 
 ### Data collection 
 
 **Describe the method of data collection.**
 
-Data is collected from Lending loan website (https://www.lendingclub.com/info/download-data.action).
+Data is collected from Lending loan website (https://www.lendingclub.com/info/download-data.action). 
 
 
 ### Type of study 
@@ -103,21 +144,28 @@ This is an observational study.
 
 Link: https://www.lendingclub.com/info/download-data.action
 
-__--------------------------------------------------------------------------------------------------------------------------__
+*******
 
 ### Response 
 
 **What is the response variable, and what type is it (numerical/categorical)?**
-
-In all conditionals the response variable is provided loan amount to a person. It is an numerical data.
 
 
 ### Explanatory 
 
 **What is the explanatory variable, and what type is it (numerical/categorical)?**
 
-Explanatory variable are state, purpose, loan quantity. 
-__--------------------------------------------------------------------------------------------------------------------------__
+
+Below table summarizes the question, response and explanatory variable. It also shows whether it is Numerical or Categorical.
+
+
+Question | Response Variable | Explanatory Variable
+-------------| -------------|-----------------
+1. Is loan interest rate % predictive of credit score? | Interest rate % (Numerical)  | Credit score (Numerical) 
+2. Is loan funded amount are equal for different purpose of loan request? | Funded amount (Numerical) | Different purpose (Categorical) 
+3. Does different states have equal interest rate? | Interest rate % (Numerical) | States (Categorical)
+4. Does home ownership really impact FICO scores or just by chance? | FICO scores (Numerical) | Home Ownership (Categorical)
+5. Number of loan requests which will be received in next month | Loan requests (Numerical) | Months (Categorical)
 
 
 ### Relevant summary statistics 
@@ -128,9 +176,114 @@ Sample size = 1000
 
 ```{r summarystatistic,eval=TRUE}
 
+summary(loans_summary)
 
-loandatamean <- group_by(loandata,purpose) %>% summarise(mean(funded_amnt))
+loandatamean <- group_by(loans_summary,purpose) %>% summarise(mean(funded_amnt))
 
-loandatasd <- group_by(loandata,purpose) %>% summarise(sd(funded_amnt))
+loandatasd <- group_by(loans_summary,purpose) %>% summarise(sd(funded_amnt))
+
+ggplot(loans_summary,aes(x=funded_amnt)) + geom_histogram()
+
 
 ```
+
+
+
+```{r charts,eval=TRUE}
+
+
+
+#Histogram of funded amount
+
+ggplot(loans_summary,aes(x=funded_amnt)) + geom_histogram()
+
+#Histogram of Interest rate %
+
+ggplot(loans_summary,aes(x=int_rate)) + geom_histogram()
+
+
+#fico score vs interest rate
+ggplotly(ggplot(loans_summary,aes(x=fico_score,y=int_rate)) + geom_point(aes(color=purpose),size=1,alpha=0.8) + geom_smooth(method = "lm"))
+
+
+#funded amount are equal for different purpose
+
+ggplot(loans_summary,aes(x=purpose,y=funded_amnt)) + geom_boxplot()
+
+
+#Interest rate vs funded amount
+
+ggplot(loans_summary,aes(x=int_rate,y=funded_amnt)) + geom_point(aes(color=term1)) 
+
+
+
+# State vs  Interest rate % 
+
+state_interestrate <- loans_summary %>% select(addr_state,int_rate) %>%  group_by(addr_state) %>% summarise(avg =mean(int_rate))
+
+a1 <- list(autotick = TRUE, title = "State")
+
+b1 <- list(title = "Interest rate %")
+
+plot_ly(x = ~state_interestrate$addr_state, y = ~state_interestrate$avg, type = "area") %>% layout(xaxis=a1,yaxis=b1,title="State vs Average interest rate")
+
+
+#Home ownership vs FICO scores
+
+ggplot(loans_summary,aes(x=fico_score)) + geom_histogram() + facet_grid(.~home_ownership)
+
+
+#Loan request vs month
+
+plot_ly(x = ~loans_summary$issue_d)
+
+#remove(loans_sample,loans_summary,loandatamean,loandatasd,a1,p2,p3,p4,p5,a1,b1,g,h)
+
+```
+
+
+Confidence interval of the funded amount
+
+```{r confidence,eval=TRUE}
+
+#Point estimate for the population funded amount
+
+p = mean(loans_summary$funded_amnt)
+n=1000
+
+se = (sd(loans_summary$funded_amnt))/sqrt(1000)
+
+# 95% confidence interval
+
+me = 1.96*se
+
+# Confidence interval of funded amount
+
+normalPlot(p,se,bounds=c(p-me,p+me))
+
+```
+
+
+Hypothesis test between the funded amount of RENT vs MORTGAGE
+
+```{r hypothesistest, eval=TRUE}
+
+loan_summary1 <- filter(loans_summary,home_ownership==c("RENT","MORTGAGE"))
+
+loan_summary1$home_ownership <- as.character(loan_summary1$home_ownership)
+
+
+#Hypothesys test
+inference(y=loan_summary1$funded_amnt,x=loan_summary1$home_ownership,est="mean",null=0,alternative="twosided",type="ht",method="theoretical")
+
+# As the p-value is low, we reject the hypothesys
+```
+
+```{r confidencetest1, eval=TRUE}
+
+
+#Confidence interval test
+inference(y=loan_summary1$funded_amnt,x=loan_summary1$home_ownership,est="mean",null=0,alternative="twosided",type="ci",conflevel=0.95,method="theoretical")
+
+```
+
