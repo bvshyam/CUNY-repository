@@ -1,0 +1,5 @@
+label,city,state,"create (a1:Airport {label: label, city: city, state: state})"
+DTW,Detroit,Michigan,"create (a1:Airport {label: 'DTW', city: 'Detroit', state: 'Michigan'})"
+ATL,Atlanta,Georgia,"create (a1:Airport {label: ATL, city: Atlanta, state: Georgia})"
+PIT,Pittsburgh,Pennsylvania,"create (a1:Airport {label: PIT, city: Pittsburgh, state: Pennsylvania})"
+BOS,Boston,Massachussetts,"create (a1:Airport {label: BOS, city: Boston, state: Massachussetts})"

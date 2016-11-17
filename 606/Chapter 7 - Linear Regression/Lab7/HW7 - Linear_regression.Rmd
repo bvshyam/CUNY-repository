@@ -2,7 +2,9 @@
 title: "HW - Linear Regression"
 author: "Shyam BV"
 date: "November 13, 2016"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -221,7 +223,7 @@ R can be calculated by taking sqrt of R-squared.
 
 Many college courses conclude by giving students the opportunity
 to evaluate the course and the instructor anonymously. However, the use of these student evaluations
-as an indicator of course quality and teaching e↵ectiveness is often criticized because these
+as an indicator of course quality and teaching effectiveness is often criticized because these
 measures may reflect the influence of non-teaching related characteristics, such as the physical appearance
 of the instructor. Researchers at University of Texas, Austin collected data on teaching
 evaluation score (higher score means better) and standardized beauty score (a score of 0 means
@@ -238,21 +240,25 @@ profbeauty <- read.csv("https://raw.githubusercontent.com/jbryer/DATA606Fall2016
 
 ```{r}
 
-mean()
+b1 <- (3.9983 - 4.010) / -0.0883 
+b1
 
 ```
 
 
 **(b) Do these data provide convincing evidence that the slope of the relationship between teaching evaluation and beauty is positive? Explain your reasoning.**
 
-```{r}
 
-```
+Given the p-value for the slope is (0.0000), this provides strong evidence that the slope is not 0 (Reject null hypothesis). 
 
 
 **(c) List the conditions required for linear regression and check if each one is satisfied for this model based on the following diagnostic plots.**
 
-```{r}
 
-```
+Linearity: There is a weak trend in the scatterplot. But still the linearity condition can be accepted.
 
+Nearly normal residuals: The histogram plot shows that the residuals are nearly normal.
+
+Constant variability: The scatterplot of the residuals does appear to have constant variability.
+
+Independent observations: Assuming independence is there in the dataset. Each professor is independent of another.

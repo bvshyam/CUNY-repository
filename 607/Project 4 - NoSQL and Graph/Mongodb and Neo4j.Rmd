@@ -1,0 +1,287 @@
+---
+title: "Project 4 - NoSQL and Neo4j"
+author: "Shyam BV"
+date: "November 15, 2016"
+output:
+  html_document:
+    fontsize: 17pt
+    highlight: pygments
+    theme: cerulean
+    toc: yes
+---
+
+********
+##Project 4: 
+
+**You should take information from a relational database and migrate it to a NoSQL database of your own choosing.**
+
+**For the relational database, you might use the flights database, the tb database, the "data skills" database your team created for Project 3, or another database of your own choosing or creation.**
+
+**For the NoSQL database, you may use MongoDB, Neo4j (which we introduce in Week 12), or another NoSQL database of your choosing.**
+
+**Your migration process needs to be reproducible.  R code is encouraged, but not required.  You should also briefly describe the advantages and disadvantages of storing the data in a relational database vs. your NoSQL database.**
+
+********
+
+## Solution summary
+
+For Project 4, we will use the data set from the package `nycflights13`. This package has different flight information. It is also has airports, weather, airlines, plane type information.
+
+```{r setup, ,results='hide'}
+knitr::opts_chunk$set(echo = TRUE)
+
+library("RNeo4j")
+library("dplyr")
+library("tidyr")
+library(mongolite)
+library(RMySQL)
+library(nycflights13)
+library(DT)
+```
+
+
+### Load the data into MySQL server:
+
+Here were have created a database in local mysql server and connecting to that database.
+
+```{r mysqlserver,eval=TRUE}
+
+conn <- dbConnect(MySQL(),
+                 user = 'root',
+                 password = 'admin',
+                 host = 'localhost',
+                 dbname = 'nycflights13')
+
+```
+
+
+Once we established the connection, we are loading the records from `nycflights13` dataset. We are creating all the tables and loading the necessary data.
+
+
+```{r dataload,eval=TRUE}
+
+if(!dbExistsTable(conn,"airlines")) {
+
+dbWriteTable(conn, value = airlines, name = "airlines", row.names=F, append = TRUE ) 
+}
+
+if(!dbExistsTable(conn,"airports")) {
+
+dbWriteTable(conn, value = airports, name = "airports", row.names=F, append = TRUE ) 
+} 
+if(!dbExistsTable(conn,"flights")) {
+
+dbWriteTable(conn, value = flights, name = "flights", row.names=F, append = TRUE ) 
+}
+if(!dbExistsTable(conn,"planes")) {
+
+dbWriteTable(conn, value = planes, name = "planes", row.names=F, append = TRUE ) 
+}
+
+if(!dbExistsTable(conn,"weather")) {
+
+dbWriteTable(conn, value = weather, name = "weather", row.names=F, append = TRUE ) 
+}
+
+
+dbDisconnect(conn)
+```
+
+###Information Observed in MYSQL:
+
+1. Setting up the database is ease and it can be scalled quickly.
+2. Database actions are very fast using this package. 
+3. Data maupulations is quick. No much time lag for this dataset.
+4. Lot of duplications in the data when we combine the different tables.
+5. Database queries are traditional SQL. It is quick to learn and easy to work on it.
+
+********
+
+
+### Joins tables in R
+
+Once we load the necessary tables, we will join the different dataframes and create a aggregated dataset with all the rows.
+
+```{r rjoins,eval=TRUE}
+
+
+flightfact_mysql <- inner_join(flights,airlines,by="carrier")
+
+flightfact_mysql <- inner_join(flightfact_mysql,airports,by=c("origin"="faa"))
+
+flightfact_mysql <- left_join(flightfact_mysql,planes,by="tailnum")
+
+flightfact_mysql  <- left_join(flightfact_mysql,weather,by.flightfact_mysql=c("year","month","day","hour","origin"),by.weather=c("year","month","day","hour","origin"))
+
+flightfact_mysql <- dplyr::rename(flightfact_mysql,year=`year.x`,airlines =`name.x`,airport=`name.y`,flight_year=`year.y`)
+
+head(flightfact_mysql,2)
+
+```
+
+Now the above dataset contains all the aggegated information from different dataframes. This can be used to load in other databases.
+
+********
+
+###Mongodb
+
+Mongodb is one of the Nosql database. It is very famous for its fluid data structure. All the formats are loaded in JSON format. Here the databases are called as collections.
+
+Here I have installed the local mongodb instance and created a database in it.
+
+
+```{r mongodb,results='hide'}
+
+m <- mongo(collection="flightfact_mongodb",db="nycflights13")
+
+m$insert(flightfact_mysql)
+
+```
+
+We are inserting the data into mongodb database from the aggegated results which is manipulated in R. 
+
+
+###Finding data
+
+In mongodb, the search query is replaced by JSON format of query. The syntax is easy to write and human readable. Below queries finds the flights between origin `EWR` and destination `LGA`
+
+ 
+```{r mongodbfind,results='hide'}
+
+m$find('{"origin":"EWR","dest":"LGA"}')
+
+m$find('{"airlines":"United Air Lines Inc."}')
+
+```
+
+###Information Observed in Mongodb:
+
+1. Setting the database needs little bit of knowledge and need to know how to start the server.
+2. There is no GUI for mongodb. Everything is performed in command prompt. Although there are some from 3rd party, it is not combined with database.
+3. When R interacts with mongodb, there is a lag between the operations. 
+4. Writing to database takes time. It is not quick as mysql. 
+5. Fetching the results are quick.
+6. There are no joins. So to perform joins, we need to do lot of operations.
+
+********
+
+###Neo4j
+
+Neo4j is an graphical database. We can link the data of different tables. All the data points are called as nodes. The nodes can have label. These labels will have properties of that specific node. The relationship also been tagged as labels. It also can have properties.
+
+I have installed the local instance of NEO4J and created the database. All the interactions are performed via CYPER queries.
+
+
+```{r neo4j, eval=TRUE}
+#setting up the database instance
+
+neo4j = startGraph("http://localhost:7474/db/data/","neo4j","admin")
+
+
+#Delete the previous relationships and nodes
+
+cypher(neo4j,"MATCH ()-[r:Departs]-() delete r")
+cypher(neo4j,"MATCH ()-[r:Arrival]-() delete r")
+cypher(neo4j,"match(n) delete n")
+
+```
+
+
+Here we need to create nodes for each dimension. For example, all the flights and locations are nodes. The relationships define the relation between nodes. In this dataset `Arrival` and `Departure` are called as relationships.
+
+
+```{r neo4jmanupulations, eval=TRUE}
+
+#cypher(neo4j,"match(n:airline) delete n")
+
+#for airlines
+
+for(i in 1:nrow(airlines)) {
+  
+  cypher(neo4j,paste0("create(carrier:airline{code:'",airlines[i,1],"',name:'",airlines[i,2],"'})",collapse = ""))
+  
+}
+
+
+#For origin
+
+#cypher(neo4j,"match(n:origin) delete n")
+
+origin_codes <- unique(flightfact_mysql$origin) 
+
+for(i in 1:length(origin_codes)) {
+  
+  cypher(neo4j,paste0("create(location:origin{origin_code:'",origin_codes[i],"'})",collapse = ""))
+  
+}
+
+
+#For dest
+
+#cypher(neo4j,"match(n:dest) delete n")
+
+dest_codes <- unique(flightfact_mysql$dest)
+
+for(i in 1:length(dest_codes)) {
+  
+  cypher(neo4j,paste0("create(location:dest{dest_code:'",dest_codes[i],"'})",collapse = ""))
+  
+}
+
+
+#For depart
+
+#cypher(neo4j,"MATCH ()-[r:Departs]-() delete r")
+
+
+depart <- unique(flightfact_mysql[,c("origin","carrier")])
+
+
+for(i in 1:nrow(depart)) {
+  
+  cypher(neo4j,paste0("match (air:airline{code:'",depart[i,2],"'}),(org:origin{origin_code:'",depart[i,1],"'}) create (air)-[r:Departs]->(org)"))
+  
+}
+
+
+
+#For arrival
+
+#cypher(neo4j,"MATCH ()-[r:Arrival]-() delete r")
+
+
+arrival <- unique(flightfact_mysql[,c("dest","carrier")])
+
+
+for(i in 1:nrow(arrival)) {
+  
+  cypher(neo4j,paste0("match (air:airline{code:'",arrival[i,2],"'}),(dest:dest{dest_code:'",arrival[i,1],"'}) create (air)-[r:Arrival]->(dest)"))
+  
+}
+
+
+```
+
+###Information Observed in Mongodb:
+
+1. Installation is easy and creating a database was simple.
+2. The data is seen in visual format. So it is easy to think more about data.
+3. It is done in step by step. So we need to understand the data more.
+4. Relationships play a major role. It gives meaning to the nodes.
+5. The grphical interface is very nice. But it becomes messy if you have more data and nodes.
+6. Fetching the required data is very quick and fast.
+7. Need to learn new query language called CYPER. Although it is easy for smaller operations.
+
+********
+
+###Difference between the databases
+
+Name | MYSQL | Mongodb | Neo4j|
+-----|-------|---------|------|
+Description| Widely used database | Popular nosql database | Getting popular 
+Database type| RDBMS | Document Store |Graph
+Transaction | ACID | No ACID |ACID
+In-memory | Yes | Yes | No
+Application scenarios| Traditional structure | API's and IOT | Real-time recommendations
+Scalability| Easy|Easy|Medium
+Main character| Zylo data | JSON format | Relationship
