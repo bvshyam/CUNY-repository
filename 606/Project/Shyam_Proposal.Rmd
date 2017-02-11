@@ -65,7 +65,7 @@ set.seed(7340)
 
 #Getting the sample size of 1000 from loans stats 2016 Q1 dataset 
 
-loans_sample <- read.csv ("C:/Users/Shyam/Google Drive/CUNY/Assignment_Repositories/606 - Project/LoanStats_securev1_2016Q1.csv",header = TRUE,skip = 1, sep = ",",stringsAsFactors = FALSE,skipNul = TRUE) %>% sample_n(1000)
+loans_sample <- read.csv ("C:/Users/Shyam/Google Drive/CUNY/Assignment_Repositories/606 - Project/LoanStats_securev1_2016Q1.csv",header = TRUE,skip = 1, sep = ",",stringsAsFactors = FALSE,skipNul = TRUE) %>% sample_n(1000,replace = FALSE)
 
 #loans_sample <- read.csv ("C:/Users/paperspace/Google Drive/CUNY/Assignment_Repositories/606 - Project/LoanStats_securev1_2016Q1.csv",header = TRUE,skip = 1, sep = ",",stringsAsFactors = FALSE,skipNul = TRUE) %>% sample_n(1000,replace = FALSE)
 
@@ -150,6 +150,7 @@ Link: https://www.lendingclub.com/info/download-data.action
 
 **What is the response variable, and what type is it (numerical/categorical)?**
 
+Response provided
 
 ### Explanatory 
 

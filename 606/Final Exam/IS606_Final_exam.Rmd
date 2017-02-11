@@ -1,0 +1,386 @@
+---
+title: "DATA 606 Fall 2016 - Final Exam"
+author: "Shyam BV"
+date: "December 9, 2016"
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+  html_document:
+    code_folding: show
+    highlight: textmate
+    theme: simplex
+    toc: yes
+    toc_float: yes
+---
+
+
+```{r library, include=FALSE}
+
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(broom)
+
+
+
+#normal plot
+normalPlot <- function(mean=0, sd=1, bounds=c(-1,1), tails=FALSE) {
+	x <- seq(-4,4,length=100)*sd + mean
+	hx <- dnorm(x,mean,sd)
+
+	plot(x, hx, type="n", xlab="x-Axis", ylab="",
+		 main="Normal Distribution", axes=FALSE)
+	lines(x, hx)
+
+	if(tails) {
+		i.low <- x <= bounds[1]
+		i.high <- x >= bounds[2]
+		polygon(c(x[i.low],bounds[1]), c(hx[i.low], 0), col="red")
+		polygon(c(bounds[2],x[i.high]), c(0,hx[i.high]), col="red")
+	} else {
+		i <- x >= bounds[1] & x <= bounds[2]
+		polygon(c(bounds[1],x[i],bounds[2]), c(0,hx[i],0), col="red")
+		area <- pnorm(bounds[2], mean, sd) - pnorm(bounds[1], mean, sd)
+		if(diff(bounds) > 0) {
+			result <- paste("P(",bounds[1],"< x <",bounds[2],") =",
+							signif(area, digits=3))
+			mtext(result,3)
+		}
+	}
+	axis(1)
+}
+
+```
+
+#Part I
+
+**Figure A below represents the distribution of an observed variable. Figure B below represents the distribution of the mean from 500 random samples of size 30 from A. The mean of A is 5.05 and the mean of B is 5.04. The standard deviations of A and B are 3.22 and 0.58, respectively. **
+
+
+
+##**a. Describe the two distributions (2 pts). **
+
+###*Figure A: *
+Given figure is a histogram chart. The data might be an output from  Observational or experimental study.
+
+Also it is an population distribution(Observations) which is of unimodel. Right skewness mentions that it has longer tails with outliers.
+
+As the histogram bins are close, the variable might be an continuous numerical value. The mean is called as (${\mu}$)
+
+###*Figure B:*
+
+This is the sampled distribution from the population distribution. The samples are simple random sampels which is of size 30. The chart seems to be a normal distribution which is of unimodel.
+
+The chart shows that 30 samples taken from the population distribution and it is performed for 500 iterations. Mean is calculated for these 500 iterations and then this chart is formed. So it is the sampling distribution.
+
+Also as the sample size is 30, we can apply central limit theorem(CLT). The mean from this sample will be the point estimate of the population distribution($\bar{x}$). 
+
+
+##**b. Explain why the means of these two distributions are similar but the standard deviations are not (2 pts). **
+
+Population Mean(${\mu}$): Population distribution has the mean of 5.05. This is the only mean which we get from the overall population. It is calcuated from the sum of all values divided by the total population size.
+
+
+Population SD(${\sigma}$): Population standard deviation is the deviation of all the values from the mean. 
+
+${\sigma}$ = ${\sqrt(\sum_{i=1}^N (X_i-\mu)^2 / N)}$
+
+
+Sample Distribution($\bar{x}$): Sampling distribution mean is 5.04. This approximatly equal the population mean. This is calculated by getting the mean of all the sample means. As per CLT, this mean will be approximatly equal to population mean.
+
+
+Sample SD($s$): Sample standard deviation is the deviation from the sample mean to all sample means(here 500 sample means). Generally the deviation of sampling distribution is called as Standard error. 
+
+Each random samples is an estimate of true population. So the sample SD will be always smaller than true standard deviation.
+
+
+**c. What is the statistical principal that describes this phenomenon (2 pts)? **
+
+The statistical principal that describes this phenomenon is called as Central Limit Theorem (CLT). It describes if the population distribution is normal distribution or skewed, if we have enough samples from the population distribution, then the mean of the sampling distribution will be be equal to the population mean.
+
+CLT also states that if the sample size is atleast 30 independent random observations, then the sampling distribution will be a normal model given that the data is not strongly skewed. 
+
+
+#Part II
+
+Consider the four datasets, each with twocolumns (x and y), provided below. 
+
+```{r inputdata}
+
+options(digits=2) 
+
+data1 <-data.frame(x=c(10,8,13,9,11,14,6,4,12,7,5), y=c(8.04,6.95,7.58,8.81,8.33,9.96,7.24,4.26,10.84,4.82,5.68)) 
+
+data2 <-data.frame(x=c(10,8,13,9,11,14,6,4,12,7,5), y=c(9.14,8.14,8.74,8.77,9.26,8.1,6.13,3.1,9.13,7.26,4.74)) 
+
+data3 <-data.frame(x=c(10,8,13,9,11,14,6,4,12,7,5), y=c(7.46,6.77,12.74,7.11,7.81,8.84,6.08,5.39,8.15,6.42,5.73)) 
+
+data4 <-data.frame(x=c(8,8,8,8,8,8,8,19,8,8,8), y=c(6.58,5.76,7.71,8.84,8.47,7.04,5.25,12.5,5.56,7.91,6.89)) 
+
+```
+
+##a. The mean (for x and y separately; 1 pt).
+
+```{r problema}
+
+
+data_list <- list(data1,data2,data3,data4)
+
+data <- rbind(data1,data2,data3,data4)
+
+#For x in all individual dataframe
+for(i in 1:4){
+
+print(paste0("Mean of data",i,"$","x"," is " ,round(mean(data_list[[i]]$x),2)))
+}
+
+#For y in all individual dataframe
+for(i in 1:4){
+
+print(paste0("Mean of data",i,"$","y"," is " ,round(mean(data_list[[i]]$y),2)))
+}
+
+
+print(paste0("Mean of data"," x"," is " ,round(mean(data$x),2)))
+print(paste0("Mean of data"," y"," is " ,round(mean(data$y),2)))
+
+
+
+ggplot(data,aes(x)) + geom_histogram(bins = 10) + ggtitle("x Histogram")
+
+ggplot(data,aes(y)) + geom_histogram(bins = 10)  + ggtitle("y Histogram")
+
+
+```
+
+##b. The median (for x and y separately; 1 pt). 
+
+```{r problemb}
+
+#For x in all individual dataframe
+for(i in 1:4){
+
+print(paste0("Median of data",i,"$","x"," is " ,round(median(data_list[[i]]$x),2)))
+}
+
+#For y in all individual dataframe
+for(i in 1:4){
+
+print(paste0("Median of data",i,"$","y"," is " ,round(median(data_list[[i]]$y),2)))
+}
+
+
+
+#total median 
+
+paste0("Median of data"," is " ,median(data$x))
+paste0("Median of data"," is " ,median(data$y))
+     
+
+
+boxplot(data)
+
+
+```
+
+
+##c. The standard deviation (for x and y separately; 1 pt). 
+
+```{r problemc}
+
+#For x in all individual dataframe
+for(i in 1:4){
+
+print(paste0("SD of data",i,"$","x"," is " ,round(sd(data_list[[i]]$x),2)))
+}
+
+#For y in all individual dataframe
+for(i in 1:4){
+
+print(paste0("SD of data",i,"$","y"," is " ,round(sd(data_list[[i]]$y),2)))
+}
+
+
+
+#total x
+
+paste0("Standard Deviation of data"," is " ,round(sd(data$x),2))
+paste0("Standard Deviation of data"," is " ,round(sd(data$y),2))
+
+#Normal distribution for x      
+normalPlot(mean(data$x),sd(data$x))
+
+#Normal distribution for y   
+
+normalPlot(mean(data$y),sd(data$y))
+
+```
+
+
+##d. The correlation (1 pt). 
+
+```{r problemd}
+
+  
+#For x an y in all individual dataframes
+for(i in 1:4){
+
+print(paste("Correlation within x and y in data",i, "is",cor(data_list[[i]]$x,data_list[[i]]$y)))
+}
+
+#Correlation between x and y 
+print(paste("Correlation within x and y in combined data is",cor(data$x,data$y)))
+
+ggplot(data,aes(x,y)) + geom_point() +geom_smooth(method="lm")  + ggtitle("x vs y")
+
+  
+```
+The correlation between x and y is  and figure, it shows there is a strong correlation between x and y.
+
+
+##e. Linear regression equation (2 pts). 
+
+
+```{r probleme}
+
+
+#For x an y in all individual dataframes
+for(i in 1:4){
+
+print(paste("Linear equation for x and y in data",i, "is"))
+
+print(summary(lm(y ~ x,data = data_list[[i]])))
+  
+}
+
+
+data_lm <- lm(y ~ x,data = data)
+
+print("Linear equation for x and y from all data is")
+print(summary(data_lm))
+
+names(data_lm)
+
+
+```
+
+General equation of linear equation is
+
+$y$ = $\beta_0$ + $\beta_1$ * $x$
+
+
+Linear equation of the comined data frame is
+
+y = 3.00130 + 0.49993 * x
+
+
+**Intercept:** If x is zero, then the value of y is `3.00130`.
+
+**Slope:** For each unit of increase in x will increase `0.49993` of y.
+
+
+##f. R-Squared (2 pts)
+
+The strength of the fit of a linear model is most commonly evaluated using R-squared. R-squared can be calculated in different ways. For single linear regression, square of correlation coefficient is called as R-squared.
+
+Below are the conditions for R-squared:
+
+1. Linearity
+2. Nearly normal residuals
+3. Constant Variability
+
+
+1. Linearity
+
+Relationship between the explanatory variable (x) and the response variable (y) should be linear.
+
+From the plot in section d, shows that the relationship is linear. 
+
+2. Nearly normal Residuals
+
+Residuals should be normally distributed. Below are the plots which shows normal distribution
+
+```{r}
+
+hist(data_lm$residuals)
+
+
+qqnorm(data_lm$residuals)
+qqline(data_lm$residuals)
+```
+
+Above plot shows that the residuals are normally distributed. There are some outliners present in it.
+
+
+3. Constant Variability
+
+Variablity of these resiuals should be constant. Below plot shows the variability of residuals.
+
+
+```{r problemf3}
+
+data_residuals <- augment(data_lm)
+
+ggplot(data_lm,aes(x=x,y=.resid)) + geom_point(size=1,alpha=0.8) + geom_smooth(method = "lm")  + ggtitle("x vs Residuals")
+
+
+```
+
+Above chart shows the constant variability of x and residuals. Although the curve shows that it is not constant, it is because of outliers at the end. So linear regression can be used. If a we require a perfect model, we can use logarithmic regression.
+
+R-squared value of the combined dataframe is `0.6665`. It means the 66.65% of variability of y by x is explained by this model.
+
+
+##For each pair
+Is it appropriate to estimate a linear regression model? Why or why not? Be specific as to why for each pair and include appropriate plots! (4 pts) 
+
+
+```{r}
+
+#For x an y in all individual dataframes
+for(i in 1:4){
+
+print(paste("Linear equation for x and y in data",i, "is"))
+
+print(summary(lm(y ~ x,data = data_list[[i]])))
+  
+}
+
+
+#For x an y in all individual dataframes
+
+  ggplot(data_list[[1]],aes(x,y)) + geom_point() +geom_smooth(method="lm") + ggtitle("Data1") 
+
+  ggplot(data_list[[2]],aes(x,y)) + geom_point() +geom_smooth(method="lm")  + ggtitle("Data2")
+
+  ggplot(data_list[[3]],aes(x,y)) + geom_point() +geom_smooth(method="lm")  + ggtitle("Data3")
+
+  ggplot(data_list[[4]],aes(x,y)) + geom_point() +geom_smooth(method="lm")  + ggtitle("Data4")
+
+
+
+
+```
+
+For each pair we can create a linear regression model. Above output and charts show for each pair.
+
+**Data1:** The variability is constant. x and y has linear relationship. So linear relationship can be used.
+
+**Data2:** The variability is not constant in the beginning. x vs y follows a non-linear patternt. It would be more approporiate to use other models(like logarithmic) than linear regression.
+
+**Data3:** This has a constant linear relationship, but it has an outlier. The outlier is high leverage point and it is influential. Would be more approporiate to use other models(like logarithmic) than linear regression.
+
+**Data4:** This does not have any constant linear relationship. There is one influential point which decides the complete line. It would be  more approporiate to use other models(like logarithmic) than linear regression.
+
+##Analyze Visuals
+Explain why it is important to include appropriate visualizations when analyzing data. Include any visualization(s) you create. (2 pts) 
+
+Visualizations are very important in statistical studies. It visually shows the relationship between two variables (In this example x and y). Below are the points where it is particulary useful
+
+1. Outliers - Without visuals, it is difficult to figure out the outliers in the distribution.
+2. Variablity - It is offen required to validate this condition. Depending on this condition the model will be decided. If it has constant variability we can use linear regression model else we have to use non-linear regression models.
+3. Independence - For almost all stat problems it is important to find out independence between two values in a distribution. If it is independent, it will follow a trend. So we need to model appropriately. 
+4. Fitting Regression Line - Once we plot the points it is required to plot a regression line and check. It is very hard to plot a regression line without an visualizations.
+
+I have added visualizations when required in all the problems. 

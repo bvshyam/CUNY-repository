@@ -98,6 +98,7 @@ button.code-folding-btn:focus {
 </style>
 
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
@@ -216,36 +217,36 @@ loans_summary$loan_status &lt;- as.factor(loans_summary$loan_status)
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Question</th>
-<th align="left">Response Variable</th>
-<th align="left">Explanatory Variable</th>
+<th>Question</th>
+<th>Response Variable</th>
+<th>Explanatory Variable</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1. Is loan interest rate % predictive of credit score?</td>
-<td align="left">Interest rate % (Numerical)</td>
-<td align="left">Credit score (Numerical)</td>
+<td>1. Is loan interest rate % predictive of credit score?</td>
+<td>Interest rate % (Numerical)</td>
+<td>Credit score (Numerical)</td>
 </tr>
 <tr class="even">
-<td align="left">2. Is loan funded amount are equal for different purpose of loan request?</td>
-<td align="left">Funded amount (Numerical)</td>
-<td align="left">Different purpose (Categorical)</td>
+<td>2. Is loan funded amount are equal for different purpose of loan request?</td>
+<td>Funded amount (Numerical)</td>
+<td>Different purpose (Categorical)</td>
 </tr>
 <tr class="odd">
-<td align="left">3. Does different states have equal interest rate?</td>
-<td align="left">Interest rate % (Numerical)</td>
-<td align="left">States (Categorical)</td>
+<td>3. Does different states have equal interest rate?</td>
+<td>Interest rate % (Numerical)</td>
+<td>States (Categorical)</td>
 </tr>
 <tr class="even">
-<td align="left">4. Does home ownership really impact FICO scores or just by chance?</td>
-<td align="left">FICO scores (Numerical)</td>
-<td align="left">Home Ownership (Categorical)</td>
+<td>4. Does home ownership really impact FICO scores or just by chance?</td>
+<td>FICO scores (Numerical)</td>
+<td>Home Ownership (Categorical)</td>
 </tr>
 <tr class="odd">
-<td align="left">5. Number of loan requests which will be received in next month</td>
-<td align="left">Loan requests (Numerical)</td>
-<td align="left">Months (Categorical)</td>
+<td>5. Number of loan requests which will be received in next month</td>
+<td>Loan requests (Numerical)</td>
+<td>Months (Categorical)</td>
 </tr>
 </tbody>
 </table>
@@ -416,6 +417,7 @@ inference(y=loan_summary1$funded_amnt,x=loan_summary1$home_ownership,est=&quot;m
 $(document).ready(function () {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
 });
+
 
 </script>
 

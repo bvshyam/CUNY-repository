@@ -1,0 +1,526 @@
+---
+title: "Shyam-Project"
+author: "Shyam BV"
+date: "December 7, 2016"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    code_folding: hide
+    highlight: textmate
+    theme: simplex
+    toc: yes
+    toc_float: yes
+---
+
+
+```{r include=FALSE, cache=FALSE}
+# DO NOT REMOVE
+# THIS IS FOR SETTING SOME PLOTTING PARAMETERS SO THAT YOUR PLOTS DON'T TAKE UP TOO MUCH SPACE
+# IF YOU WOULD LIKE TO CHANGE THESE, SEE HELP FILES ON THE par() FUNCTION
+# OR ASK FOR HELP
+
+#install.packages("broom")
+
+library(broom)
+library(knitr)
+library(dplyr)
+library(knitr)
+library(stringr)
+library(ggplot2)
+library(plotly)
+library(lubridate)
+
+
+load("Dependencies/nc.Rdata")
+
+## set global chunk options
+opts_chunk$set(fig.path='figure/manual-', cache.path='cache/manual-', fig.align='center', fig.show='hold', par=TRUE)
+## tune details of base graphics (http://yihui.name/knitr/hooks)
+knit_hooks$set(par=function(before, options, envir){
+if (before && options$fig.show!='none') par(mar=c(4,4,.2,.1),cex.lab=.95,cex.axis=.9,mgp=c(2,.7,0),tcl=-.3)
+})
+
+#normal plot
+normalPlot <- function(mean=0, sd=1, bounds=c(-1,1), tails=FALSE) {
+	x <- seq(-4,4,length=100)*sd + mean
+	hx <- dnorm(x,mean,sd)
+
+	plot(x, hx, type="n", xlab="x-Axis", ylab="",
+		 main="Normal Distribution", axes=FALSE)
+	lines(x, hx)
+
+	if(tails) {
+		i.low <- x <= bounds[1]
+		i.high <- x >= bounds[2]
+		polygon(c(x[i.low],bounds[1]), c(hx[i.low], 0), col="red")
+		polygon(c(bounds[2],x[i.high]), c(0,hx[i.high]), col="red")
+	} else {
+		i <- x >= bounds[1] & x <= bounds[2]
+		polygon(c(bounds[1],x[i],bounds[2]), c(0,hx[i],0), col="red")
+		area <- pnorm(bounds[2], mean, sd) - pnorm(bounds[1], mean, sd)
+		if(diff(bounds) > 0) {
+			result <- paste("P(",bounds[1],"< x <",bounds[2],") =",
+							signif(area, digits=3))
+			mtext(result,3)
+		}
+	}
+	axis(1)
+}
+
+remove(nc)
+```
+
+
+* * *
+
+
+#Part 1 - Introduction
+
+Some months back, I was trying to apply for a lending club loan. Interest rate was different me and my colleage.  That made me to think more about Lending club(LC). LC is a US peer-to-peer lending company. Where investors provide funding and borrowers return back the payments. Lending club selects and approves the borrowers using many parameters. It is a sort of EBay for loans. 
+
+In this project, I'll be trying to predict the interest rate with various predictor variables. By performing this analysis we will know below information.
+
+1. What parameters will impact my interest rate? ie., Is loan interest % predictive of FICO credit score alone?
+
+2. Is loan funded amount are equal for different purpose of loan request? So the person can get loan in that particular loan type.
+
+3. It is always mentioned that living state plays a important role in interest rate. This hypothesis will be validated. 
+
+4. There is a myth that home ownership will impact FICO scores. It will be validated via this dataset.
+
+5. Did lending club receive equal number of loans in each month
+
+
+#Part 2 - Data
+
+When we register as a lending club user, you will get access to the borrowers data from Lending loan website
+(https://www.lendingclub.com/info/download-data.action). 
+
+
+This dataset has borrowers details(personal info will be removed) It has the funded amount, interest rate, fico credit score and about 115 variables. Also the row count is around 130K for Q1 2016.
+
+For current analysis, I have taken a simple random sample of 1000 rows. These data are transformed and modified to perform analysis on data.
+
+
+
+## Data collection 
+
+**Describe the method of data collection.**
+
+When we register as a lending club borrower/invester, you will get access to the borrowers data from Lending loan website
+(https://www.lendingclub.com/info/download-data.action). 
+
+LC also provides loan rejection dataset. But for current analysis, we have used only the borrowers dataset. 
+
+##Cases
+
+This dataset is an Observational study. Consumers requested for loan in LC. Each row will contain borrowers information(personal info will be removed by LC) and their current loan status. 
+
+For this project, in some cases, I have used the comple dataset and for some analysis I have taken a simple random sample of 1000 rows. 
+
+
+##Variables
+
+It has the funded amount, interest rate, fico credit score and about 115 variables. Also there are around 140K observations for Q1 2016.
+
+But for this current analysis, below are the variables used.
+
+| LoanStatNew         | Description                                                                                                                                                                  | 
+|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| 
+| loan_amnt           | The listed amount of the loan applied for by the borrower. If at some point in time, the credit department reduces the loan amount, then it will be reflected in this value. | 
+| funded_amnt         | The total amount committed to that loan at that point in time.                                                                                                               | 
+| int_rate            | Interest Rate on the loan                                                                                                                                                    | 
+| emp_length          | Employment length in years. Possible values are between 0 and 10 where 0 means less than one year and 10 means ten or more years.                                            | 
+| home_ownership      | The home ownership status provided by the borrower during registration or obtained from the credit report. Our values are: RENT, OWN, MORTGAGE, OTHER                        | 
+| annual_inc          | The self-reported annual income provided by the borrower during registration.                                                                                                | 
+| verification_status | Indicates if income was verified by LC, not verified, or if the income source was verified                                                                                   | 
+| addr_state          | The state provided by the borrower in the loan application                                                                                                                   | 
+| issue_d             | The month which the loan was funded                                                                                                                                          | 
+| loan_status         | Current status of the loan                                                                                                                                                   | 
+| purpose             | A category provided by the borrower for the loan request.                                                                                                                    | 
+| total_pymnt_inv     | Payments received to date for portion of total amount funded by investors                                                                                                    | 
+| fico_range_high     | The upper boundary range the borrower’s FICO at loan origination belongs to.                                                                                                 | 
+| fico_range_low      | The lower boundary range the borrower’s FICO at loan origination belongs to.                                                                                                 | 
+| term                | The number of payments on the loan. Values are in months and can be either 36 or 60.                                                                                         | 
+
+
+## Type of study 
+
+
+This is an observational study. We will arrive at conclusion by performing below tests on the mentioned variables.
+
+1. Hypothesis Test - Reasoning whether the inference is just by chance.
+2. F-Test - Compare multiple variables
+3. Create Linear regression - Form the regression line with the available parameters. Check the values between predicted and observed outcome.
+4. Create logarithmic regression - Create an model for non-linear data varaibles.
+
+
+
+##Scope of inference
+
+1. Generalizability: Population of interest for this study is applicable only to US population and its territory. To borrow the loan from LC, it requires credit score info, personal info like home ownership, purpose of loan, employment length, annual income.
+
+If these information is not available for the borrower, this study will not be applicable.
+
+Also this analysis is perfomed only for lending club and other peer-to-peer borrowing companies. It may not be applicable for the banking interest rates.
+
+2. Bias: Here the bias that prevents the generalizability is the borrower information. Only the person who has knowledge about LC and peer-to-peer investing, is requesting for a loan in LC. Bank might use another cofounding variable to get the interest rate. 
+
+## Causality
+
+As this is an observational study we cannot derive any causal connections between the variables. 
+
+
+
+```{r loaddata,eval=TRUE,warning=FALSE}
+# load data of 2016 Q1
+
+set.seed(7340)
+
+# 1. Select the required columns
+# 2. Convert the column term to numeric
+# 3. Remove unwanted columns and change the NA data(if any)
+# 4. Calculate the total payment by each customer adding the interest rate
+
+
+loans_summary_full <- read.csv ("C:/Users/paperspace/Google Drive/CUNY/Assignment_Repositories/606 - Project/LoanStats_securev1_2016Q1.csv",header = TRUE,skip = 1, sep = ",",stringsAsFactors = FALSE,skipNul = TRUE) %>%  select(c(pub_rec_bankruptcies
+,loan_amnt,funded_amnt,term,int_rate,emp_length,home_ownership,annual_inc,dti,addr_state,fico_range_low,fico_range_high,issue_d,loan_status,purpose,loan_amnt)) %>%   mutate(fico_score=(fico_range_low+fico_range_high)/2) %>%     mutate(term1=as.numeric(str_trim(str_replace(term,"months","")))) %>%       select(-term,-fico_range_low,-fico_range_high) %>%         mutate(emp_length=str_replace(emp_length,c("n/a"),"NA")) %>%           mutate(int_rate=(as.numeric(str_replace(as.character(int_rate),"%",""))))  %>%  mutate(total_pymnt=(funded_amnt+(funded_amnt*int_rate*(term1/12))/100)) %>% filter(!is.na(int_rate))
+
+loans_summary <- sample_n(loans_summary_full,7000,replace = FALSE)
+
+
+```
+
+
+*******
+
+#Part 3 - Exploratory data analysis
+
+Below are some exploratory data analysis charts to understand more about the data.
+
+
+## Explanatory 
+
+Below table summarizes the question, response and explanatory variable. It also shows whether it is Numerical or Categorical.
+
+
+Question | Response Variable | Explanatory Variable
+-------------| -------------|-----------------
+1. What parameters will impact my interest rate? ie., Is loan interest % predictive of FICO credit score alone? | Interest rate % (Numerical)  | FICO Credit score (Numerical), home ownership (Categorical), Purpose (Categorical) 
+
+2. Is loan funded interest rate % are equal for different purpose of loan request? | Interest rate % (Numerical) | purpose (Categorical) 
+
+3. Does different states have equal interest rate? | Interest rate % (Numerical) | States (Categorical)
+
+4. Does home ownership really impact FICO scores or just by chance? | FICO scores (Numerical) | Home Ownership (Categorical)
+
+5. Did lending club receive equal number of loans in each month? | Loan count (Numerical) |  -  |
+
+
+##Charts
+
+```{r exploratoryanalysis,warning=FALSE }
+
+#Histogram of Interest rate %
+
+ggplot(loans_summary,aes(x=int_rate)) + geom_histogram(aes(fill=home_ownership),bins=10) + ggtitle("Interest Rate Histogram")
+
+
+#funded amount are equal for different purpose
+
+ggplot(loans_summary,aes(x=purpose,y=int_rate)) + geom_boxplot()  + ggtitle("Purpose vs Funded amount")
+
+
+#Funded amount vs Interest rate 
+
+ggplot(loans_summary,aes(x=funded_amnt,y=int_rate)) + geom_point(aes(color=term1)) + geom_smooth(method="lm")+ ggtitle("Funded amount vs Interest Rate")
+
+
+#FICO Scores vs Interest rate
+
+ggplot(loans_summary,aes(x=fico_score,y=int_rate)) + geom_point(aes(color=term1)) + geom_smooth(method="lm") + ggtitle("FICO Score vs Interest Rate")
+
+
+#Home ownership vs FICO scores
+
+ggplot(loans_summary,aes(x=fico_score)) + geom_histogram() + facet_grid(.~home_ownership) + ggtitle("Histogram of FICO score")
+
+
+# State vs  Interest rate % 
+
+state_interestrate <- loans_summary %>% select(addr_state,int_rate) %>%  group_by(addr_state) %>% summarise(avg =mean(int_rate))
+
+a1 <- list(autotick = TRUE, title = "State")
+
+b1 <- list(title = "Interest rate %")
+
+plot_ly(x = ~state_interestrate$addr_state, y = ~state_interestrate$avg, type = "area") %>% layout(xaxis=a1,yaxis=b1,title="State vs Average interest rate")
+
+
+remove(a1,b1,state_interestrate)
+
+```
+
+
+##Statistics
+
+
+Exploratory data analysis suggests below statistics.
+
+Statistic | Variable | Value |
+----------|----------|-------|
+Population| Mean Interest rate| `r mean(loans_summary_full$int_rate)`|
+Population| SD Interest rate| `r sd(loans_summary_full$int_rate)`|
+Sample Statistics| Mean Interest rate| `r mean(loans_summary$int_rate)`|
+Sample Statistics| SD Interest rate| `r sd(loans_summary$int_rate)`|
+
+
+
+##Confidence interval of the Interest Rate
+
+Point estimate from the sample with the confidence interval is shown below
+
+```{r confidence_1,warning=FALSE}
+
+inference(y=loans_summary$int_rate,est="mean",null=0,alternative="twosided",type="ci",conflevel=0.95,method="theoretical")
+
+```
+
+For this test lest validate the total sample size required. 
+
+
+```{r confidence_2,eval=TRUE}
+
+s=sd(loans_summary_full$int_rate)
+
+n = ((pnorm(0.025)*s)/0.03)^2 
+
+```
+If the margin of error to be 3%, we need to get the samples of around `r n`.
+
+- Some states have higher interest rates than another.
+- Those who have home morgage has higher interest rate than others.
+- Interest rate increases with funded amount.
+
+
+#Part 4- Inference
+
+
+##1. Is loan interest % predictive of credit score?
+
+To perform this statement, we will use the linear model to validate it. Here we are performing forward elimination technique to get the maximum adjusted R-squared vale.
+
+
+```{r inference_1,warning=FALSE}
+
+loans_lm <- lm(int_rate ~ fico_score + home_ownership + purpose + term1 + loan_amnt + annual_inc + emp_length + issue_d + pub_rec_bankruptcies + dti,loans_summary ) # 0.3628
+
+summary(loans_lm)
+
+#summary(lm(int_rate ~ fico_score + home_ownership + purpose + term1,loans_summary)) #0.3458
+
+#summary(lm(int_rate ~ fico_score + home_ownership + purpose + term1 + loan_amnt,loans_summary)) # #0.3452
+
+#summary(lm(int_rate ~ fico_score + home_ownership + purpose + term1 + loan_amnt + annual_inc ,loans_summary )) #0.3591
+
+#summary(lm(int_rate ~ fico_score + home_ownership + purpose + term1 + loan_amnt + annual_inc + addr_state,loans_summary )) #0.3594
+
+#summary(lm(int_rate ~ fico_score + home_ownership + purpose + term1 + loan_amnt + annual_inc ,loans_summary )) #0.3591
+
+#summary(lm(int_rate ~ fico_score + home_ownership + purpose + term1 + loan_amnt + annual_inc  + emp_length,loans_summary )) #0.3615
+
+
+```
+After mulitple iterations, we have come to the conclusion that below are the variables that affect interest rate % 
+
+fico_score  
+home_ownership  
+purpose  
+term1  
+loan_amnt  
+annual_inc  
+emp_length  
+issue_d  
+pub_rec_bankruptcies  
+dti(debt to income ration)
+
+
+###Below are the conditions for least squared line
+
+We are going to validate the conditions for least squared line.
+
+####1. Linearity
+
+
+From the below chart, it shows that there is a downward relationship between `FICO credit score` and `interest rate`. But the linear model is not very strong due to large number of variability. 
+
+The correlation between the two variables is around `-0.383`.
+
+```{r ficoscore_residuals_1, warning=FALSE}
+#fico score vs interest rate
+
+ggplot(loans_summary,aes(x=fico_score,y=int_rate)) + geom_point(size=1,alpha=0.8) + geom_smooth(method = "lm")  + ggtitle("FICO SCORE vs Interest rate")
+
+cor(loans_summary$fico_score,loans_summary$int_rate)
+```
+
+
+####2. Nearly normal residuals
+
+```{r ficoscore_residuals_2, results=FALSE}
+
+df_residuals <- augment(loans_lm)
+```
+
+Let's check the residuals normality with histogram and qqplot.
+
+
+```{r ficoscore_residuals_3,warning=FALSE}
+
+#Historgram plot of residuals
+
+ggplot(df_residuals,aes(df_residuals$.resid)) + geom_histogram() + ggtitle("Residual Histogram")
+
+
+#QQ norm plot of the residuals
+
+qqnorm(loans_lm$residuals)
+qqline(loans_lm$residuals) 
+
+
+```
+The plots show that residuals are slightly left skewed.  But the residuals are normal
+
+
+####3. Constant Variability
+ 
+```{r ficoscore_residuals_4,warning=FALSE}
+
+df_residuals <- filter(df_residuals,.fitted >-17)
+
+
+ggplot(df_residuals,aes(x=.fitted,y=.resid)) + geom_point(size=1,alpha=0.8) + geom_smooth(method = "lm")  + ggtitle("FICO SCORE vs Residuals") 
+
+
+ggplot(df_residuals,aes(x=.fitted,y=abs(.resid))) + geom_point(size=1,alpha=0.8) + ggtitle("FICO SCORE vs Residuals")
+
+```
+
+Above plot shows that there is a constant variability in the chart. 36.28% of interest rate % is explained by the model.
+
+
+##2. Different purpose of loan request
+
+**2. Is loan funded amount are equal for different purpose of loan request?**
+
+ Let's validate if the purpose of loan interest rate varies or not.
+
+```{r hypothesistest_purpose_1, warning=FALSE}
+
+#Hypothesis test between purpose
+
+inference(y=loans_summary$int_rate,x=loans_summary$purpose,est="mean",null = 0,alternative = "greater",type="ht",method = "theoretical")
+
+
+```
+Above output shows that interest rate varies for each purpose of loan.
+
+Our Model states that if the purpose of loan is `vacation` then the interest rate will be higher. Let's compare with other purpose `house`
+
+```{r hypothesistest_purpose_2, eval=TRUE,warning=FALSE}
+
+
+#Compare Credit card loan and debt_consolidation
+creditcard_other <- filter(loans_summary,purpose ==c("vacation","house"))
+
+inference(y=creditcard_other$int_rate,x=creditcard_other$purpose,est="mean",null = 0,alternative = "greater",type="ht",order=c("house","vacation"),
+          method = "theoretical")
+
+```
+
+
+In output, the p-value is low. So we will reject null Hypothesis and conclude that the interest rate % is higher for `house`.
+
+
+##3. State vs interest rate
+
+**3. It is always mentioned that living state plays a important role in interest rate. This hypothesis will be validated. **
+
+
+Null hypothesis $H0$: Interest rate is same for all states.
+
+Alternative hypothesis $HA$:Interest rate is different at-least for one state. 
+
+```{r hypothesistest_state, eval=TRUE,warning=FALSE}
+inference(y=loans_summary$int_rate,x=loans_summary$addr_state,est="mean",null = 0,alternative = "greater",type="ht",method = "theoretical")
+
+```
+
+Higher p-value states that we failed to reject null hypothesis. It might also mention that interest rate is same for all states. 
+
+
+##4. Homeownership vs FICO score
+
+**4. Does home ownership really impact FICO scores or just by chance?**
+
+We want to understand does the home ownership really impact FICO scores. Below we are performing ANOVA between the three variables (RENT VS MORTGAGE VS OWN)
+
+Null hypothesis $H0$: FICO scores are same between different home ownership. Scores do not dependent on home ownership.
+
+Alternative hypothesis $HA$: FICO scores are different for each home ownership. 
+
+
+```{r hypothesistest_fico, eval=TRUE,warning=FALSE}
+
+#Hypothesis test
+inference(y=loans_summary$fico_score,x=loans_summary$home_ownership,est="mean",null = 0,alternative = "greater",type="ht",method = "theoretical")
+
+```
+
+In output, the p-value is low. So we will reject null  Hypothesis and conclude that FICO scores are not impacted by home ownership
+
+
+##5. Loan issue date
+
+**5. Did lending club receive equal number of loans in each month?**
+
+Our model also states that if the loan interest rate depends on the issue month. So lets validate it.
+
+$H0$: There is no incosistency between the observed and expected counts. Observed counts follow the same distribution as expected counts.
+
+$H1$: There is an incosistency between the observed and expected counts. Observed counts do not follow the same distribution as expected counts.Some months are different than another.
+
+
+```{r totalcount_chitest, eval=TRUE,warning=FALSE}
+#Loan request vs month
+
+loans_count<- 
+  loans_summary %>% mutate(loan_month = match(substr(loans_summary$issue_d,1,3),month.abb)) %>% group_by(loan_month) %>% count(loan_month) %>% rename(observed_loans =n) %>% filter(!is.na(loan_month))
+
+
+loans_count <- loans_count %>% mutate(percent= 33.333333) %>% mutate(expected_loans=sum(observed_loans)*(percent/100))
+
+
+chisq.test(x=loans_count$observed_loans, p=loans_count$percent/100)
+
+loans_count
+```
+
+The p-value is less than the significance level 5%. So we can reject null hypothesis. From the model and output of chi-test, we can say that if the loans applied on January will receive less interest rate than other months.
+
+
+#Part 5 - Conclusion
+
+Dataset from Lending club is an interesting dataset. It is offen very difficult to get the insights of interest rate from Bank. This  analysis provides interesting information about the interest rate which we get from Lending club for each person.
+
+The interest rate which we receive depends on the various factors like
+FICO score, Homeownership, Purpose of loan, Team length of loan, loan amount requested, Annual income, Employee length, Issue month, Previous bankrupcies and Debt to income ratio.
+
+If a person is wanting to get a good interest rate then he need to focus on above factors before applying for a lending club loan.
+
+From the research question, I understood that we need to perform various test and add visalizations to understand the patern of Lending club borrowers data and find the interest rate. It is not a very straight forward method which gets from FICO scores. Also lot of financial terms while dealing with loans.
+
+Future analysis can be performed by adding more variables to the model. Which provided loans are at risk or at the status of `Charged-off`. We can also calculate the return interest rate for an investor.
+
+These analysis can also be used if we want to invest in lending club and be a successful investor.
