@@ -1,0 +1,148 @@
+---
+title: "Assignment 2 - Traces and Determinants"
+author: "Shyam BV"
+date: "February 12, 2017"
+output:
+  html_document:
+    code_folding: show
+    highlight: textmate
+    theme: simplex
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+---
+
+```{r setup, include=FALSE}
+if(!require("matlib", character.only = TRUE, quietly = TRUE)) {
+  install.packages("matlib")
+  library("matlib", character.only = TRUE)
+}
+
+if(!require("rgl", character.only = TRUE, quietly = TRUE)) {
+  install.packages("rgl")
+  library("rgl", character.only = TRUE)
+}
+
+if(!require("Matrix", character.only = TRUE, quietly = TRUE)) {
+  install.packages("Matrix")
+  library("Matrix", character.only = TRUE)
+}
+
+```
+
+
+#Problem 1
+
+##Part 1
+**(1) Show that $A^TA != AA^T$ in general. (Proof and demonstration.)** 
+
+Here lets prove the above condition with examples and function
+
+
+```{r}
+
+
+output <- function(A) {
+  
+LHS <- t(A)  %*% A
+
+RHS <- A %*% t(A)
+
+print(LHS)
+print(RHS)
+return (LHS==RHS)
+  
+}
+
+# 2x2 matrix
+output(matrix(c(1,3,2,1),2))
+
+
+# 3x3 matrix
+output(matrix(c(1,2,3,1,1,1,2,0,1),nrow=3))
+
+#4x4
+output(matrix(c(1,2,1,3,4,1,2,3,1,1,5,7,2,5,6,2),nrow=4))
+```
+
+Above output shows that $A^TA != AA^T$. Generally $A.B != B.A$
+
+
+##Part 2
+
+**(2) For a special type of square matrix A, we get A T A = AA T . Under what conditions could this be true? (Hint: The Identity matrixIis an example of such a matrix). **
+
+But the above mentioned case is not true in all the places. Below are some exceptional scenarios.
+
+1. It happens when the elements above and below the diagonal are equal. 
+2. Also the row order can be altered by Permutation matrix. After alteration the matrix should have symmentry
+```{r}
+
+# 3x3 Identity matrix
+output(matrix(c(1,0,0,0,1,0,0,0,1),nrow=3))
+
+# 2x2 Symmetric matrix
+output(matrix(c(1,2,2,7),nrow=2,ncol=2))
+
+# 3x3 Symmetric matrix
+output(matrix(c(1,4,5,4,2,6,5,6,3),nrow=3,ncol=3))
+
+
+```
+
+
+#Problem 2
+
+**Matrix factorization is a very important problem. There are supercomputers built just to do matrix factorizations. Every second you are on an airplane, matrices are being factorized. Radars that track  ights use a technique called Kalman  filtering. At the heart of Kalman Filtering is a Matrix Factorization operation. Kalman Filters are solving linear systems of equations when they track your  fight using radars. **
+
+**Write an R function to factorize a square matrix A into LU or LDU, whichever you prefer. Please submit your response in an R Markdown document using our class naming convention, E.g.  LFulton_Assignment2_PS2.png.**
+
+**You don't have to worry about permuting rows of A and you can assume that A is less than 5x5, if you need to hard-code any variables in your code. If you doing the entire assignment in R, then please submit only one markdown document for both the problems. **
+
+
+
+```{r}
+
+factor_output <- function(A) {
+  
+  L <- diag(nrow =dim(A)[1])
+  
+for(i in (1:dim(A)[1])) {
+  for(j in (1:dim(A)[1])) {
+    if(j<i) {
+      Eliminate <- diag(nrow =dim(A)[1])
+      lower <- diag(nrow =dim(A)[1])
+
+      if(A[i,j]>0) {
+      Eliminate[i,j] <- -1*A[i,j]
+      }
+      else {Eliminate[i,j] <- A[i,j]
+      }
+              A <- Eliminate %*% A
+              
+L <- L %*% solve(Eliminate)  
+
+      }
+    }
+}
+print("Lower Matrix")
+print(L)
+
+print("Upper Matrix")
+print(A)
+
+print("Multiply (L*U)")
+print(L %*% A)
+#remove(L)
+
+} 
+
+
+factor_output(matrix(c(1,2,3,1,1,1,2,0,1),nrow=3,ncol=3))
+
+
+
+```
+

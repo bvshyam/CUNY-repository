@@ -1,0 +1,448 @@
+---
+title: "Practice 1 - Determinant and Traces"
+author: "Shyam BV"
+date: "February 11, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+if(!require("matlib", character.only = TRUE, quietly = TRUE)) {
+  install.packages("matlib")
+  library("matlib", character.only = TRUE)
+}
+
+if(!require("rgl", character.only = TRUE, quietly = TRUE)) {
+  install.packages("rgl")
+  library("rgl", character.only = TRUE)
+}
+
+if(!require("Matrix", character.only = TRUE, quietly = TRUE)) {
+  install.packages("Matrix")
+  library("Matrix", character.only = TRUE)
+}
+
+
+```
+
+
+
+```{r}
+u1 <- c(1,0,0)
+v1 <- c(0,1,0)
+w1 <- c(1,1,1)
+s= c(1,4,9)
+
+uvz1 <- matrix(c(u1,v1,w1),ncol=3)
+
+solve(uvz1,s)
+vec <- rbind(matrix(c(u1,v1,w1),ncol=3), c(1,4,9))
+rownames(vec) <- c("X", "Y", "Z", "J")
+
+open3d()
+plotEqn3d(uvz1,s)
+vectors3d(vec, color=c(rep("black",3), "red"))
+
+
+min(uvz1)
+```
+
+
+
+```{r}
+
+u1 <- c(1,0,0)
+v1 <- c(0,1,0)
+w1 <- c(0,0,1)
+
+E21 <- matrix(c(u1,v1,w1),ncol=3)
+
+Inverse(E21)
+E21*E21
+
+  
+u <- c(1,0,-4)
+v <- c(0,1,0)
+w <- c(0,0,1)
+
+E31 <- matrix(c(u,v,w),ncol=3)
+
+E21 %*% E31
+
+
+u1 <- c(10,20)
+v1 <- c(20,50)
+x1 <- c(1,0)
+y1 <- c(0,0)
+
+E <- matrix(c(u1,v1),ncol=2)
+E1 <- matrix(c(x1,y1),ncol=2)
+
+(E+E1)^2
+
+x1 %*% Inverse(E)  
+
+
+#######
+
+
+u <- c(1,1,1,1)
+v <- c(1,2,3,4)
+w <- c(1,3,6,10)
+x <- c(1,4,10,20)
+
+E <- matrix(c(u,v,w,x),ncol=4)
+
+E[lower.tri(E)] <- NA
+E
+
+(m2 <- matrix(1:20, 4, 5))
+lower.tri(m2)
+m2[lower.tri(m2)] <- NA
+m2
+
+
+
+u <- c(1,1,1)
+v <- c(0,1,2)
+w <- c(0,0,1)
+x <- c(1,0,0)
+y <- c(1,1,0)
+z <- c(1,2,1)
+
+uvw <- matrix(c(u,v,w),ncol=3)
+
+xyz <- matrix(c(x,y,z),ncol=3)
+
+
+uvw %*% xyz
+
+x <- c(1,10,20)
+
+E <- matrix(c(u,v,w,x),ncol=4)
+
+uvw[lower.tri(uvw)] <- NA
+uvw
+
+(m2 <- matrix(1:20, 4, 5))
+lower.tri(m2)
+m2[lower.tri(m2)] <- NA
+m2
+
+
+
+############
+
+
+u <- c(2,1,2)
+v <- c(1,4,3)
+w <- c(3,2,3)
+
+x <- c(1,0,0)
+y <- c(0,1,-3/4)
+z <- c(0,0,1)
+
+uvw <- matrix(c(u,v,w),ncol=3)
+xyz <- matrix(c(x,y,z),ncol=3)
+
+
+xyz %*% uvw  
+
+
+########
+
+
+u <- c(1,2,3)
+v <- c(0,2,4)
+w <- c(1,2,5)
+
+x <- c(1,-2,0)
+y <- c(0,1,0)
+z <- c(0,0,1)
+
+a <- c(1,0,-3)
+b <- c(0,1,0)
+c <- c(0,0,1)
+
+d <- c(1,0,0)
+e <- c(0,1,-2)
+f <- c(0,0,1)
+
+
+
+uvw <- matrix(c(u,v,w),ncol=3)
+xyz <- matrix(c(x,y,z),ncol=3)
+abc <- matrix(c(a,b,c),ncol=3)
+def <- matrix(c(d,e,f),ncol=3)
+
+
+def %*%  abc %*%  xyz%*% uvw  
+
+
+########
+
+
+u <- c(1,-4,0)
+v <- c(0,1,0)
+w <- c(0,0,1)
+
+x <- c(1,0,-5)
+y <- c(0,1,0)
+z <- c(0,0,1)
+
+a <- c(1,0,0)
+b <- c(0,1,-3)
+c <- c(0,0,1)
+
+d <- c(0,1,2)
+e <- c(1,2,7)
+f <- c(1,1,9)
+
+# abc <- matrix(c(a,b,c),ncol=3)
+# def <- matrix(c(d,e,f),ncol=3)
+# 
+# abc %*%  def
+
+
+uvw <- matrix(c(u,v,w),ncol=3)
+xyz <- matrix(c(x,y,z),ncol=3)
+abc <- matrix(c(a,b,c),ncol=3)
+def <- matrix(c(d,e,f),ncol=3)
+
+(( uvw  %*%xyz %*%abc ) %*%   def)
+
+xyz %*%  def
+
+
+
+#####
+
+
+########
+
+
+u <- c(1,4,5)
+v <- c(0,1,1)
+w <- c(0,0,1)
+
+x <- c(1,0,0)
+y <- c(0,-14,0)
+z <- c(0,0,-8)
+
+a <- c(1,0,0)
+b <- c(4,1,0)
+c <- c(5,1,1)
+
+d <- c(1,4,5)
+e <- c(4,2,6)
+f <- c(5,6,3)
+
+# abc <- matrix(c(a,b,c),ncol=3)
+# def <- matrix(c(d,e,f),ncol=3)
+# 
+# abc %*%  def
+
+
+uvw <- matrix(c(u,v,w),ncol=3)
+xyz <- matrix(c(x,y,z),ncol=3)
+abc <- matrix(c(a,b,c),ncol=3)
+def <- matrix(c(d,e,f),ncol=3)
+
+((abc %*%  xyz %*%  uvw) %*%   def)
+
+xyz %*%  def
+
+lower.tri(def)
+def[lower.tri(def)] <- NA
+def
+
+
+##########
+
+
+d <- c(0,1,2)
+e <- c(1,2,7)
+f <- c(1,1,9)
+
+def <- Matrix(c(d,e,f),3,3)
+(expand(lu(def))$U)
+
+```
+
+
+
+```{r}
+A <- matrix(seq(from=1,to=6), nrow=2, byrow=T)
+B <- matrix(seq(from=12,to=7), nrow=2) 
+A + B 
+
+t(A)%*%t(B) 
+```
+```{r}
+A <- matrix(c(1,2,3,1,1,1,2,0,1),nrow=3)
+#A
+
+E21 <- matrix(c(1,-2,0,0,1,0,0,0,1),nrow=3)
+#E21
+
+#E21 %*% A
+
+E31 <- matrix(c(1,0,-3,0,1,0,0,0,1),nrow=3)
+#E31
+
+#E31 %*% E21 %*% A
+
+E32 <- matrix(c(1,0,0,0,1,-2,0,0,1),nrow=3)
+#E32
+
+#E32 %*% A 
+
+U <- E32 %*% E31 %*% E21 %*% A
+U
+
+L <- solve(E21) %*% solve(E31) %*% solve(E32)
+L
+
+(L %*% U == A) 
+
+
+```
+```{r}
+
+A <- matrix(c(1,2,3,1,1,1,2,0,1),nrow=3,ncol=3)
+
+E_size <- dim(A)[1]
+
+E21 <- diag(E_size)
+E31 <- diag(E_size)
+E32 <- diag(E_size)
+
+#  if((A[2,1]-(A[2,1]*A[1,1])) ==0) {
+    E21[2,1] <- -1*A[2,1]
+ # } 
+
+#if((A[3,1]-(A[3,1]*A[1,1])) ==0) {
+      E31[3,1] <- -1*A[3,1]
+#}
+
+A1 <- E31 %*% E21 %*% A
+
+#if((A1[3,2]-(A1[3,2]*A1[2,2])) ==0) {
+
+if(A1[3,2]<0) {
+        E32[3,2] <- A1[3,2]
+}
+#}
+
+#for loop
+for(i in (1:dim(E)[1])) {
+  for(j in (1:dim(E)[1])) {
+    if(j<i) {
+        print(E[i,j]) }
+    }
+}
+```
+
+
+```{r}
+E <- matrix(c(1,2,3,1,1,1,2,0,1),nrow=3,ncol=3)
+
+A <-E
+
+#E21 <- diag(nrow =dim(E)[1])
+
+#E21 <- diag(3)
+
+for(i in (1:dim(E)[1])) {
+  for(j in (1:dim(E)[1])) {
+    if(j<i) {
+        #print(E[i,j]) 
+      E21 <- diag(nrow =dim(E)[1])
+
+#      if(i==2 & j ==1) {
+      if(A[i,j]>0) {
+      E21[i,j] <- -1*A[i,j]
+      }
+      else {E21[i,j] <- A[i,j]
+      }
+              A <- E21 %*% A
+print(A)
+#      }
+
+      }
+    }
+}
+
+```
+
+
+
+
+```{r}
+
+
+
+A <- matrix(c(1,2,2,7),nrow=2,ncol=2)
+
+A <- matrix(c(1,2,3,1,1,1,2,0,1),nrow=3,ncol=3)
+
+E_size <- dim(A)[1]
+
+E21 <- diag(E_size)
+E31 <- diag(E_size)
+E32 <- diag(E_size)
+
+
+
+if(A[2,1]>0) {
+E21[2,1] <- -1*A[2,1]
+}else {E21[2,1] <- A[2,1]
+}
+
+if(A[3,1]>0) {
+E31[3,1] <- -1*A[3,1]
+}else {E31[3,1] <- A[3,1]}
+
+A1 <- E31 %*% E21 %*% A
+
+if(A1[3,2]>0) {
+E32[3,2] <- -1*A1[3,2]
+}else {E32[3,2] <- A1[3,2]}
+
+
+E32 %*% E31 %*% E21 %*% A
+
+E <- diag(4)
+
+for(i in (2:dim(E)[1]-1)) {
+  for(j in (1:dim(E)[1]-1)) {
+print("Index",i, j)  
+        print(E[i,j])
+    }
+}
+
+E <-  matrix(c(1,2,3,4,5,6,7,8,9),nrow=3,ncol=3)
+E <- matrix(c(1,2,3,1,1,1,2,0,1),nrow=3,ncol=3)
+
+A <-E
+
+#E21 <- diag(nrow =dim(E)[1])
+
+#E21 <- diag(3)
+
+A
+
+sprintf("E",1,2)
+
+
+if(A[2,1]>0) {
+E21[2,1] <- -1*A[2,1]
+}else {E21[2,1] <- A[2,1]
+}
+
+
+#  if(uvz1_aug[1,1] !=0) {  }
+
+#else {    uvz1_aug <- uvz1_aug[c(2,1,3)]   }
+
+```
+
