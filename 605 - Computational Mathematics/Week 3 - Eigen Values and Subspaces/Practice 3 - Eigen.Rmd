@@ -1,0 +1,50 @@
+---
+title: "Practice - Eigen Values and subspace"
+author: "Shyam BV"
+date: "February 18, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+if(!require("matlib", character.only = TRUE, quietly = TRUE)) {
+  install.packages("matlib")
+  library("matlib", character.only = TRUE)
+}
+
+if(!require("rgl", character.only = TRUE, quietly = TRUE)) {
+  install.packages("rgl")
+  library("rgl", character.only = TRUE)
+}
+
+if(!require("Matrix", character.only = TRUE, quietly = TRUE)) {
+  install.packages("Matrix")
+  library("Matrix", character.only = TRUE)
+}
+
+
+```
+
+```{r}
+u1 <- c(1,2,3)
+v1 <- c(1,1,1)
+w1 <- c(3,3,4)
+s= c(1,4,9)
+
+uvz1 <- matrix(c(u1,v1,w1),ncol=3)
+
+rankMatrix(uvz1)
+
+det(uvz1)
+Inverse(uvz1)
+
+solve(uvz1,s)
+vec <- rbind(matrix(c(u1,v1,w1),ncol=3), c(1,4,9))
+rownames(vec) <- c("X", "Y", "Z", "J")
+
+open3d()
+plotEqn3d(uvz1,s)
+vectors3d(vec, color=c(rep("black",3), "red"))
+
+
+min(uvz1)
+```
