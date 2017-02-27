@@ -1,0 +1,201 @@
+---
+title: "SVD and Co-factors"
+author: "Shyam BV"
+date: "February 26, 2017"
+output:
+  html_document:
+    code_folding: show
+    highlight: textmate
+    theme: simplex
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+---
+
+
+```{r setup, include=FALSE}
+if(!require("matlib", character.only = TRUE, quietly = TRUE)) {
+  install.packages("matlib")
+  library("matlib", character.only = TRUE)
+}
+
+if(!require("rgl", character.only = TRUE, quietly = TRUE)) {
+  install.packages("rgl")
+  library("rgl", character.only = TRUE)
+}
+
+if(!require("Matrix", character.only = TRUE, quietly = TRUE)) {
+  install.packages("Matrix")
+  library("Matrix", character.only = TRUE)
+
+}
+
+if(!require("pracma", character.only = TRUE, quietly = TRUE)) {
+  install.packages("pracma")
+  library("pracma", character.only = TRUE)
+}
+
+
+```
+
+#1. Problem Set 1
+
+In this problem, we'll verify using R that SVD and Eigenvalues are related as worked
+out in the weekly module. Given a 3  2 matrix A
+$$ A = 
+\left[\begin{array}{cc} 
+1 & 2 & 3\\
+-1 & 0 & 4\\
+\end{array}\right]
+$$ 
+
+write code in R to compute X = AAT and Y = ATA. Then, compute the eigenvalues
+and eigenvectors of X and Y using the built-in commans in R.
+Then, compute the left-singular, singular values, and right-singular vectors of A using the svd command. Examine the two sets of singular vectors and show that they are indeed eigenvectors of X and Y. In addition, the two non-zero eigenvalues (the 3rd value will be very close to zero, if not zero) of both X and Y are the same and are squares of the non-zero singular values of A.
+
+Your code should compute all these vectors and scalars and store them in variables.
+
+Please add enough comments in your code to show me how to interpret your steps.
+
+
+
+```{r}
+
+
+output = function(A) {
+  
+  print("Input Matrix(A):\n")
+  print(A)
+  
+  ##Part 1
+  print("Transpose Matrix AA^T (X)")
+  AAT = A %*% t(A)
+  print(AAT)
+  
+  eigen_aat = eigen(AAT)
+  
+  print("Eigen Value for X:")
+  print(eigen_aat$values)
+  
+  print("Eigen Vector for X:")
+  print(eigen_aat$vectors)
+  
+  print("SVD for X:")
+  
+  print("U matrix for X:")
+  
+  print(svd(AAT)$u)
+
+  print("Diagonal for X:")
+  
+  print(svd(AAT)$d)
+      
+  print("V matrix for X:")
+  
+  print(svd(AAT)$v)
+  
+  print("Final SVD")
+  print(svd(AAT))
+  
+  ##Part 2
+   print("Transpose Matrix AA^T (Y)")
+  ATA = t(A) %*% A
+    print(ATA)
+
+  
+  eigen_ata = eigen(ATA)
+  
+  print("Eigen Value for Y:")
+  print(eigen_ata$values)
+  
+  print("Eigen Vector for Y:")
+  print(eigen_ata$vectors)
+  
+  print("SVD for Y:")
+  
+  print("U matrix for Y:")
+  
+  print(svd(ATA)$u)
+
+  print("Diagonal for Y:")
+  
+  print(svd(ATA)$d)
+      
+  print("V matrix for Y:")
+  
+  print(svd(ATA)$v)
+  
+  print("Final SVD")
+  print(svd(ATA))
+  
+ 
+}
+
+output(matrix(c(1,2,3,-1,0,4,3,4),nrow=2,ncol=4))
+
+```
+
+
+
+
+#2. Problem Set 2
+
+Using the procedure outlined in section 1 of the weekly handout, write a function to compute the inverse of a well-conditioned full-rank square matrix using co-factors. In order to compute the co-factors, you may use built-in commands to compute the determinant.
+
+Your function should have the following signature:
+
+B = myinverse(A)
+
+where A is a matrix and B is its inverse and AB = I. The o-diagonal elements of I
+should be close to zero, if not zero. Likewise, the diagonal elements should be close to 1, if not 1. Small numerical precision errors are acceptable but the function myinverse should be correct and must use co-factors and determinant of A to compute the inverse.
+
+
+```{r}
+
+
+myinverse = function(A){
+
+if(dim(A)[1]==dim(A)[2]) {
+  
+C = diag(dim(A)[1])
+
+for(i in 1:dim(A)[1]) {
+  
+  v1=c(1:dim(A)[1])
+  v2=c(i)
+  
+  C[i,i] = det(A[setdiff(v1,v2),setdiff(v1,v2)])
+  
+}
+} else { 
+  print("Matrix is not square") }
+
+CT = t(C)
+
+A_inv = CT/det(A)
+
+print("Normal inverse:")
+print(inv(A))
+
+print("Inverse using Co-factor menthod:")
+print(A_inv)
+
+}
+
+myinverse(matrix(c(1,0,0,2,4,0,3,5,6),nrow=3,ncol=3))
+
+myinverse(matrix(c(1,7,3,7,4,-5,3,-5,6,12,2,5,2,3,2,4),nrow=4,ncol=4))
+
+
+```
+
+
+
+
+
+
+
+
+
