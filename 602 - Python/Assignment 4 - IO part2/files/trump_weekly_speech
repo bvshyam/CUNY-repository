@@ -1,0 +1,52 @@
+[u'#content-start', u'#block-menu-block-sixteenhundrednav-main', u'/contact', u'/', u'#', u'https://www.whitehouse.gov', u'/blog', u'/blog', u'/featured-videos', u'/briefing-room/speeches-and-remarks', u'/briefing-room/press-briefings', u'/briefing-room/statements-and-releases', u'/briefing-room/presidential-actions', u'/briefing-room/legislation', u'/briefing-room/nominations-and-appointments', u'/briefing-room/disclosures', u'/america-first-energy', u'/america-first-energy', u'/america-first-foreign-policy', u'/bringing-back-jobs-and-growth', u'/making-our-military-strong-again', u'/law-enforcement-community', u'/trade-deals-working-all-americans', u'/administration/president-trump', u'/administration/president-trump', u'/administration/vice-president-pence', u'/administration/first-lady-melania-trump', u'/administration/karen-pence', u'/administration/cabinet', u'https://www.58pic2017.org/', u'/participate/tours-and-events', u'/participate/tours-and-events', u'https://apply.whitehouse.gov', u'/participate/internships', u'/participate/fellows', u'https://petitions.whitehouse.gov', u'/contact', u'/support-nominee-gorsuch', u'/support-americans-back-to-work', u'/support-empowering-female-leaders', u'/trump-stands-with-israel', u'/joint-address-issues-survey', u'/1600/Presidents', u'/1600/Presidents', u'/1600/first-ladies', u'/1600/vp-residence', u'/1600/eeob', u'/1600/camp-david', u'/1600/air-force-one', u'/1600/executive-branch', u'/1600/legislative-branch', u'/1600/judicial-branch', u'/1600/constitution', u'/1600/federal-agencies-and-commissions', u'/1600/elections-and-voting', u'/1600/state-and-local-government', u'/', u'/blog', u'/briefing-room/speeches-and-remarks', u'/briefing-room/press-briefings', u'/briefing-room/statements-and-releases', u'/briefing-room/presidential-actions', u'/briefing-room/legislation', u'/briefing-room/nominations-and-appointments', u'/briefing-room/disclosures', u'/the-press-office/2017/02/28/president-trump-rebuilding-americas-national-security', u'/the-press-office/2017/02/28/president-donald-j-trump-restoring-public-safety-all-americans', u'/the-press-office/2017/02/28/president-trump-confronting-our-nations-broken-healthcare-system', u'/the-press-office/2017/02/28/president-trump-working-rebuild-our-nations-infrastructure', u'/the-press-office/2017/02/28/president-trump-inherited-many-challenges', u'/the-press-office/2017/02/28/president-trump-delivering-immigration-enforcement-american-people', u'/the-press-office/2017/02/28/president-trump-delivers-jobs-american-people', u'/the-press-office/2017/02/28/president-trumps-first-40-days-action-achieving-results-american-people', u'/the-press-office/2017/02/28/excerpts-president-donald-j-trumps-address-joint-session-congress', u'/the-press-office/2017/02/28/president-donald-j-trump-signs-hr-255-hr-321-and-hjres-40', u'/briefing-room/statements-and-releases?term_node_tid_depth=41&page=1', u'https://twitter.com/whitehouse', u'https://www.facebook.com/WhiteHouse', u'http://instagram.com/whitehouse', u'https://www.youtube.com/user/whitehouse', u'https://www.whitehouse.gov/contact', u'http://twitter.com/whitehouse', u'http://instagram.com/whitehouse', u'http://facebook.com/whitehouse', u'/contact', u'https://www.whitehouse.gov', u'/blog', u'/blog', u'/featured-videos', u'/briefing-room/speeches-and-remarks', u'/briefing-room/press-briefings', u'/briefing-room/statements-and-releases', u'/briefing-room/presidential-actions', u'/briefing-room/legislation', u'/briefing-room/nominations-and-appointments', u'/briefing-room/disclosures', u'/america-first-energy', u'/america-first-energy', u'/america-first-foreign-policy', u'/bringing-back-jobs-and-growth', u'/making-our-military-strong-again', u'/law-enforcement-community', u'/trade-deals-working-all-americans', u'/administration/president-trump', u'/administration/president-trump', u'/administration/vice-president-pence', u'/administration/first-lady-melania-trump', u'/administration/karen-pence', u'/administration/cabinet', u'https://www.58pic2017.org/', u'/participate/tours-and-events', u'/participate/tours-and-events', u'https://apply.whitehouse.gov', u'/participate/internships', u'/participate/fellows', u'https://petitions.whitehouse.gov', u'/contact', u'/support-nominee-gorsuch', u'/support-americans-back-to-work', u'/support-empowering-female-leaders', u'/trump-stands-with-israel', u'/joint-address-issues-survey', u'/1600/Presidents', u'/1600/Presidents', u'/1600/first-ladies', u'/1600/vp-residence', u'/1600/eeob', u'/1600/camp-david', u'/1600/air-force-one', u'/1600/executive-branch', u'/1600/legislative-branch', u'/1600/judicial-branch', u'/1600/constitution', u'/1600/federal-agencies-and-commissions', u'/1600/elections-and-voting', u'/1600/state-and-local-government', u'http://www.usa.gov', u'/privacy', u'/copyright']
+
+
+
+
+if __name__ == "__main__":
+    pass_url = "https://www.whitehouse.gov/briefing-room/statements-and-releases"
+
+    url_bs4 = extract_links(pass_url)
+
+    my_text = u"""As Black History Month 2017 comes to a close, I am very grateful for the many wonderful opportunities to honor African American heroes, faith leaders, entrepreneurs and the many others who changed the course of our Nation. We are blessed by the lives and examples of those who have made this Nation a beacon of freedom, talent, and unbreakable American spirit."""
+    url1 = "https://www.whitehouse.gov/the-press-office/2017/02/28/president-trump-rebuilding-americas-national-security"
+
+    alchemy_language = watson_developer_cloud.AlchemyLanguageV1(api_key='e5b55f0862dd07aa529e8e6722adf935ed5cea49')
+
+    complete_json = []
+    for one_url in url_bs4:
+         complete_json.append(json.loads(json.dumps(alchemy_language.sentiment(url=one_url), indent=2)))
+         json.dumps(alchemy_language.authors(url='https://www.ibm.com/us-en/'), indent=2)
+
+    t = PrettyTable(['URL', 'Score', 'Type'])
+
+    for i in range(0,len(complete_json)):
+        t.add_row([complete_json[i]["url"],  complete_json[i]["docSentiment"]["score"], complete_json[i]["docSentiment"]["type"]])
+
+    print t
+
+#pattern for next page
+
+page_pattern = ".*term_node_tid_depth=41&page=\d"
+
+    final_list = list(links.get('href') for links in find_links)
+
+    #Next page links
+
+    for string_final in final_list:
+        if re.search(page_pattern, string_final) != None:
+            print re.search(page_pattern, string_final).group()
+
+#final cleanup
+
+    my_text swass= u"""As Black History Month 2017 comes to a close, I am very grateful for the many wonderful opportunities to honor African American heroes, faith leaders, entrepreneurs and the many others who changed the course of our Nation. We are blessed by the lives and examples of those who have made this Nation a beacon of freedom, talent, and unbreakable American spirit."""
+    url1 = "https://www.whitehouse.gov/the-press-office/2017/02/28/president-trump-rebuilding-americas-national-security"
+
+
+    for one_url in url_bs4:
+         complete_json.append([json.loads(json.dumps(alchemy_language.sentiment(url=one_url), indent=2)),\
+                              json.loads(json.dumps(alchemy_language.emotion(url=url1), indent=2))])
+
+
+t.add_column([complete_json[i][1]["url"],complete_json[i][1]["docEmotions"]["anger"],  complete_json[i][1]["docEmotions"]["disgust"], complete_json[i][1]["docEmotions"]["fear"],\
+                    #complete_json[i][1]["docEmotions"]["joy"], complete_json[i][1]["docEmotions"]["sadness"]])
