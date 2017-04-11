@@ -1,0 +1,144 @@
+---
+title: "Bayes Theorem"
+author: "Shyam BV"
+date: "March 26, 2017"
+output: html_document
+---
+
+```{r}
+source("https://bioconductor.org/biocLite.R")
+biocLite("RBGL")
+
+source("http://bioconductor.org/biocLite.R")
+biocLite("Rgraphviz")
+
+
+library(RBGL)
+
+if(!require("gRbase", character.only = TRUE, quietly = TRUE)) {
+  install.packages("gRbase")
+  library("gRbase", character.only = TRUE)
+}
+
+
+if(!require("gRain", character.only = TRUE, quietly = TRUE)) {
+  install.packages("gRain")
+  library("gRain", character.only = TRUE)
+}
+
+if(!require("Rgraphviz", character.only = TRUE, quietly = TRUE)) {
+  install.packages("Rgraphviz")
+  library("Rgraphviz", character.only = TRUE)
+}
+
+
+library(Rgraphviz)
+```
+
+
+
+###1. Problem Set 1
+
+** Your colleague either commutes by train or by the bus. 20 days of the month, she takes the train and the remaining 10 days she takes the bus. If she takes the train, she reaches work on time with a probability of 0.9. If she takes the bus, she frequently gets stuck in traffic and reaches work on time with a probability of 0.5. Given that she was on time today, what is the probability that she took the bus to work today? **
+
+
+```{r}
+# the possible values for travel
+tb <- c("train","bus")
+
+# the possible values for arrival
+tb1 <- c("ontime","not ontime")
+
+# specify the CPTs
+node.travel <- cptable(~ Tr, values=c(.67, .33), levels=tb)
+node.trbu <- cptable(~ Trbu + Tr, values=c(.9,.1,.5,.5), levels=tb1)
+
+plist <- compileCPT(list(node.travel,node.trbu))
+plist
+```
+
+```{r}
+plist$Trbu
+
+bn.travel <- grain(plist)
+summary(bn.travel)
+
+# Conditional probability P(Tr,Trbu):
+
+summary = querygrain(bn.travel, nodes=c("Tr","Trbu"), type="conditional")
+
+querygrain(bn.travel, nodes=c("Tr","Trbu"), type="joint")
+
+#Complete probability list
+summary
+
+#probability that she took the bus to work today
+summary[3]
+
+plot(bn.travel)
+
+```
+
+
+###2. Problem Set 2
+
+**In the Grade Network that we looked at in the notes, what happens to the probability of Difficulty of Course when you present the evidence that the received recommendation letter was good? In addition, now present the evidence that both SAT scores were good and the letter of recommendation was good, What is the probability of the Diffculty of Course now? You should use the gRain package in R to build your network and perform these calculations. You may need to install RBGL package from BioConductor in R to get gRain working. **
+
+
+## https://rpubs.com/HoneyBerk/IS605_assign8
+
+```{r}
+# the possible interval values for Difficuilty
+ny <- c("no","yes")
+
+# the possible values for others
+lh <- c("low","high")
+
+# specify the CPTs
+node.d <- cptable(~D, values=c(.3, .7), levels=ny)
+node.i <- cptable(~I, values=c(.8, .2), levels=lh)
+node.g <- cptable(~G | D:I, values=c(.6, .4, .01,.99,.8,.2,.1,.9), levels=lh)
+node.s <- cptable(~S | I, values=c(.9, .1, .2, .8), levels=lh)
+node.l <- cptable(~L | G, values=c(.9, .1, .05, .95), levels=lh)
+
+
+plist <- compileCPT(list(node.d,node.i,node.s,node.g,node.l))
+plist
+
+```
+
+```{r}
+
+#Probabilities before evidence
+plist$D
+
+#Independence network on the complete list
+bn <- grain(plist)
+
+#Plot of the network
+plot(bn)
+
+#First evidence
+bn.ev1 <- setEvidence(bn, evidence=list(L="high"))
+
+#Change in Difficulty probability when recommendation letter was good
+querygrain(bn.ev1, nodes="D")
+
+
+```
+```{r}
+
+#Change in probability when SAT score is good
+
+bn.ev2 <- setEvidence(bn, evidence=list(S="high"))
+
+#First evidence - No change in Difficulty probability
+querygrain(bn.ev2, nodes="D")
+
+#Second evidence - Change in probability when Letter of recommendation is good
+bn.ev3 <- setEvidence(bn.ev2, evidence=list(L="high"))
+
+#Complete change in Difficulty probability after two evidence
+querygrain(bn.ev3, nodes="D")
+```
+

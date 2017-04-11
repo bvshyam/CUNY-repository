@@ -1,0 +1,145 @@
+---
+title: "Probability"
+author: "Shyam BV"
+date: "March 13, 2017"
+output: html_document
+---
+
+
+#Problem Set 1
+
+##Part 1: 
+
+Please write a function to compute the expected value and standard deviation of an array of values. Compare your results with that of R's mean and std functions. Please document your work in an R-Markdown file and ensure that you have good comments to help the reader follow your work. 
+
+
+```{r}
+
+
+calc_mean = function(calc_vec) {
+  
+#Expected value
+expected_sum =0
+expected_mean=0
+for(i in 1:length(calc_vec)){
+  expected_sum = expected_sum+calc_vec[i]
+}
+
+expected_mean = expected_sum/length(calc_vec)
+return(expected_mean)
+
+}
+
+calc_var = function(calc_vec){
+
+#Variance
+#Expected value
+expected_sum =0
+expected_mean=0
+
+variance=0
+for(i in 1:length(calc_vec)){
+  variance = variance +(((calc_vec[i]-expected_mean)^2)/(length(calc_vec)-1))
+  
+}
+
+return(variance)
+
+}
+
+
+temperature = c(39,37,41,41,39,42,52,55,35,30,26,29,36,41,39,33,30,27,25,32,43,48,44,35,31,28,26,39,53,58,54,48)
+
+#Calculated mean
+calc_mean(temperature)
+
+#Mean from predefined function
+mean(temperature)
+
+
+#Calculated Variance
+calc_var(temperature)
+
+#Variance from pre-defined function
+
+var(temperature)
+
+#Sd from pre-defined function
+calc_sd = var(temperature)
+
+sqrt(calc_sd)
+sd(temperature)
+
+#############
+
+```
+
+
+##Part 2: 
+
+Now, consider that instead of being able to neatly  fit the values in memory in an array, you have an infinite stream of numbers coming by. How would you estimate the mean and standard deviation of such a stream? Your function should be able to return the current estimate of the mean and standard deviation at any time it is asked. Your program should maintain these current estimates and return them back at any invocation of these functions. (Hint: You can maintain a rolling estimate of the mean and standard deviation and allow these to slowly change over time as you see more and more new values). 
+
+
+Formulas: Calculating Variance from below two formulas
+
+
+$$s^2_n = \frac{(n-2)}{(n-1)} \, s^2_{n-1} + \frac{(x_n - \bar x_{n-1})^2}{n}, \quad n>1 $$
+$$\sigma _{n}^{2}={\frac  {(n-1)\,\sigma _{{n-1}}^{2}+(x_{n}-{\bar  x}_{{n-1}})(x_{n}-{\bar  x}_{{n}})}{n}}$$
+
+```{r}
+
+#Part 2:
+
+#link https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Online_algorithm
+
+update1 = c(39,37,41,41,39,42,52,55,35,30,26,29,36,41,39,33,30,27,25,32,43,48,44,35,31,28,26,39,53,58,54,48)+20
+
+
+#Mean and Variance
+
+store =c(0)
+
+new_mean_var = function(old_list,new_list){
+  
+expected_mean_new = calc_mean(old_list)
+variance_new = calc_var(old_list)
+count=length(old_list)
+
+for(i in 1:length(new_list)){
+  
+  count = count+1
+  expected_mean_old = expected_mean_new
+  
+  expected_mean_new= expected_mean_new + ((new_list[i]-expected_mean_new)/count)
+  
+  #variance_new = variance_new +(((update1[i]-expected_mean_new)^2)/(count-1))
+  variance_old = variance_new
+  variance_new = (((count-1)*variance_old) +((new_list[i]-expected_mean_old)*(new_list[i] - expected_mean_new)))/count
+  
+  variance_new1 = (((count-2)*variance_old)/(count-1)) +(((expected_mean_old - expected_mean_new)^2)/count)
+
+}
+store[1] = expected_mean_new
+store[2] = variance_new
+#store[3] = variance_new1
+
+return(store)
+}
+
+#Mean
+print(new_mean_var(temperature,update1)[1])
+
+#Mean using Standard function
+mean(c(temperature,update1))
+
+#Variance
+print(new_mean_var(temperature,update1)[2])
+
+#Variance using Standard function
+var(c(temperature,update1))
+
+
+```
+
+
+

@@ -1,0 +1,190 @@
+---
+title: "Random Variables and Probability"
+author: "Shyam BV"
+date: "March 12, 2017"
+output:
+  html_document:
+    code_folding: show
+    highlight: textmate
+    theme: simplex
+    toc: yes
+    toc_float: yes
+---
+
+```{r library-load,eval=TRUE,include=FALSE}
+#install.packages("TeachingDemos")
+#install.packages("ngram")
+library(utils)
+library(ggplot2)
+library(tm)
+library(readr)
+library(ngram)
+library(dplyr)
+library(stringr)
+
+```
+
+# Problem Set 1
+
+##Question 1
+
+**(1) When you roll a fair die 3 times, how many possible outcomes are there?**
+
+```{r}
+
+#faces
+die = 6
+#n
+count = 3
+
+#Sample space
+die^count
+
+```
+
+
+##Question 2
+
+** (2) What is the probability of getting a sum total of 3 when you roll a die two times? **
+
+
+```{r}
+
+#faces
+die = 6
+#n
+count = 2
+
+#Sample space
+die^count
+
+
+#Totally we can get sum of 3 in two different ways
+2/die^count
+
+
+```
+
+##Question 3
+
+** (3) Assume a room of 25 strangers. What is the probability that two of them have the same birthday? Assume that all birthdays are equally likely and equal to 1/365 each. What happens to this probability when there are 50 people in the room?**
+
+
+```{r}
+#function to find probability
+
+prob = function(strangers){
+  e=365
+  n=0
+for(i in 1:strangers-1){
+  if(i==1){
+  n=e*(e-i)
+  }
+  else {
+    n=n*(e-i)
+  }
+
+}
+  return(1-n/(365^strangers))
+}
+
+#Probability of having two same birthday for 25
+prob(25)
+
+
+#Probability of having two same birthday for 50
+prob(50)
+
+
+```
+
+#Problem Set 2
+
+#Question 1
+
+**Sometimes you cannot compute the probability of an outcome by measuring the sample
+space and examining the symmetries of the underlying physical phenomenon, as you could
+do when you rolled die or picked a card from a shuffled deck. You have to estimate
+probabilities by other means. For instance, when you have to compute the probability of
+various english words, it is not possible to do it by examination of the sample space as it is
+too large. You have to resort to empirical techniques to get a good enough estimate. One
+such approach would be to take a large corpus of documents and from those documents,
+count the number of occurrences of a particular character or word and then base your
+estimate on that.
+Write a program to take a document in English and print out the estimated probabilities
+for each of the words that occur in that document. Your program should take in a file
+containing a large document and write out the probabilities of each of the words that
+appear in that document. Please remove all punctuation (quotes, commas, hyphens etc)
+and convert the words to lower case before you perform your calculations.
+
+Extend your program to calculate the probability of two words occurring adjacent to
+each other. It should take in a document, and two words (say the and for) and compute
+the probability of each of the words occurring in the document and the joint probability
+of both of them occurring together. The order of the two words is not important.
+Use the accompanying document for your testing purposes. Compare your probabilities
+of various words with the Time Magazine corpus: http://corpus.byu.edu/time/
+**
+
+
+```{r}
+
+#import file
+word_prob <- read_file("G:/Google_drive/CUNY/Courses/CUNY-repository/605 - Computational Mathematics/Week 6 - Random Variables/data/sample.txt")
+
+#Creating Corpus
+word_corpus <- Corpus(VectorSource(word_prob))
+
+#Clean the corpus
+word_corpus_1 = tm_map(word_corpus,removeNumbers)
+
+word_corpus_1 = tm_map(word_corpus_1,str_replace_all,pattern="[[:punct:]]",replacement=" ")
+
+word_corpus_1 = tm_map(word_corpus_1,stripWhitespace)
+
+word_corpus_1 = tm_map(word_corpus_1,tolower)
+
+word_corpus_1 = tm_map(word_corpus_1,stemDocument)
+
+word_corpus_1 = tm_map(word_corpus_1,PlainTextDocument)
+
+#Clean the corpus
+dtm_total_corpus <- DocumentTermMatrix(word_corpus_1)
+
+
+#Remove sparse terms
+dtm_total_corpus <- removeSparseTerms(dtm_total_corpus,.80)
+
+#Convert as Matrix
+word_count = as.matrix(dtm_total_corpus)
+
+#Final word probability
+final_word_prob = word_count/sum(word_count)
+
+
+#Sample Word probability
+t(final_word_prob)%>% data.frame() %>% head()
+
+
+```
+
+Via Ngram:
+
+Split the words by two and show the probability
+
+```{r}
+
+
+#Clean-up the text
+format_text =  preprocess(word_prob, case="lower",remove.punct = TRUE,remove.numbers = TRUE)
+
+#Create an ngram strings
+ngram_string = ngram(format_text,n=2)
+
+#Probability of the combined strings
+ngram_prob = get.phrasetable(ngram_string)
+
+#Sample of Ngram probability
+head(ngram_prob)
+
+```
+

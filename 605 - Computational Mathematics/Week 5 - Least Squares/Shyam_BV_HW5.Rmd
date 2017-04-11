@@ -1,0 +1,261 @@
+---
+title: "Least Squares"
+author: "Shyam BV"
+date: "March 5, 2017"
+output:
+  html_document:
+    code_folding: show
+    highlight: textmate
+    theme: simplex
+    toc: yes
+    toc_float: yes
+---
+
+
+```{r setup, include=FALSE}
+if(!require("matlib", character.only = TRUE, quietly = TRUE)) {
+  install.packages("matlib")
+  library("matlib", character.only = TRUE)
+}
+
+if(!require("rgl", character.only = TRUE, quietly = TRUE)) {
+  install.packages("rgl")
+  library("rgl", character.only = TRUE)
+}
+
+if(!require("Matrix", character.only = TRUE, quietly = TRUE)) {
+  install.packages("Matrix")
+  library("Matrix", character.only = TRUE)
+
+}
+
+if(!require("pracma", character.only = TRUE, quietly = TRUE)) {
+  install.packages("pracma")
+  library("pracma", character.only = TRUE)
+}
+
+
+```
+
+
+
+#1. Problem Set 1
+
+In this problem set we'll work out some properties of the least squares solution that we
+reviewed in the weekly readings. Consider the unsolvable system Ax = b as given below:
+
+
+
+$$
+\left[\begin{array}{cc} 
+1 & 0\\
+1 & 1\\
+1 & 3\\
+1 & 4\\
+\end{array}\right] 
+$$
+*
+
+$$
+\left[\begin{array}{cc} 
+x1\\
+x2\\
+\end{array}\right] 
+$$
+
+=
+$$
+\left[\begin{array}{cc} 
+0\\
+8\\
+8\\
+20\\
+\end{array}\right] 
+$$
+
+### Write R markdown script to compute $A^T$A and $A^T$b.
+
+
+```{r}
+
+A = matrix(c(1,1,1,1,0,1,3,4),nrow=4,ncol=2)
+
+b = matrix(c(0,8,8,20),nrow=4,ncol=1)
+
+#A^TA
+
+t(A) %*% A
+
+
+#A^Tb
+
+t(A) %*% b
+
+```
+
+
+### Solve for ^x in R using the above two computed matrices.
+
+$\\cap(x)$
+
+```{r}
+
+x_cap = Inverse(t(A) %*% A) %*% (t(A) %*% b)
+
+#x*(x cap) after calculation
+x_cap
+```
+
+
+## What is the squared error of this solution?
+
+```{r}
+
+#Projection vector
+p = A %*% x_cap
+
+#Error vector. Difference between b and Ax*
+e = b - p
+
+#sum of squared error
+sum(e*e)
+
+
+#Function to calculate least squares
+lsfit(A, b,intercept=FALSE)$residuals
+
+```
+
+
+### Instead of b = [0; 8; 8; 20], start with p = [1; 5; 13; 17] and find the exact solution
+(i.e. show that this system is solvable as all equations are consistent with each other. This should result in an error vector e = 0).
+
+
+
+```{r}
+b  = matrix(c(0,8,8,20),nrow=4,ncol=1)
+p = matrix(c(1,5,13,17),nrow=4,ncol=1)
+
+x_cap = Inverse(t(A) %*% A) %*% (t(A) %*% b)
+
+#Projection vector
+p2 = A %*% x_cap
+
+#Error vector. Difference between p and p2
+e = p2 - p
+
+#sum of squared error - This is approximately 0
+sum(e*e)
+
+```
+
+### Show that the error e = b - p = [-1;3;-5;3]
+
+```{r}
+
+e = b-p
+
+#error vector between b and p(projection vector)
+e
+
+```
+
+### Show that the error e is orthogonal to p and to each of the columns of A.
+
+
+```{r}
+e = b-p
+
+
+# e is orthogonal to p. If orthogonal p^t * e = 0
+
+t(p) %*% e
+
+
+# e is orthogonal to A. If orthogonal A^t * e = 0
+t(A) %*% e
+
+
+```
+
+Your code should be able to print all of the above requested quantities. Please include enough comments to make it easy to follow your R markdown document.
+
+
+
+
+# Problem set 2
+
+### Auto Mpg least squares
+
+Consider the modified auto-mpg data (obtained from the UC Irvine Machine Learning
+dataset). This dataset contains 5 columns: displacement, horsepower, weight, acceleration,
+mpg. We are going to model mpg as a function of the other four variables.
+
+Write an R markdown script that takes in the auto-mpg data, extracts an A matrix
+from the first 4 columns and b vector from the fifth (mpg) column. Using the least squares
+approach, your code should compute the best fitting solution. That is, and the best fitting
+equation that expresses mpg in terms of the other 4 variables. Finally, calculate the fitting
+error between the predicted mpg of your model and the actual mpg. Your script should
+be able to load in the 5 column data set, extract A and b, and perform the rest of the
+calculations. Please have adequate comments in your code to make it easy to follow your
+work.
+
+Please complete both problem set 1 & problem set 2 in one R markdown document
+and upload it to the site. You don't have to attach the auto-mpg data. Just write your
+markdown document in such a way that it expects and loads the auto-mpg data file from the current working directory. As always, your code is expected to compile and run successfully.
+Adding test cases to demonstrate that your code is working will be very helpful.
+
+
+
+```{r}
+
+auto = read.table("G:/Google_drive/CUNY/Courses/CUNY-repository/605 - Computational Mathematics/Wek 5 - Least Squares/data/auto-mpg.data",header = FALSE)
+
+auto = setNames(auto, c('displacement', 'horsepower','weight', 'acceleration','mpg'))
+
+# Matrix A
+
+A1 = matrix(c(auto$displacement,auto$horsepower,auto$weight,auto$acceleration),nrow=392,ncol=4)
+
+A1=cbind(1,A1)
+
+# Matrix b
+b1 = matrix(c(auto$mpg),nrow=392,ncol=1)
+
+#Transpose of A * A
+
+ATA= t(A1) %*% A1 
+
+
+#Transpose of A * b
+
+ATB= t(A1) %*% b1
+
+#x_cap of the matrix
+x_cap = inv(ATA) %*% ATB
+
+#Final fitted line
+p = A1 %*% x_cap
+
+#error b- p
+e = b1 - p
+
+sum(e)
+
+#validation of residuals(e)
+v = lsfit(A1, b1,intercept=FALSE)$residuals
+
+#It is almost equal to zero
+sum(e-v)
+
+
+#Validation via Lm function from statistics
+summary(lm(mpg ~ displacement + horsepower + weight + acceleration, data = auto))
+x_cap
+
+```
+Equation of mpg:
+
+$$mpg = -0.006000871 * displacement - 0.043607731 * horsepower -0.005280508 *weight -0.023147999* acceleration $$
+
+

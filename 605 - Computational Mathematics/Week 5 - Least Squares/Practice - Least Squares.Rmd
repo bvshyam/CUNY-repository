@@ -1,0 +1,155 @@
+---
+title: "Least Squares"
+author: "Shyam BV"
+date: "March 5, 2017"
+output:
+  html_document:
+    code_folding: show
+    highlight: textmate
+    theme: simplex
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+---
+
+
+```{r setup, include=FALSE}
+if(!require("matlib", character.only = TRUE, quietly = TRUE)) {
+  install.packages("matlib")
+  library("matlib", character.only = TRUE)
+}
+
+if(!require("rgl", character.only = TRUE, quietly = TRUE)) {
+  install.packages("rgl")
+  library("rgl", character.only = TRUE)
+}
+
+if(!require("Matrix", character.only = TRUE, quietly = TRUE)) {
+  install.packages("Matrix")
+  library("Matrix", character.only = TRUE)
+
+}
+
+if(!require("pracma", character.only = TRUE, quietly = TRUE)) {
+  install.packages("pracma")
+  library("pracma", character.only = TRUE)
+}
+
+
+```
+
+```{r}
+
+A =matrix(c(1,2,5,0,1,0,0,0,1),nrow=3,ncol=3) %*% matrix(c(1,0,0,3,0,0,0,1,0,5,6,0),nrow=3,ncol=4)
+
+#A = matrix(c(1,7,3,7,4,-5,3,-5,6,12,2,5,2,3,2,4),nrow=4,ncol=4)
+
+
+nullspace(A)
+
+A = matrix(c(1,2,2,4,4,8),nrow=2,ncol=3)
+
+
+dim(nullspace(A)) + rank(A)
+
+
+A = matrix(c(1,0,0,0,0,0,0,0,0),nrow=3,ncol=3)
+
+Inverse(A)
+
+dim(nullspace(A)) + rank(A)
+
+
+A = matrix(c(1,2,4,8,2,3,7,1,8),nrow=3,ncol=3)
+
+t(A) %*% A
+
+###
+
+A = matrix(c(1,1,1,1,1,1,1,1,1,1),nrow=10,ncol=1)
+
+
+b = matrix(c(0,0,0,0,0,0,0,0,0,40),nrow=10,ncol=1)
+
+t(A) %*% A 
+
+t(A) %*% b
+
+
+###
+
+A = matrix(c(1,1,1,1,1,1,1,1,1,1,1:10),nrow=10,ncol=2)
+
+
+b = matrix(c(0,0,0,0,0,0,0,0,0,40),nrow=10,ncol=1)
+
+t(A) %*% A 
+
+t(A) %*% b
+
+Inverse(t(A) %*% A) %*% (t(A) %*% b)
+
+
+```
+
+
+```{r}
+A1=auto[,1:4]
+b1=auto[,5]
+ls=solve(t(A1)%*%A1)%*%t(A1)%*%b1
+fcast=A1%*%ls
+error=b-fcast
+error
+
+summary(lm(mpg ~ -1+displacement+horsepower+weight+acceleration, data = auto))
+
+x_cap
+ls
+
+
+#1
+A=matrix(c(1,1,1,1,0,1,3,4),nrow=4)
+b=matrix(c(0,8,8,20),nrow=4)
+ls=solve(t(A)%*%A)%*%t(A)%*%b
+est=A%*%ls
+sqerr=sum((b-est)^2)
+p=c(1,5,13,17)
+ls2=solve(t(A)%*%A)%*%t(A)%*%p
+e=b-p #same
+t(e)%*%p  #orthogonal
+t(e)%*%A[,1]
+t(e)%*%A[,2]
+
+```
+
+```{r}
+
+brain_body <- read.csv("G:/Google_drive/CUNY/Courses/CUNY-repository/602 - Python/Assignment 5 - Datamining/data/brainandbody.csv",header = TRUE,sep = ",")
+
+sd(brain_body$body)
+sd(brain_body$brain)
+
+A1=matrix(c(brain_body$body))
+b1=matrix(c(brain_body$brain))
+
+ATA= t(A1) %*% A1 
+
+#Transpose of A * b
+
+ATB= t(A1) %*% b1
+
+#x_cap of the matrix
+x_cap = inv(ATA) %*% ATB
+x_cap
+
+sum(brain_body$body)
+
+summary(lm(brain ~ body,data = brain_body ))
+summary(lm(body ~ brain,data = brain_body ))
+
+```
+
+
+

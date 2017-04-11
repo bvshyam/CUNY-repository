@@ -1,0 +1,94 @@
+
+<!--Create a function to reverse any word that you type in. This can be typed into either an input box or an alert box, and then print the result in a box or on the webpage -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title> Beginner - Word reverse </title>
+		<script type = "text/javascript" src= "https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.4/d3.min.js"></script>
+		<link rel ="stylesheet" href ="intermediate_styling.css">
+	</head>
+
+	<body>
+<script type ="text/javascript">
+
+// Function to perform word reverse
+
+word_reverse = function(){
+	var t= document.getElementById("target");
+	var typed_str = document.getElementById('text_input').value;
+
+	var reverse_str='';
+	for(var i=typed_str.length-1; i>=0; i--) {
+		reverse_str = reverse_str + typed_str[i];
+	}
+
+	t.innerHTML = reverse_str
+	
+}
+
+// Function to perform multiplication
+
+number_mul = function(){
+	
+	var t1= document.getElementById("target_num");
+
+	var dataset = [];
+
+	var num = document.getElementById('number_input').value;
+
+	for(var i = 1; i<=20;i++) {
+
+		dataset.push(i*num)
+	}
+
+
+
+function splitArray(array, part) {
+    var tmp = [];
+    for(var i = 0; i < array.length; i += part) {
+        tmp.push(array.slice(i, i + part));
+    }
+    return tmp;
+}
+
+display = splitArray(dataset, 4);
+
+
+var table = document.createElement("table");
+table.id="main_data";
+
+for(var i=0; i<display.length; i++) {
+
+var row = table.insertRow(-1);
+var pr_name = row.insertCell(-1);
+pr_name.appendChild(document.createTextNode(display[i]));
+}
+
+
+document.body.appendChild(table);
+
+}
+
+
+</script>
+
+
+<form>
+<h1> Problem 1 - Word Reverse </h1>
+Enter the text to reverse a word:
+<input type="text" id="text_input" onkeyup="word_reverse();" />
+<br> <br>
+
+<div id="target"></div>
+
+<h1> Problem 2 - Multiplication </h1>
+Enter the number for multiplication:
+<input type="number" id="number_input" onchange="number_mul();" />
+<br> <br>
+</form>
+
+
+	</body>
+</html>

@@ -1,0 +1,141 @@
+---
+title: "Central Limit Theorem"
+author: "Shyam BV"
+date: "April 1, 2017"
+output: html_document
+---
+
+
+**This week, we'll empirically verify Central Limit Theorem. We'll write code to run a small simulation on some distributions and verify that the results match what we expect from Central Limit Theorem. Please use R markdown to capture all your experiments and code. Please submit your Rmd file with your name as the filename.**
+
+```{r inclue = FALSE}
+if(!require("ggplot2", character.only = TRUE, quietly = TRUE)) {
+  install.packages("ggplot2")
+  library("ggplot2", character.only = TRUE)
+}
+
+
+```
+
+
+**(1) First write a function that will produce a sample of random variable that is distributed as follows:**
+
+$$
+f(x) = x, 0 \leq x \leq 1 \\ 
+f(x) = 2-x, 1 < x \leq 2
+$$
+
+**That is, when your function is called, it will return a random variable between 0 and 2 that is distributed according to the above PDF. Please note that this is not the same as writing a function and sampling uniformly from it. In the online session this week, I'll cover Sampling techniques. You will find it useful when you do the assignment for this week. In addition, as usual, there are one-liners in R that will give you samples from a function. We'll cover both of these approaches in the online session.**
+
+
+```{r}
+
+#function to create a random value between 0 to 2
+
+random_val = function() {
+  
+#Uncomment for dataframe and creating dynamic value from input 
+# return(data.frame(x, col=ifelse(x >1 & x <=2,2-x, x) ))
+
+  #Generate 1 random value between 0 to 2
+  x = runif(1, 0,2)
+
+#Apply the given pdf1 function
+  return(ifelse(x >1 & x <=2,2-x, x) )
+
+}
+
+#test the function
+random_val()
+
+
+```
+
+**(2) Now, write a function that will produce a sample of random variable that is distributed as follows:**
+
+$$
+f(x) = 1-x, 0 \leq x \leq 1 \\ 
+f(x) = x-1, 1 < x \leq 2
+$$
+
+```{r}
+random_val1 = function() {
+  #Generate 1 random value between 0 to 2
+  x = runif(1, 0,2)
+  
+  #Apply the given pdf1 function
+  return(ifelse(x >=0 & x <=1, 1 - x, ifelse(x > 1 & x <= 2, x-1,x)) )
+}
+
+#test the function
+random_val1()
+```
+
+**(3) Draw 1000 samples (call your function 1000 times each) from each of the above two distributions and plot the resulting histograms. You should have one histogram for each PDF. See that it matches your understanding of these PDFs.**
+
+```{r}
+pdf1 = vector('double')
+pdf2 = vector('double')
+
+#Calling function for 1000 times
+for(i in 1:1000){
+pdf1 =append(pdf1,random_val())
+pdf2 =append(pdf2,random_val1())
+}
+
+#Below is the histogram output for PDF1
+hist(pdf1)
+
+#Below is the histogram output for PDF2
+hist(pdf2)
+
+```
+Above plots show that the PDF1 and PDF2 functions are uniformly distributed. It means that it is not normally distributed.
+
+
+**(4) Now, write a program that will take a sample set size n as a parameter and the PDF as the second parameter, and perform 1000 iterations where it samples from the PDF, each time taking n samples and computes the mean of these n samples. It then plots a histogram of these 1000 means that it computes.**
+
+
+```{r}
+
+samples_test = function(n, dataset){
+samples = vector('double')
+
+#For 1000 iterations
+for(i in 1:1000){
+samples = append(samples, mean(sample(dataset,n)))
+}
+
+
+# Histogram in frequency
+hist(samples,breaks = n)
+
+#Samples Histogram with Bell curve - density
+samples = sort(samples)
+hist(samples, freq = FALSE,ylim = c(0, 8))
+x <- samples
+y <- dnorm(x = samples, mean = mean(samples), sd = sd(samples))
+lines(x = x, y = y, col = "blue")
+
+print(sd(samples)/sqrt(n))
+}
+
+#Call the function for 30 samples
+samples_test(30,pdf1)
+samples_test(30,pdf2)
+
+
+```
+
+**(5) Verify that as you set n to something like 10 or 20, each of the two PDFs produce normally distributed mean of samples, empirically verifying the Central Limit Theorem. Please play around with various values of n and you'll see that even for reasonably small sample sizes such as 10, Central Limit Theorem holds.**
+
+
+```{r}
+#Call the function for 10 samples
+samples_test(10,pdf1)
+samples_test(10,pdf2)
+```
+As per centeral limit theorem, when we take enough independent samples from the distribution, the output of all the sampling means will form a normal distribution.
+
+
+

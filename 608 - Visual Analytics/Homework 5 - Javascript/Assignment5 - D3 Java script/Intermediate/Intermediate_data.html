@@ -1,0 +1,99 @@
+<!-- Write a function to load the presidents.csv data and display the data as an html table (you may use a cdv parser from any available library, though I encourage you to try the d3 one). -->
+
+<!-- Now that you have the presidents data loaded, write a function that will return that
+president’s height & weight when you type it in. This can be typed into either an input box or
+an alert box, and then print the result in a box or on the webpage.-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title> Intermediate - Word reverse </title>
+		<script type = "text/javascript" src= "https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.4/d3.min.js"></script>
+		<link rel ="stylesheet" href ="intermediate_styling.css">
+	</head>
+
+	<body>
+<h1> President Details</h1>
+<script type="text/javascript" src="./int_data1.js"></script>
+
+<script type ="text/javascript">
+	
+	filter_president = function(){
+		other_data = false
+	var t= document.getElementById("target");
+	var typed_str= document.getElementById('pre_input').value;
+
+	for (var i = 0; i < pres_dataset.length; i++) {
+
+
+	if(pres_dataset[i].Name.startsWith(typed_str)) {
+
+
+	
+	var sub_table = document.getElementById('sub_data');
+	
+	if(sub_table) {		
+
+    sub_table.parentNode.removeChild(sub_table);
+}
+
+	var table2 = document.getElementById('main_data');
+		
+	if(table2) {		
+		
+		
+    table2.parentNode.removeChild(table2);
+}
+
+	var table = document.createElement("table");
+	table.id = "sub_data"
+	var row = table.insertRow(-1);
+	//For title
+	
+		title_name = row.insertCell(-1);
+	title_name.appendChild(document.createTextNode("Name"));
+		title_ht = row.insertCell(-1);
+	title_ht.appendChild(document.createTextNode("Height"));
+	title_wt = row.insertCell(-1);
+	title_wt.appendChild(document.createTextNode("Weight"));
+
+  var row = table.insertRow(-1);
+  var pr_name = row.insertCell(-1);
+  pr_name.appendChild(document.createTextNode(pres_dataset[i].Name));
+
+  var pr_height = row.insertCell(-1);
+  pr_height.appendChild(document.createTextNode(pres_dataset[i].Height));
+
+   var pr_weight = row.insertCell(-1);
+  pr_weight.appendChild(document.createTextNode(pres_dataset[i].Weight));
+
+  document.body.appendChild(table);
+
+	}
+
+
+}
+
+	if(!typed_str) {
+
+	var sub_table = document.getElementById('sub_data');
+	if(sub_table) {		
+		
+    sub_table.parentNode.removeChild(sub_table);
+
+}
+	}
+		
+}
+
+</script>
+
+Enter the Presidents name:
+<input type="text" id="pre_input" onkeyup="filter_president();" />
+<a href="?">See full Presidents list</a>
+
+</body>
+</html>
+ 
