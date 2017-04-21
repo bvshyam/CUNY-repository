@@ -1,0 +1,195 @@
+---
+title: "Linear Regression"
+author: "Shyam BV"
+date: "April 16, 2017"
+output:
+  html_document:
+    highlight: tango
+    theme: cerulean
+    toc: yes
+    toc_depth: 2
+    toc_float:
+      collapsed: yes
+      number_sections: yes
+      smooth_scroll: no
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+---
+
+
+```{r include=FALSE}
+if(!require("ggplot2", character.only = TRUE, quietly = TRUE)) {
+  install.packages("ggplot2")
+  library("ggplot2", character.only = TRUE)
+}
+
+
+```
+
+##Problem 1 - Heart
+
+####Case 1 - with given function
+
+Using R's lm function, perform regression analysis and measure the significance of the
+independent variables for the following two data sets. In the first case, you are evaluating
+the statement that we hear that Maximum Heart Rate of a person is related to their age
+by the following equation:
+
+MaxHR = 220 -􀀀 Age
+
+
+```{r}
+#Age sample
+age <- c(18,23,25,35,65,54,34,56,72,19,23,42,18,39,37)
+
+#Correlation between variables
+cor(age, (220-age))
+
+
+#lm equation
+case1_eq = lm((220-age) ~  age)
+
+summary(case1_eq)
+
+```
+
+
+####Case 2 - With sample data
+
+
+You have been given the following sample:
+
+**Age:** 18 23 25 35 65 54 34 56 72 19 23 42 18 39 37 
+**MaxHR:** 202 186 187 180 156 169 174 172 153 199 193 174 198 183 178
+
+Perform a linear regression analysis fitting the Max Heart Rate to Age using the lm
+function in R. What is the resulting equation? Is the effect of Age on Max HR significant?
+What is the significance level? Please also plot the fitted relationship between Max HR
+and Age.
+
+
+
+```{r}
+
+#sample data
+age <- c(18,23,25,35,65,54,34,56,72,19,23,42,18,39,37)
+maxhr <- c(202,186,187,180,156,169,174,172,153,199,193,174,198,183,178)
+
+
+heart.df = data.frame(age,maxhr)
+
+#Correlation between two variables
+cor(heart.df$age, heart.df$maxhr)
+
+
+#Creating dataframe
+heart.df = data.frame(age, maxhr)
+
+#lm equation
+case2_eq = lm(maxhr ~  age,heart.df)
+
+summary(case2_eq)
+
+#Plot between two variables
+ggplot(heart.df,aes(x=age,y=maxhr)) + geom_point() + geom_smooth(method="lm") 
+
+
+```
+
+**Resulting equation: **
+
+$$maxheart = 210.05 - 0.79773 * age$$
+
+
+####Is the effect of Age on Max HR significant?
+Yes, the correlation coefficient is -0.953. So as the age increases the heart rate decreases.
+
+####What is the significance level? 
+
+From the lm equation, the significance level is 3^-8. It is almost 0. Hence we reject null hypothesis and conclude that the age is statistically significant.
+
+```{r}
+#Below is the significiance level of heart rate
+
+mean_hr = mean(maxhr)
+sd_hr = sd(maxhr)
+se_hr = sd_hr/sqrt(length(maxhr))
+
+
+#Confidence interval for max heart rate for 95% confidence level
+#min
+mean_hr - 1.96*se_hr
+
+#max
+mean_hr + 1.96*se_hr
+
+```
+
+##Problem 2 - Auto
+
+**Using the Auto data set from Assignment 5 (also attached here) perform a Linear Regression analysis using mpg as the dependent variable and the other 4 (displacement, horsepower, weight, acceleration) as independent variables. What is the final linear regression fit equation? Which of the 4 independent variables have a significant impact on mpg? What are their corresponding significance levels? What are the standard errors on each of the coefficients? Please perform this experiment in two ways. First take any random 40 data points from the entire auto data sample and perform the linear regression fit and measure the 95% confidence intervals. Then, take the entire data set (all 392 points) and perform linear regression and measure the 95% confidence intervals. Please report the resulting fit equation, their significance values and confidence intervals for each of the two runs.**
+
+
+```{r}
+#auto data
+
+auto = read.table("./assign11/auto-mpg.data",header = FALSE)
+
+auto = setNames(auto, c('displacement', 'horsepower','weight', 'acceleration','mpg'))
+
+```
+
+
+####What is the final linear regression fit equation? 
+
+```{r}
+#Lm function with multiple parameters
+auto_lm = lm(mpg ~ displacement + horsepower + weight + acceleration, data = auto)
+
+#Display all the coefficents and significance value
+summary(auto_lm)
+
+
+#Confidence interval for 95%
+confint(auto_lm,level = .95)
+```
+
+**Equation of auto dataset**
+
+$$mpg = `r auto_lm$coefficients[1]` `r auto_lm$coefficients[2]` * displacement `r auto_lm$coefficients[3]` * horsepower `r auto_lm$coefficients[4]` * weight `r auto_lm$coefficients[5]` * acceleration$$
+
+
+####What are their corresponding significance levels? 
+
+Displacement and acceleration is above the significance level of 0.05. Displacement, horsepower and acceleration is less than 0.05. Hence these three variables have significant relationship with mpg.
+
+####Sample data
+What are the standard errors on each of the coefficients? Please perform this experiment in two ways. First take any random 40 data points from the entire auto data sample and perform the linear regression fit and measure the 95% confidence intervals. Then, take the entire data set (all 392 points) and perform linear regression and measure the 95% confidence intervals. Please report the resulting fit equation, their significance values and confidence intervals for each of the two runs.
+
+
+```{r}
+#Fetch 40 sample rows from auto dataset 
+sample_auto = auto[sample(nrow(auto),40),]
+
+#Lm function with multiple parameters
+sample_auto_lm = lm(mpg ~ displacement + horsepower + weight + acceleration, data = sample_auto)
+
+#Display all the coefficents and significance value
+summary(sample_auto_lm)
+
+#Confidence interval for 95%
+confint(sample_auto_lm,level = .95)
+
+#Plot between two variables
+ggplot(heart.df,aes(x=age,y=maxhr)) + geom_point() + geom_smooth(method="lm") 
+
+
+```
+
+**Sample mpg equation**
+
+$$sample_mpg = `r sample_auto_lm$coefficients[1]` `r sample_auto_lm$coefficients[2]` * displacement `r sample_auto_lm$coefficients[3]` * horsepower `r sample_auto_lm$coefficients[4]` * weight `r sample_auto_lm$coefficients[5]` * acceleration$$
+
+
+
