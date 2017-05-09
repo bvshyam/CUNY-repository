@@ -1,0 +1,174 @@
+---
+title: "Calculus"
+author: "Shyam BV"
+date: "May 7, 2017"
+output:
+  html_document:
+    highlight: zenburn
+    theme: lumen
+---
+
+```{r include=FALSE}
+library("pryr")
+library("ggplot2")
+```
+
+## Numerical Integration and Differentiation
+
+### Write Programs
+
+**1. Write a program to compute the derivative of $f(x) = x^3 + 2*x^2$ at any value of x. Your function should take in a value of x and return back an approximation to the derivative of f(x) evaluated at that value. You should not use the analytical form of the derivative to compute it. Instead, you should compute this approximation using limits.**
+
+```{r}
+
+#Own function with limit
+
+diff = function(f,value) {
+  
+ex = substitute_q(D(f,'x'),list(x=value))
+
+if(is.nan(eval(ex))){ 
+  
+  #change value if the limit is infinite or NAN
+  return(do.call("diff",list(f,0.000001)))
+}
+
+return(eval(ex))
+  
+}
+
+#polynomial expression - change if required
+f = expression((x^3 + 2*x^2))
+
+#call the function
+diff(f,0)
+diff(f,4)
+```
+
+```{r}
+
+#Manual derivative
+diff_manual <- function(x) {
+    f = x^3 + 2*x^2
+    h = 0.000001
+    ex = ((x^3 +(3*h*x^2)+(3*x*h^2)+ h^3+ 2*(x^2 + (2*x*h)+h^2) - (x^3 + 2*x^2)) / h)
+    return(ex)
+}
+
+#call the function
+diff_manual(0)
+diff_manual(4)
+```
+
+
+**2. Now, write a program to compute the area under the curve for the function $3*x^2 + 4*x$ in the range x = [1,3]. You should first split the range into many small intervals using some really small $\delta x$ value (say 1e-6) and then compute the approximation to the area under the curve.**
+
+
+```{r}
+#Find area in-build function
+integral = function(x) {3*x^2 + 4*x}
+
+#Area under the curve is
+integrate(integral,1,3)
+
+```
+
+```{r}
+
+#Integral with 
+
+sum=0
+
+for(x in c(seq(1, 3, 0.000001))){
+  #apply small delta value to the integrated function
+  sum = sum+ (((x^3) + 2*x^2) - (((x-0.000001)^3) + 2*(x-0.000001)^2))
+}
+
+#Area under the range[1,3]
+sum
+
+
+fn_plot = data.frame(seqq = c(seq(-3, 3, 0.001)))
+
+fn_plot$curve = 3*fn_plot$seqq^2 + 4*fn_plot$seqq
+
+fn_plot$curve_integral = fn_plot$seqq^3 + 2*fn_plot$seqq^2
+
+ggplot(fn_plot,aes(x=seqq,y=curve,z=curve_integral)) + geom_line(aes(x=seqq,y=curve)) 
+
+ggplot(fn_plot,aes(x=seqq,y=curve,z=curve_integral))+ geom_line(aes(x=seqq,y=curve_integral))
+
+
+
+
+
+```
+
+###Solve Analytically
+
+
+**3. Please solve these problems analytically (i.e. by working out the math) and submit your answers.**
+
+
+##### Use integration by parts to solve for $\int sin(x)cos(x) dx$
+
+```{r}
+#Find area in-build function
+integral = function(x) {sin(x) * cos(x)}
+
+#Area under the curve is
+integrate(integral,1,3)
+
+```
+
+
+
+$$\begin{aligned}
+f(x) = \int sin(x)cos(x)dx\\
+u = sin(x)\\
+du = cos(x)\\
+F(x) = \int u*du\\
+F(x) = (u^2)/2\\
+F(x) = sin(x)^2/2 + C\\
+\end{aligned}$$
+
+
+##### **Use integration by parts to solve for $\int x^2 e^x dx$**
+
+$$\begin{aligned}
+f(x) = \int x^2 e^x dx\\
+u = x^2\\
+du = 2x dx\\
+v = e^x\\
+dv = e^x dx\\
+Formula: uv -\int vdu\\
+\int x^2 e^x dx = x^2 e^x -  \int 2x e^x dx\\
+Subsitute \space again \space for \int 2x e^x dx\\
+u = 2x\\
+du = 2 dx\\
+v = e^x\\
+dv = e^x dx\\
+\int 2x e^x dx = 2x e^x -  \int 2 e^x dx\\
+Final \space integral \space output\\
+F(x) = x^2 e^x - 2xe^x - 2e^x \\
+F(x) = e^x(x^2-2x-2)\end{aligned}$$
+
+
+#####**What is $\frac{d}{dx}(xcos(x))$**
+
+
+$$\begin{aligned}
+f(x) = \frac{d}{dx}(xcos(x))\\
+f^*(x) = x *-sin(x) + cos(x)\\
+f^*(x) = cos(x) - xsin(x)\end{aligned}$$
+
+
+
+#####**What is $\frac{d}{dx}(e^(x^4))$**
+
+$$\begin{aligned}
+f(x) = \frac{d}{dx}*(e^{x^4})\\
+f^*(x) = 4x^3e^{x^4}\end{aligned}$$
+
+
+

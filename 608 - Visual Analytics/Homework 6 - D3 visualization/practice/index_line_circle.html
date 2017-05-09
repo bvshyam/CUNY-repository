@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3 Template</title>
+		<script src="http://d3js.org/d3.v4.min.js"></script>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+
+<script type="text/javascript">
+	
+
+var canvas =d3.select("body").append("svg")
+							.attr("width",500)
+							.attr("height",500);
+
+var data =[ 
+			{x: 10, y: 20},
+			{x: 40, y:-100},
+			{x: 50, y:70}
+			];
+
+var group = canvas.append("g")
+				.attr("transform","translate(100,100)");
+
+var line = d3.line()
+			.x(function(d) { return d.x; })
+			.y(function(d) { return d.y; });
+
+console.log(line);
+
+	group.selectAll("path")
+		.data([data])
+		.enter()
+			.append("path")
+			.attr("d", line)
+			.attr("fill","none")
+			.attr("stroke","#000")
+			.attr("stroke-width",10);
+
+
+//circle - arc
+
+var r = 100;
+var p = Math.PI *2;
+
+var arc = d3.arc()
+			.innerRadius(r -20)
+			.outerRadius(r)
+			.startAngle(p-1)
+			.endAngle(p);
+
+group.append("path")
+	.attr("d",arc)
+
+
+</script>
+
+	</body>
+	</html>

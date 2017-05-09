@@ -1,0 +1,63 @@
+---
+title: "Bias Variance - Tradeoff"
+author: "Shyam BV"
+date: "May 4, 2017"
+output: html_document
+---
+
+```{r include=FALSE}
+library(stats)
+library(boot)
+
+```
+
+#####Load auto data
+
+```{r}
+#auto data
+
+auto = read.table("./data/auto-mpg.data",header = FALSE)
+
+auto = setNames(auto, c('displacement', 'horsepower','weight', 'acceleration','mpg'))
+head(auto)
+```
+
+#####K-fold
+
+In k-fold cross-validation, the original sample is randomly partitioned into k equal sized subsamples. Of the k subsamples, a single subsample is retained as the validation data for testing the model, and the remaining k − 1 subsamples are used as training data. The cross-validation process is then repeated k times (the folds), with each of the k subsamples used exactly once as the validation data. And the average of K samples is the output of MSE.
+
+```{r}
+#Set seed
+set.seed(7340)
+cv.err5 = NULL
+
+#Loop until 8 polynomial
+
+for(i in 1:8) {
+glm.fit = glm(mpg ~ poly(displacement + horsepower + weight + acceleration,i), data = auto)
+
+cv.err5[i] = cv.glm(auto, glm.fit, K =5)$delta[1]
+
+}
+
+cv.err5
+
+#Plot the mse for each polynomial
+degree=1:i 
+plot(degree,cv.err5,type='b')
+
+```
+
+
+#####Leave-one-out cross-validation (LOOCV) method
+
+```{r}
+#Leave-one-out cross-validation method
+
+glm.fit.loocv = glm(mpg ~ displacement + horsepower + weight + acceleration, data = auto)
+
+cv.err = cv.glm(auto, glm.fit.loocv)$delta[1]
+
+#MSE of LOOCV
+cv.err
+```

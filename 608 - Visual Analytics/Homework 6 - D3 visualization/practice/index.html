@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../common/delimited-favicon-v4.ico">
+    <title>delimited | D3 CSV to Nested JSON</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="http://projects.delimited.io/experiments/csv-json/lib/underscore-min.js"></script>
+
+  </head>
+  <body>
+    <h3>View Source to See the Code</h3>
+    <script>
+      //*************************************************
+      // GET THE CSV DATA
+      //*************************************************
+      d3.csv("all_cars_data_tree.csv", function(error, data) {
+
+        _.each(data, function(element, index, list){
+            element.pop = +element.pop;
+        });
+
+        //*************************************************
+        // THE FUNCTION
+        //*************************************************
+        function genJSON(csvData, groups) {
+
+          var genGroups = function(data) {
+            return _.map(data, function(element, index) {
+              return { name : index, children : element };
+            });
+          };
+
+          var nest = function(node, curIndex) {
+            if (curIndex === 0) {
+              node.children = genGroups(_.groupBy(csvData, groups[0]));
+              _.each(node.children, function (child) {
+                nest(child, curIndex + 1);
+              });
+            }
+            else {
+              if (curIndex < groups.length) {
+                node.children = genGroups(
+                  _.groupBy(node.children, groups[curIndex])
+                );
+                _.each(node.children, function (child) {
+                  nest(child, curIndex + 1);
+                });
+              }
+            }
+            return node;
+          };
+          return nest({}, 0);
+        }
+        //*************************************************
+        // CALL THE FUNCTION
+        //*************************************************
+        var preppedData = genJSON(data, ['VClass', 'make','model'
+])
+              console.log(preppedData);
+
+      });
+
+
+
+
+    </script>
+  </body>
+</html>

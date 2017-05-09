@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3 Template</title>
+		<script src="http://d3js.org/d3.v4.min.js"></script>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+
+<script type="text/javascript">
+	d3.select("body").append("p").text("Hello world")
+	
+var dataArray =[20,40,50,60];
+
+var widthScale = d3.scaleLinear()
+					.domain([0,60])
+					.range([0,500]);
+
+var xAxis = d3.axisBottom(widthScale).ticks(5);
+
+var canvas = d3.select("body")
+				.append("svg")
+				.attr("width",500)
+				.attr("height",500)
+				.append("g")
+				.attr("transform","translate(50,50)");
+				
+
+var bars = canvas.selectAll("rect")
+				.data(dataArray)
+				.enter()
+					.append("rect")
+					.attr("width",function(d) {console.log(widthScale(d)) 
+						return widthScale(d);})
+					.attr("height",50)
+					.attr("y",function(d,i) {return i*100 });
+
+canvas.append("g")
+	.attr("transform","translate(0,400)")
+	.call(xAxis);
+
+
+</script>
+
+	</body>
+	</html>

@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Plotly Template</title>
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+<div id = "dropdowndiv">
+color: <select id="dropdown">
+<option value ="blue">Blue</option>
+<option value ="red">Red</option>
+<option value ="green">Green</option>
+
+</select>
+
+ <div id="graph"></div>
+
+
+        <script>
+        var gd = document.getElementById('graph');
+        var data = [
+            {
+                x: [1,2,3],
+                y: [1,2,3],
+                type: 'scatter',
+                mode: 'markers',
+                marker: {
+                    size: [25, 50, 75],
+                    color: 'blue'
+                }
+            }
+        ];
+        var layout = {
+            title: 'Event Test'
+        };
+
+        Plotly.plot(gd, data, layout);
+
+        gd.on('plotly_click', function(data){
+            console.log(data);
+        });
+
+
+        Plotly.d3.select('#dropdown')
+            .on('change', function(data){
+                // console.log(Plotly.d3.event.target.value);
+                Plotly.restyle(gd, {'marker.color': Plotly.d3.event.target.value})
+
+                Plotly.restyle(gd, {'title': Plotly.d3.event.target.value})
+
+            });
+
+
+        </script>
+
+
+</body>
+</html>

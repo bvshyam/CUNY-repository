@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3 Template</title>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+
+<script type="text/javascript">
+	
+
+
+var canvas = d3.select("body").append("svg")
+				.attr("width",500)
+				.attr("height",500)
+				.append("g")
+				.attr("transform","translate(50,50)");
+
+var tree =d3.layout.tree()
+			.size([400,400])
+
+
+d3.json("cars.json", function(data){
+
+var nodes = tree.nodes(data);
+console.log(nodes);
+
+});
+
+
+
+var diagonal = d3.svg.diagonal()
+		.source({x:10, y:10})
+		.target({x:300, y:300});
+
+
+canvas.append("path")
+	.attr("fill","none")
+	.attr("stroke","black")
+	.attr("d",diagonal)
+
+</script>
+
+	</body>
+	</html>

@@ -1,0 +1,96 @@
+---
+title: "Taylor Series"
+author: "Shyam BV"
+date: "May 8, 2017"
+output:
+  html_document:
+    highlight: zenburn
+    theme: lumen
+---
+
+
+```{r}
+library(ggplot2)
+```
+
+
+####**This week, we'll work out some Taylor Series expansions of popular functions.**
+
+####1. Expand $f(x) = 1/(1-x)$
+
+$$\begin{aligned}
+f(x) = 1/(1-x)\\
+1/(1-x) = \sum\limits_{n=0}^{\infty} x^n, x \epsilon(-1,1)\\
+Taylor\space Series\space Formula:\\
+f(x) = f(a)+f^*(a)/2! \space (x-a)^2+f^{**}(a)/3!\space(x-a)^3 + ....+f^{n}(a)/n!\space(x-a)^n\\
+f(-1)=0.5\\
+f(0)=1\\
+f(1)=\infty\\
+1/(1-x) = 1+ x +x^2+x^3 |x| <1
+\end{aligned}$$
+
+```{r}
+
+taylor_plot1 = data.frame(seqq = c(seq(-1.5, 1.5, 0.01)))
+
+taylor_plot1$curve = 1/(1-taylor_plot1$seqq)
+
+taylor_plot1$pol1 = 1+taylor_plot1$seqq
+
+taylor_plot1$pol2 = 1+taylor_plot1$seqq^2
+taylor_plot1$pol3 = 1+taylor_plot1$seqq^3
+taylor_plot1$pol4 = 1+taylor_plot1$seqq^4
+
+ggplot(taylor_plot1,aes(x=seqq)) + geom_line(aes(y=curve),colour="red")  + ggtitle("Taylor series Chart") + ylim(-2, 3) + xlim(-1.5,1.5)+ 
+  geom_line(aes(y=pol1)) + geom_line(aes(y=pol2)) + geom_line(aes(y=pol3),color="green") + geom_line(aes(y=pol4),color="yellow")
+```
+
+
+
+####2. Expand $f(x) = e^x$
+
+$$\begin{aligned}
+f(x) = e^x\\
+e^x = \sum\limits_{n=0}^{\infty} x^n/n! \\
+Taylor\space Series\space Formula:\\
+f(x) = f(a)+f^*(a)/2! \space (x-a)^2+f^{**}(a)/3!\space(x-a)^3 + ....+f^{n}(a)/n!\space(x-a)^n\\
+f(-1)=0.36789\\
+f(0)=1\\
+f(1)=0.36789\\
+e^x = x^1/1! +x^2/2!+x^3/3!+....
+\end{aligned}$$
+
+```{r}
+
+taylor_plot2 = data.frame(seqq = c(seq(-100, 100, 1)))
+
+taylor_plot2$curve = 2.7182^taylor_plot2$seqq
+
+taylor_plot2$pol1 = taylor_plot2$seqq^3/factorial(3)
+taylor_plot2$pol2 = taylor_plot2$seqq^16/factorial(16)
+
+ggplot(taylor_plot2,aes(x=seqq)) + geom_line(aes(y=curve),colour="red")  + ggtitle("Taylor series Chart")  + 
+  geom_line(aes(y=pol1),color="green") + geom_line(aes(y=pol2),color="yellow") #+ geom_line(aes(y=pol3),color="green") + geom_line(aes(y=pol4),color="yellow")
+```
+
+####3. Expand $f(x) =\ln(x+1)$
+
+$$\begin{aligned}
+f(x) = \ln(x+1)\\
+\ln(x+1) = \sum\limits_{n=0}^{\infty} (-1)^{n+1}x^n/n, x \epsilon(-1,1]\\
+Taylor\space Series\space Formula:\\
+f(x) = f(a)+f^*(a)/2! \space (x-a)^2+f^{**}(a)/3!\space(x-a)^3 + ....+f^{n}(a)/n!\space(x-a)^n\\
+\ln(x+1) = x-x^2/2+x^3/3-x^4/4+0(x^5) ,|x| <1
+\end{aligned}$$
+
+```{r}
+
+taylor_plot3 = data.frame(seqq = c(seq(-2, 1, 0.01)))
+
+taylor_plot3$curve = log(taylor_plot3$seqq+1)
+
+taylor_plot3$pol1 = taylor_plot3$seqq-(taylor_plot3$seqq^2/2)+(taylor_plot3$seqq^3/3)-(taylor_plot3$seqq^4/4)
+
+ggplot(taylor_plot3,aes(x=seqq)) + geom_line(aes(y=curve),colour="red")  + ggtitle("Taylor series Chart") + xlim(-2,1.5)+ 
+  geom_line(aes(y=pol1),color="green") # + geom_line(aes(y=pol2)) + geom_line(aes(y=pol3),color="green") + geom_line(aes(y=pol4),color="yellow")
+```

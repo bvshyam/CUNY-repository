@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3 Template</title>
+		<script src="http://d3js.org/d3.v4.min.js"></script>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+
+<script type="text/javascript">
+	
+
+var canvas =d3.select("body").append("svg")
+							.attr("width",500)
+							.attr("height",500);
+
+var data = [10,50,80];
+
+
+var r = 200;
+var p = Math.PI *2;
+
+var color = d3.scaleOrdinal()
+			.range(["red","blue","orange"]);
+
+
+var group = canvas.append("g")
+				.attr("transform","translate(200,200)");
+
+var arc = d3.arc()
+			.innerRadius(r -50)
+			.outerRadius(r)
+			.startAngle(0)
+			.endAngle(p);
+
+var pie = d3.pie()
+			.value(function(d) { return d; })
+
+var arcs =group.selectAll(".arc")
+		.data(pie(data))
+		.enter()
+		.append("g")
+		.attr("class","arc");
+
+
+group.append("path")
+	.attr("d",arc)
+	.attr("fill",function(d) { return color(d.data); });
+
+</script>
+
+	</body>
+	</html>
