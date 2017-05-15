@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+<link rel="stylesheet" href="css/style.css">
+<script src="js/radial.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body onload="showchart()">
+
+
+<h2>2017 - Cars Category and Brands</h2> 
+
+<!-- 
+<h4>Select below values to create tree:</h4> 
+<select id="option1" onchange="myFunction(this)">
+<option value="select">Select Value</option>
+<option value="Car_Type">Cary_Type</option>
+<option value="model">Model</option>
+<option value="make">Make</option>
+
+</select>
+
+
+<select id="option2" onchange="myFunction(this)">
+ <option value="select2">Select Value</option>
+</select>
+
+
+<button class="button" onclick="showchart()"><span>Draw Chart </span></button>
+<button class="button" onclick="reset()"><span>Reset </span></button>
+ -->
+<script>
+
+function reset(){
+
+var selectobject1=document.getElementById("option1");
+var selectobject2=document.getElementById("option2");
+
+
+//selectobject1.options.length=1
+selectobject2.options.length=1
+
+document.getElementById("option1").selectedIndex = 0;
+
+//d3.select("p").remove();
+d3.select("svg").remove();
+
+}
+
+
+  
+function myFunction(sel) {
+
+var col = ['Car_Type','model','make'];
+
+
+if(sel.id =='option1') {
+//document.getElementById("option2").remove(0);
+
+for(i in col) {
+ if(col[i] != option1.options[option1.selectedIndex].value) {
+ option2 = document.getElementById('option2');
+ option2.options[option2.options.length] = new Option(col[i], col[i]);
+
+  }
+}
+
+}
+
+// else if(sel.id =='option2') {
+
+// //document.getElementById("option3").remove(0);
+
+// for(i in col) {
+
+//  if(col[i] != option1.options[option1.selectedIndex].value & col[i] != option2.options[option2.selectedIndex].value) {
+
+//  option3 = document.getElementById('option3');
+//  option3.options[option3.options.length] = new Option(col[i], col[i]);
+
+//   }
+// }
+
+
+// }
+
+
+}
+</script>
+
+<div id="text"> </div>
+
+<svg width="1260" height="1200"></svg>
+    <script type="text/javascript" src="http://projects.delimited.io/experiments/csv-json/lib/underscore-min.js"></script>
+
+
+
+</body>

@@ -1,0 +1,1217 @@
+car_model,eng_display,cyl,transmission,mileage,yousavespend
+Acura NSX,3.5,6,Auto(AM-S9),29.5,3000
+ALFA ROMEO 4C,1.8,4,Auto(AM6),34.7,500
+Aston Martin Lagonda Ltd V12 Vantage S,6,12,Auto(AM7),18.3,8000
+Aston Martin Lagonda Ltd V12 Vantage S,6,12,Manual(M7),15.5,10500
+Audi R8,5.2,10,Auto(AM-S7),21.2,5250
+Audi R8 Spyder,5.2,10,Auto(AM-S7),21.2,5250
+Audi TT Roadster quattro,2,4,Auto(AM-S6),33.5,0
+Chevrolet CORVETTE,6.2,8,Auto(S8),20.6,6000
+Chevrolet CORVETTE,6.2,8,Auto(S8),24.2,4000
+Chevrolet CORVETTE,6.2,8,Manual(M7),22.8,4750
+Chevrolet CORVETTE,6.2,8,Manual(M7),24.9,4000
+Dodge Viper,8.4,10,Manual(M6),17.8,8000
+Ferrari North America  Inc. 488 gtb,3.9,8,Auto(AM7),22.9,4750
+Ferrari North America  Inc. 488 gtb,3.9,8,Auto(AM7),23.1,4750
+Ferrari North America  Inc. 488 Spider,3.9,8,Auto(AM7),22.9,4750
+Ferrari North America  Inc. 488 Spider,3.9,8,Auto(AM7),23.1,4750
+Ferrari North America  Inc. F12 Berlinetta,6.3,12,Auto(AM7),16.7,9250
+Ferrari North America  Inc. F12 Berlinetta,6.3,12,Auto(AM7),17,9250
+Ferrari North America  Inc. F12 tdf,6.3,12,Auto(AM7),16.1,9250
+Ferrari North America  Inc. F12 tdf,6.3,12,Auto(AM7),15.8,10500
+Ferrari North America  Inc. LaFerrari Aperta,6.3,12,Auto(AM7),16.5,9250
+FIAT 124 Spider,1.4,4,Auto(A6),39.9,250
+FIAT 124 Spider,1.4,4,Manual(M6),40.5,0
+Ford Ford GT,3.5,6,Auto(AM7),17.4,8000
+Jaguar F-TYPE Convertible,3,6,Auto(S8),30.1,2250
+Jaguar F-TYPE Convertible Manual,3,6,Manual(M6),24.3,4000
+Jaguar F-TYPE Coupe,3,6,Auto(S8),30.1,2250
+Jaguar F-TYPE Coupe Manual,3,6,Manual(M6),24.3,4000
+Jaguar F-TYPE R AWD Convertible,5,8,Auto(S8),22.7,4750
+Jaguar F-TYPE R AWD Coupe,5,8,Auto(S8),22.7,4750
+Jaguar F-TYPE S AWD Convertible,3,6,Auto(S8),27.4,3000
+Jaguar F-TYPE S AWD Coupe,3,6,Auto(S8),27.4,3000
+Jaguar F-TYPE S Convertible,3,6,Auto(S8),28.8,2500
+Jaguar F-TYPE S Convertible Manual,3,6,Manual(M6),23.7,4750
+Jaguar F-TYPE S Coupe,3,6,Auto(S8),28.8,2500
+Jaguar F-TYPE S Coupe Manual,3,6,Manual(M6),23.7,4750
+Lamborghini Aventador Coupe,6.5,12,Auto(AM-S7),16.4,9250
+Lamborghini Aventador Coupe LP740-4,6.5,12,Auto(AM-S7),15,10500
+Lamborghini Aventador Roadster,6.5,12,Auto(AM-S7),15.8,9250
+Lamborghini Aventador Roadster LP740-4,6.5,12,Auto(AM-S7),15,10500
+Lamborghini Huracan,5.2,10,Auto(AM-S7),20.8,5250
+Lamborghini Huracan 2WD,5.2,10,Auto(AM-S7),20.8,5250
+Lamborghini Huracan Spyder,5.2,10,Auto(AM-S7),20.4,6000
+Lamborghini Huracan Spyder 2WD,5.2,10,Auto(AM-S7),20.4,6000
+MAZDA MX-5,2,4,Auto(S6),40.1,250
+MAZDA MX-5,2,4,Manual(M6),40.4,250
+McLaren 570GT,3.8,8,Auto(A7),24,4000
+McLaren 570S Coupe,3.8,8,Auto(A7),24,4000
+Mercedes-Benz AMG GT,4,8,Auto(AM7),23.9,4750
+Mercedes-Benz AMG GT S,4,8,Auto(AM7),23.9,4750
+Mercedes-Benz AMG SL 63,5.5,8,Auto(A7),24.1,4000
+Mercedes-Benz AMG SL 65,6,12,Auto(A7),21,6000
+Mercedes-Benz AMG SLC 43,3,6,Auto(A9),31.1,2250
+Mercedes-Benz SL 450,3,6,Auto(A9),30.7,2250
+Mercedes-Benz SL 550,4.7,8,Auto(A9),26.2,3500
+Mercedes-Benz SLC 300,2,4,Auto(A9),37.2,750
+Mercedes-Benz Smart fortwo (Convertible),0.9,3,Auto(AM6),49.5,0
+Mercedes-Benz Smart fortwo (Convertible),0.9,3,Manual(M5),48,0
+Mercedes-Benz Smart fortwo (COUPE),0.9,3,Auto(AM6),50.5,0
+Mercedes-Benz Smart fortwo (COUPE),0.9,3,Manual(M5),48.2,0
+NISSAN 370Z,3.7,6,Auto(S7),28.6,2500
+NISSAN 370Z,3.7,6,Manual(M6),27.4,3000
+NISSAN 370Z Roadster,3.7,6,Auto(S7),27,3000
+NISSAN 370Z Roadster,3.7,6,Manual(M6),26.1,3500
+Porsche Boxster,2,4,Auto(AM-S7),33.6,1500
+Porsche Boxster,2,4,Manual(M6),32,1750
+Porsche Boxster S,2.5,4,Auto(AM-S7),31.8,1750
+Porsche Boxster S,2.5,4,Manual(M6),29.1,2500
+Aston Martin Lagonda Ltd Vanquish  S and Zagato,6,12,Auto(S8),20.6,6000
+Ferrari North America  Inc. California T,3.9,8,Auto(AM7),24,4000
+Ferrari North America  Inc. California T,3.9,8,Auto(AM7),23.5,4750
+Ferrari North America  Inc. GTC4Lusso,6.3,12,Auto(AM7),17,9250
+Ferrari North America  Inc. GTC4Lusso,6.3,12,Auto(AM7),16.6,9250
+FIAT 500,1.4,4,Auto(A6),46.9,250
+FIAT 500,1.4,4,Auto(A6),36.7,750
+FIAT 500,1.4,4,Manual(M5),46.7,0
+FIAT 500,1.4,4,Manual(M5),40.8,0
+FIAT 500 Abarth,1.4,4,Auto(A6),36.7,750
+FIAT 500 Abarth,1.4,4,Manual(M5),40.8,0
+Lotus Cars Ltd Evora,3.5,6,Auto(S6),25.2,3500
+Lotus Cars Ltd Evora,3.5,6,Manual(M6),24.1,4000
+Mini JOHN COOPER WORKS CONVERTIBLE,2,4,Auto(S6),37,750
+Mini JOHN COOPER WORKS CONVERTIBLE,2,4,Manual(M6),34,1500
+Mini MINI COOPER CONVERTIBLE,1.5,3,Auto(S6),41.2,0
+Mini MINI COOPER CONVERTIBLE,1.5,3,Manual(M6),43.4,0
+Mini Mini Cooper S Convertible,2,4,Auto(S6),38.3,500
+Mini Mini Cooper S Convertible,2,4,Manual(M6),35.4,1000
+Porsche 911 Carrera,3,6,Auto(AM-S7),33.4,1500
+Porsche 911 Carrera,3,6,Manual(M7),30.8,2250
+Porsche 911 Carrera 4,3,6,Auto(AM-S7),32.7,1750
+Porsche 911 Carrera 4,3,6,Manual(M7),30.1,2250
+Porsche 911 Carrera 4 Cabriolet,3,6,Auto(AM-S7),32,1750
+Porsche 911 Carrera 4 Cabriolet,3,6,Manual(M7),29.6,2500
+Porsche 911 Carrera 4 GTS,3,6,Auto(AM-S7),29.3,2500
+Porsche 911 Carrera 4 GTS,3,6,Manual(M7),28.1,3000
+Porsche 911 Carrera 4 GTS Cabriolet,3,6,Auto(AM-S7),29.1,2500
+Porsche 911 Carrera 4 GTS Cabriolet,3,6,Manual(M7),27.7,3000
+Porsche 911 Carrera 4S,3,6,Auto(AM-S7),31.6,1750
+Porsche 911 Carrera 4S,3,6,Manual(M7),29.9,2250
+Porsche 911 Carrera 4S Cabriolet,3,6,Auto(AM-S7),31.8,1750
+Porsche 911 Carrera 4S Cabriolet,3,6,Manual(M7),29.5,2500
+Porsche 911 Carrera Cabriolet,3,6,Auto(AM-S7),32.4,1750
+Porsche 911 Carrera Cabriolet,3,6,Manual(M7),30.2,2250
+Porsche 911 Carrera GTS,3,6,Auto(AM-S7),30,2250
+Porsche 911 Carrera GTS,3,6,Manual(M7),27.7,3000
+Porsche 911 Carrera GTS Cabriolet,3,6,Auto(AM-S7),29.3,2500
+Porsche 911 Carrera GTS Cabriolet,3,6,Manual(M7),28,3000
+Porsche 911 Carrera S,3,6,Auto(AM-S7),32.6,1750
+Porsche 911 Carrera S,3,6,Manual(M7),30.1,2250
+Porsche 911 Carrera S Cabriolet,3,6,Auto(AM-S7),32.3,1750
+Porsche 911 Carrera S Cabriolet,3,6,Manual(M7),30,2250
+Porsche 911 Targa 4,3,6,Auto(AM-S7),32.2,1750
+Porsche 911 Targa 4,3,6,Manual(M7),29.6,2500
+Porsche 911 Targa 4 GTS,3,6,Auto(AM-S7),28.9,2500
+Porsche 911 Targa 4 GTS,3,6,Manual(M7),27.1,3000
+Porsche 911 Targa 4S,3,6,Auto(AM-S7),31.4,1750
+Porsche 911 Targa 4S,3,6,Manual(M7),29.5,2500
+Porsche 911 Turbo,3.8,6,Auto(AM-S7),27.2,3000
+Porsche 911 Turbo Cabriolet,3.8,6,Auto(AM-S7),27.2,3000
+Porsche 911 Turbo S,3.8,6,Auto(AM-S7),27.2,3000
+Porsche 911 Turbo S Cabriolet,3.8,6,Auto(AM-S7),27.2,3000
+Subaru BRZ,2,4,Auto(S6),36.9,750
+Subaru BRZ,2,4,Manual(M6),31.9,1750
+TOYOTA 86,2,4,Auto(S6),36.9,750
+TOYOTA 86,2,4,Manual(M6),32,1750
+Aston Martin Lagonda Ltd Rapide S,6,12,Auto(S8),21.5,5250
+Audi A3,2,4,Auto(AM-S7),38.7,0
+Audi A3 Cabriolet,2,4,Auto(AM-S7),38,0
+Audi A3 Cabriolet quattro,2,4,Auto(AM-S6),32,250
+Audi A3 quattro,2,4,Auto(AM-S6),36.4,0
+Audi A5 Cabriolet quattro,2,4,Auto(S8),31.4,1750
+Audi A5 quattro,2,4,Auto(S8),32.7,1500
+Audi A5 quattro,2,4,Manual(M6),33.7,1000
+Audi S3,2,4,Auto(AM-S6),30.1,1750
+Audi S5,3,6,Auto(AM-S7),26.9,3000
+Audi S5,3,6,Manual(M6),24.4,3500
+Audi S5 Cabriolet,3,6,Auto(AM-S7),26.4,3000
+Audi TT Coupe quattro,2,4,Auto(AM-S6),33.5,0
+Audi TTS Coupe,2,4,Auto(AM-S6),31.9,1500
+Bentley Continental GT Convertible,4,8,Auto(S8),21.8,5250
+Bentley Continental GT Convertible,6,12,Auto(S8),18.3,7000
+BMW 230i Convertible,2,4,Auto(S8),36.8,750
+BMW 230i Coupe,2,4,Auto(S8),37.6,500
+BMW 230i Coupe,2,4,Manual(M6),32.9,1500
+BMW 230i xDrive Convertible,2,4,Auto(S8),35.6,1000
+BMW 230i xDrive Coupe,2,4,Auto(S8),36.6,750
+BMW 430i Convertible,2,4,Auto(S8),36.8,750
+BMW 430i xDrive Convertible,2,4,Auto(S8),34.6,1000
+BMW 440i Convertible,3,6,Auto(S8),31.7,1750
+BMW 440i xDrive Convertible,3,6,Auto(S8),31.5,1750
+BMW 640i Convertible,3,6,Auto(S8),31,2250
+BMW 640i Coupe,3,6,Auto(S8),31.9,1750
+BMW 640i xDrive Convertible,3,6,Auto(S8),29.6,2500
+BMW 640i xDrive Coupe,3,6,Auto(S8),29.6,2500
+BMW 650i Convertible,4.4,8,Auto(S8),25.7,4000
+BMW 650i Coupe,4.4,8,Auto(S8),25.7,4000
+BMW 650i xDrive Convertible,4.4,8,Auto(S8),23.8,4750
+BMW 650i xDrive Coupe,4.4,8,Auto(S8),24.7,4000
+BMW M2,3,6,Auto(AM-S7),29.7,2500
+BMW M2,3,6,Manual(M6),27.1,3000
+BMW M240i Convertible,3,6,Auto(S8),33.5,1500
+BMW M240i Convertible,3,6,Manual(M6),29.9,2250
+BMW M240i Coupe,3,6,Auto(S8),33.5,1500
+BMW M240i Coupe,3,6,Manual(M6),29.1,2500
+BMW M240i xDrive Convertible,3,6,Auto(S8),33.2,1500
+BMW M240i xDrive Coupe,3,6,Auto(S8),33.2,1500
+BMW M4 Convertible,3,6,Auto(AM-S7),25.4,4000
+BMW M4 Convertible,3,6,Manual(M6),26.4,3500
+BMW M6 Convertible,4.4,8,Auto(AM-S7),20.6,6000
+BMW M6 Convertible,4.4,8,Manual(M6),22.1,5250
+BMW M6 Coupe,4.4,8,Auto(AM-S7),20.6,6000
+BMW M6 Coupe,4.4,8,Manual(M6),22.1,5250
+Buick CASCADA,1.6,4,Auto(S6),29.9,2250
+Chevrolet CAMARO,2,4,Auto(S8),33.2,1500
+Chevrolet CAMARO,2,4,Manual(M6),30.9,2250
+Chevrolet CAMARO,3.6,6,Auto(S8),29.5,1250
+Chevrolet CAMARO,3.6,6,Manual(M6),25.7,2250
+Chevrolet CAMARO,6.2,8,Auto(S10),18.9,7000
+Chevrolet CAMARO,6.2,8,Auto(S8),26.4,3500
+Chevrolet CAMARO,6.2,8,Manual(M6),20.5,6000
+Chevrolet CAMARO,6.2,8,Manual(M6),25.1,4000
+Chevrolet SPARK,1.4,4,Auto(AV),45.9,0
+Chevrolet SPARK,1.4,4,Manual(M5),45.4,0
+Chevrolet SPARK ACTIV,1.4,4,Auto(AV),45.9,0
+Chevrolet SPARK ACTIV,1.4,4,Manual(M5),45.4,0
+Ford Fiesta FWD,1.6,4,Auto(AM-S6),42.7,0
+Ford Fiesta FWD,1.6,4,Manual(M5),41.6,0
+Ford Fiesta SFE FWD,1,3,Manual(M5),48.6,0
+Ford MUSTANG,2.3,4,Auto(S6),32.9,750
+Ford MUSTANG,2.3,4,Manual(M6),33.5,750
+Ford MUSTANG,3.7,6,Auto(S6),28.4,1750
+Ford MUSTANG,3.7,6,Manual(M6),27.2,1750
+Ford MUSTANG,5,8,Auto(S6),24.5,3250
+Ford MUSTANG,5,8,Manual(M6),23.7,3250
+Ford MUSTANG CONVERTIBLE,2.3,4,Auto(S6),31.2,1000
+Ford MUSTANG CONVERTIBLE,2.3,4,Manual(M6),33.5,1000
+Ford MUSTANG CONVERTIBLE,5,8,Auto(S6),23.5,3250
+Ford MUSTANG CONVERTIBLE,5,8,Manual(M6),23.7,3750
+Ford MUSTANG PERFORMANCE PACKAGE,2.3,4,Auto(S6),32.9,1000
+Ford MUSTANG PERFORMANCE PACKAGE,2.3,4,Manual(M6),33.5,750
+Ford MUSTANG PERFORMANCE PACKAGE,5,8,Manual(M6),23.7,3750
+Ford SHELBY GT350 MUSTANG,5.2,8,Manual(M6),20.8,6000
+INFINITI Q60,2,4,Auto(S7),34.7,1500
+INFINITI Q60,3,6,Auto(S7),29.7,2500
+INFINITI Q60 AWD,2,4,Auto(S7),31.9,1750
+INFINITI Q60 AWD,3,6,Auto(S7),29,2500
+INFINITI Q60S AWD RED SPORT,3,6,Auto(S7),28.2,3000
+INFINITI Q60S RED SPORT,3,6,Auto(S7),29.6,2500
+LEXUS RC 200t,2,4,Auto(S8),34.6,1000
+LEXUS RC 300 AWD,3.5,6,Auto(S6),28.2,3000
+LEXUS RC 350,3.5,6,Auto(S8),29.3,2500
+LEXUS RC 350 AWD,3.5,6,Auto(S6),28.2,3000
+LEXUS RC F,5,8,Auto(S8),25.6,4000
+MASERATI GRANTURISMO,4.7,8,Auto(A6),19.9,6000
+MASERATI GRANTURISMO CONVERTIBLE,4.7,8,Auto(A6),19.9,7000
+Mercedes-Benz AMG C 43 4MATIC  (convertible),3,6,Auto(A9),28.7,2500
+Mercedes-Benz AMG C 43 4MATIC (coupe),3,6,Auto(A9),30.3,2250
+Mercedes-Benz AMG C 63 (convertible),4,8,Auto(A7),24.7,4000
+Mercedes-Benz AMG C 63 (coupe),4,8,Auto(A7),25.4,4000
+Mercedes-Benz AMG C 63 S (convertible),4,8,Auto(A7),24.7,4000
+Mercedes-Benz AMG C 63 S (coupe),4,8,Auto(A7),25.4,4000
+Mercedes-Benz AMG S 63 4MATIC (convertible),5.5,8,Auto(A7),22.1,5250
+Mercedes-Benz C 300 (convertible),2,4,Auto(A9),34.8,1000
+Mercedes-Benz C 300 (Coupe),2,4,Auto(A7),34.3,1000
+Mercedes-Benz C 300 4MATIC  (convertible),2,4,Auto(A9),32.9,1500
+Mercedes-Benz C 300 4MATIC (Coupe),2,4,Auto(A7),33.6,1500
+Mercedes-Benz E 400 (convertible),3,6,Auto(A7),31.2,2250
+Mercedes-Benz E 400 (coupe),3,6,Auto(A7),31.1,2250
+Mercedes-Benz E 400 4MATIC (coupe),3,6,Auto(A7),30.3,2250
+Mercedes-Benz E 550 (convertible),4.7,8,Auto(A7),26.4,3500
+Mercedes-Benz E 550 (coupe),4.7,8,Auto(A7),27.1,3000
+Mercedes-Benz S 550 (convertible),4.7,8,Auto(A9),26,3500
+Mercedes-Benz S 65 AMG (convertible),6,12,Auto(A7),20.6,6000
+Mini JOHN COOPER WORKS HARDTOP,2,4,Auto(S6),38.3,500
+Mini JOHN COOPER WORKS HARDTOP,2,4,Manual(M6),35.4,1000
+Mini MINI COOPER HARDTOP 2 DOOR,1.5,3,Auto(S6),41.2,0
+Mini MINI COOPER HARDTOP 2 DOOR,1.5,3,Manual(M6),43.3,0
+Mini MINI COOPER HARDTOP 4 DOOR,1.5,3,Auto(S6),41.2,0
+Mini MINI COOPER HARDTOP 4 DOOR,1.5,3,Manual(M6),43.4,0
+Mini Mini Cooper S Hardtop 2 door,2,4,Auto(S6),38.3,500
+Mini Mini Cooper S Hardtop 2 door,2,4,Manual(M6),35.4,1000
+Mini Mini Cooper S Hardtop 4 door,2,4,Auto(S6),38.3,500
+Mini Mini Cooper S Hardtop 4 door,2,4,Manual(M6),35.4,1000
+NISSAN GT-R,3.8,6,Auto(AM6),23.6,4750
+Roush Industries  Inc. Roush Stage 3 Mustang,5,8,Auto(S6),21.6,5250
+Roush Industries  Inc. Roush Stage 3 Mustang,5,8,Manual(M6),19.9,6000
+TOYOTA YARIS iA,1.5,4,Auto(S6),49.7,0
+TOYOTA YARIS iA,1.5,4,Manual(M6),47.9,0
+Volkswagen Beetle Convertible,1.8,4,Auto(S6),37,0
+Volkswagen Beetle Dune Convertible,1.8,4,Auto(S6),35.9,0
+Acura ILX,2.4,4,Auto(AM-S8),39,250
+Acura TLX AWD,3.5,6,Auto(S9),33.4,1500
+Acura TLX FWD,2.4,4,Auto(AM-S8),38.6,500
+Acura TLX FWD,3.5,6,Auto(S9),35,1500
+Audi A4,2,4,Auto(AM-S7),37.3,500
+Audi A4 quattro,2,4,Auto(AM-S7),36.2,750
+Audi A4 quattro,2,4,Manual(M6),34.9,750
+Audi A4 Ultra,2,4,Auto(AM-S7),41.1,0
+Audi Q3,2,4,Auto(S6),30,2250
+Audi Q3 quattro,2,4,Auto(S6),29.5,2250
+Bentley Continental GT,4,8,Auto(S8),23.7,4000
+Bentley Continental GT,6,12,Auto(S8),19.5,7000
+BMW 320i,2,4,Auto(S8),37.1,500
+BMW 320i,2,4,Manual(M6),36.8,750
+BMW 320i xDrive,2,4,Auto(S8),36,750
+BMW 328d,2,4,Auto(S8),49.9,0
+BMW 328d xDrive,2,4,Auto(S8),46.5,0
+BMW 330i,2,4,Auto(S8),36.8,750
+BMW 330i,2,4,Manual(M6),32.9,1500
+BMW 330i xDrive,2,4,Auto(S8),35.6,1000
+BMW 340i,3,6,Auto(S8),33.5,1500
+BMW 340i,3,6,Manual(M6),29.9,2250
+BMW 340i xDrive,3,6,Auto(S8),33.2,1500
+BMW 340i xDrive,3,6,Manual(M6),30.1,2250
+BMW 430i Coupe,2,4,Auto(S8),36.8,750
+BMW 430i Coupe,2,4,Manual(M6),33.8,1500
+BMW 430i Gran Coupe,2,4,Auto(S8),36.8,750
+BMW 430i xDrive Coupe,2,4,Auto(S8),35.6,1000
+BMW 430i xDrive Gran Coupe,2,4,Auto(S8),35.6,1000
+BMW 440i Coupe,3,6,Auto(S8),33.5,1500
+BMW 440i Coupe,3,6,Manual(M6),29.9,2250
+BMW 440i Gran Coupe,3,6,Auto(S8),33.5,1500
+BMW 440i xDrive Coupe,3,6,Auto(S8),33.2,1500
+BMW 440i xDrive Coupe,3,6,Manual(M6),30.1,2250
+BMW 440i xDrive Gran Coupe,3,6,Auto(S8),33.2,1500
+BMW 640i Gran Coupe,3,6,Auto(S8),31,2250
+BMW 640i xDrive Gran Coupe,3,6,Auto(S8),29.6,2500
+BMW 650i Gran Coupe,4.4,8,Auto(S8),25.7,4000
+BMW 650i xDrive Gran Coupe,4.4,8,Auto(S8),23.8,4750
+BMW Alpina B6 xDrive Gran Coupe,4.4,8,Auto(S8),23.8,4750
+BMW M3,3,6,Auto(AM-S7),25.3,4000
+BMW M3,3,6,Manual(M6),26.4,3500
+BMW M4 Coupe,3,6,Auto(AM-S7),25.3,4000
+BMW M4 Coupe,3,6,Manual(M6),26.4,3500
+BMW M6 Gran Coupe,4.4,8,Auto(AM-S7),20.6,6000
+BMW M6 Gran Coupe,4.4,8,Manual(M6),22.1,5250
+Buick VERANO,2.4,4,Auto(S6),32.5,750
+Cadillac ATS,2,4,Auto(S8),34,1500
+Cadillac ATS,2,4,Manual(M6),30.9,2250
+Cadillac ATS,2.5,4,Auto(S8),34.2,0
+Cadillac ATS,3.6,6,Auto(S8),31.4,750
+Cadillac ATS AWD,2,4,Auto(S8),33,1500
+Cadillac ATS AWD,3.6,6,Auto(S8),29.4,1250
+Cadillac ATS-V,3.6,6,Auto(S8),25.9,3500
+Cadillac ATS-V,3.6,6,Manual(M6),24.4,4000
+Chevrolet CRUZE,1.4,4,Auto(S6),47.3,0
+Chevrolet CRUZE,1.4,4,Manual(M6),45.5,0
+Chevrolet CRUZE,1.6,4,Auto(A9),50.4,0
+Chevrolet CRUZE,1.6,4,Manual(M6),51.7,0
+Chevrolet CRUZE PREMIER,1.4,4,Auto(S6),46.9,0
+Chevrolet SONIC,1.4,4,Auto(S6),42.7,0
+Chevrolet SONIC,1.4,4,Manual(M6),45.2,0
+Chevrolet SONIC,1.8,4,Auto(S6),39.3,0
+Chevrolet SONIC,1.8,4,Manual(M5),40.1,0
+Ford Fiesta ST FWD,1.6,4,Manual(M6),39.6,0
+Ford FOCUS FWD,1,3,Auto(S6),43.4,0
+Ford FOCUS FWD,1,3,Manual(M6),47.3,0
+Ford FOCUS FWD,2,4,Auto(AM6),42.1,0
+Ford FOCUS FWD,2,4,Auto(AM-S6),39.8,0
+Ford FOCUS FWD,2,4,Manual(M5),38.3,0
+Ford Focus FWD FFV,2,4,Auto(AM6),42.1,0
+Ford Focus FWD FFV,2,4,Auto(AM-S6),39.8,0
+Ford Focus FWD FFV,2,4,Manual(M5),38.3,0
+Honda CIVIC 2Dr,1.5,4,Auto(AV),47.6,0
+Honda CIVIC 2Dr,1.5,4,Manual(M6),46.1,0
+Honda CIVIC 2Dr,2,4,Auto(AV),46.8,0
+Honda CIVIC 2Dr,2,4,Manual(M6),41.6,0
+HYUNDAI MOTOR COMPANY Accent,1.6,4,Auto(S6),41,0
+HYUNDAI MOTOR COMPANY Accent,1.6,4,Manual(M6),42.7,0
+HYUNDAI MOTOR COMPANY Veloster,1.6,4,Auto(AM6),43.2,0
+HYUNDAI MOTOR COMPANY Veloster,1.6,4,Auto(AM7),39.5,0
+HYUNDAI MOTOR COMPANY Veloster,1.6,4,Manual(M6),40.7,0
+HYUNDAI MOTOR COMPANY Veloster,1.6,4,Manual(M6),38.2,0
+INFINITI Q50 HYBRID,3.5,6,Auto(S7),39.4,250
+INFINITI Q50 HYBRID AWD,3.5,6,Auto(S7),37.6,500
+INFINITI QX30,2,4,Auto(AM7),37.1,750
+INFINITI QX30 AWD,2,4,Auto(AM7),32.7,1500
+Jaguar XE,2,4,Auto(S8),50.3,0
+Jaguar XE,2,4,Auto(S8),32,1750
+Jaguar XE,3,6,Auto(S8),31.9,1750
+Jaguar XE AWD,2,4,Auto(S8),47.3,0
+Jaguar XE AWD,3,6,Auto(S8),30.7,2250
+KIA MOTORS CORPORATION Forte Koup,1.6,4,Auto(AM7),36.9,0
+KIA MOTORS CORPORATION Forte Koup,1.6,4,Manual(M6),34.8,0
+KIA MOTORS CORPORATION Forte Koup,2,4,Auto(S6),38.3,0
+KIA MOTORS CORPORATION Rio,1.6,4,Auto(S6),41.3,0
+KIA MOTORS CORPORATION Rio,1.6,4,Manual(M6),41.9,0
+KIA MOTORS CORPORATION Rio ECO,1.6,4,Auto(S6),42,0
+LEXUS CT 200h,1.8,4,Auto(AV),58.1,0
+LEXUS GS F,5,8,Auto(S8),24.1,4000
+LEXUS IS 200t,2,4,Auto(S8),34.6,1000
+LEXUS IS 300 AWD,3.5,6,Auto(S6),28.2,3000
+LEXUS IS 350,3.5,6,Auto(S8),29.3,2500
+LEXUS IS 350 AWD,3.5,6,Auto(S6),28.2,3000
+MAZDA CX-3 2WD,2,4,Auto(S6),43.1,0
+MAZDA CX-3 4WD,2,4,Auto(S6),39.4,0
+MAZDA MAZDA2,1.5,4,Auto(S6),49.1,0
+MAZDA MAZDA2,1.5,4,Manual(M6),47.5,0
+MAZDA MAZDA3 4-Door,2,4,Auto(S6),43.9,0
+MAZDA MAZDA3 4-Door,2,4,Manual(M6),43.2,0
+MAZDA MAZDA3 4-Door,2.5,4,Auto(S6),42.8,0
+MAZDA MAZDA3 4-Door,2.5,4,Auto(S6),41.3,0
+MAZDA MAZDA3 4-Door,2.5,4,Manual(M6),38.8,0
+Mercedes-Benz AMG C 43 4MATIC,3,6,Auto(A9),30.9,2250
+Mercedes-Benz AMG C 63,4,8,Auto(A7),27.1,3000
+Mercedes-Benz AMG C 63 S,4,8,Auto(A7),26.4,3500
+Mercedes-Benz AMG CLA 45 4MATIC,2,4,Auto(AM7),34.5,1000
+Mercedes-Benz AMG CLS 63 S 4MATIC,5.5,8,Auto(A7),23.3,4750
+Mercedes-Benz AMG S 63 4MATIC (coupe),5.5,8,Auto(A7),23.5,4750
+Mercedes-Benz C 300,2,4,Auto(A7),37.7,500
+Mercedes-Benz C 300 4MATIC,2,4,Auto(A7),36,750
+Mercedes-Benz CLA 250,2,4,Auto(AM7),38.8,250
+Mercedes-Benz CLA 250 4MATIC,2,4,Auto(AM7),35.8,750
+Mercedes-Benz CLA 250 4MATIC,2,4,Auto(AM7),35.8,750
+Mercedes-Benz CLS 550,4.7,8,Auto(A9),27.6,3000
+Mercedes-Benz CLS 550 4MATIC,4.7,8,Auto(A9),26.3,3500
+Mercedes-Benz S 550 4MATIC (coupe),4.7,8,Auto(A9),26.1,3500
+Mercedes-Benz S 65 AMG (coupe),6,12,Auto(A7),20.3,6000
+Mitsubishi Motors Corporation LANCER,2,4,Auto(AV-S6),40.9,0
+Mitsubishi Motors Corporation LANCER,2,4,Manual(M5),37.4,0
+Mitsubishi Motors Corporation LANCER 4WD,2.4,4,Auto(AV-S6),34.3,0
+Mitsubishi Motors Corporation MIRAGE,1.2,3,Auto(AV),56.1,0
+Mitsubishi Motors Corporation MIRAGE,1.2,3,Manual(M5),50.9,0
+Mitsubishi Motors Corporation MIRAGE G4,1.2,3,Auto(AV),52.9,0
+Mitsubishi Motors Corporation MIRAGE G4,1.2,3,Manual(M5),49.8,0
+NISSAN VERSA,1.6,4,Auto(A4),40.2,0
+NISSAN VERSA,1.6,4,Auto(AV),47.7,0
+NISSAN VERSA,1.6,4,Manual(M5),42.3,0
+Rolls-Royce Motor Cars Limited Dawn,6.6,12,Auto(S8),18,8000
+Rolls-Royce Motor Cars Limited Phantom Coupe,6.7,12,Auto(S8),17.6,8000
+Rolls-Royce Motor Cars Limited Phantom Drophead Coupe,6.7,12,Auto(S8),17.6,8000
+Subaru WRX,2,4,Auto(AV-S8),26.8,3000
+Subaru WRX,2,4,Manual(M6),30.3,2250
+Subaru WRX,2.5,4,Manual(M6),25.1,4000
+TOYOTA PRIUS c,1.5,4,Auto(AV),67.4,0
+TOYOTA YARIS,1.5,4,Auto(A4),44.2,0
+TOYOTA YARIS,1.5,4,Manual(M5),45.5,0
+Volkswagen Beetle,1.8,4,Auto(S6),37,0
+Volkswagen Beetle,2,4,Auto(AM-S6),34.1,0
+Volkswagen Beetle Dune,1.8,4,Auto(S6),35.9,0
+Volkswagen CC,2,4,Auto(AM-S6),32.3,1500
+Volkswagen CC 4Motion,3.6,6,Auto(S6),24.8,2250
+Volkswagen Golf,1.8,4,Auto(S6),38.9,0
+Volkswagen Golf,1.8,4,Manual(M5),39.3,0
+Volkswagen Golf R,2,4,Auto(AM-S6),32.6,1500
+Volkswagen Golf R,2,4,Manual(M6),31.2,1500
+Volkswagen GTI,2,4,Auto(AM-S6),35.9,0
+Volkswagen GTI,2,4,Manual(M6),35.2,0
+Volkswagen Jetta,1.4,4,Auto(S6),43.2,0
+Volkswagen Jetta,1.4,4,Manual(M5),44.8,0
+Volkswagen Jetta,1.8,4,Auto(S6),38.7,0
+Volkswagen Jetta,2,4,Auto(AM-S6),36.4,0
+Volkswagen Jetta,2,4,Manual(M6),34.7,0
+Volvo Cars of North America  LLC S60 AWD,2,4,Auto(S8),34.4,0
+Volvo Cars of North America  LLC S60 AWD,2,4,Auto(S8),34.2,1000
+Volvo Cars of North America  LLC S60 CC AWD,2,4,Auto(S8),33.2,250
+Volvo Cars of North America  LLC S60 FWD,2,4,Auto(S8),39.7,0
+Volvo Cars of North America  LLC S60 Inscription AWD,2,4,Auto(S8),34.4,0
+Volvo Cars of North America  LLC S60 Inscription FWD,2,4,Auto(S8),39.7,0
+Volvo Cars of North America  LLC S60 Polestar AWD,2,4,Auto(S8),30,2250
+Acura RLX,3.5,6,Auto(AM-S7),41.1,250
+Acura RLX,3.5,6,Auto(S6),31.1,2250
+ALFA ROMEO Giulia,2,4,Auto(A8),36.4,750
+ALFA ROMEO Giulia,2.9,6,Auto(A8),25.8,3500
+ALFA ROMEO Giulia AWD,2,4,Auto(A8),34.3,1000
+Audi A6,2,4,Auto(AM-S7),37.5,500
+Audi A6 quattro,2,4,Auto(S8),33.2,1500
+Audi A6 quattro,3,6,Auto(S8),31.1,1750
+Audi A7 quattro,3,6,Auto(S8),31.1,1750
+Audi RS7,4,8,Auto(S8),22.6,4750
+Audi S6,4,8,Auto(AM-S7),26.4,3000
+Audi S7,4,8,Auto(AM-S7),26.8,3000
+Audi S8,4,8,Auto(S8),22.5,4750
+Bentley Flying Spur,4,8,Auto(S8),21.8,5250
+Bentley Flying Spur,6,12,Auto(S8),18.3,7000
+Bentley Mulsanne,6.8,8,Auto(S8),17.3,8000
+Bentley Mulsanne EWB,6.8,8,Auto(S8),16.2,9250
+BMW 530i,2,4,Auto(S8),37,750
+BMW 530i xDrive,2,4,Auto(S8),35.8,750
+BMW 540i,3,6,Auto(S8),31.5,1750
+BMW 540i xDrive,3,6,Auto(S8),31.2,2250
+Buick LACROSSE,3.6,6,Auto(S8),32.9,250
+Buick LACROSSE AWD,3.6,6,Auto(S8),31.2,1000
+Buick REGAL,2,4,Auto(S6),31.6,1750
+Buick REGAL,2.4,4,Auto(S6),30.6,1000
+Buick REGAL AWD,2,4,Auto(S6),29.2,2500
+Cadillac CTS,2,4,Auto(S8),33.1,1500
+Cadillac CTS,3.6,6,Auto(S8),31.4,750
+Cadillac CTS,3.6,6,Auto(S8),24,4750
+Cadillac CTS AWD,2,4,Auto(S8),33,1750
+Cadillac CTS AWD,3.6,6,Auto(S8),29.4,1250
+Cadillac CTS-V,6.2,8,Auto(S8),21.7,5250
+Chevrolet CRUZE HATCHBACK,1.4,4,Auto(S6),47.3,0
+Chevrolet CRUZE HATCHBACK,1.4,4,Manual(M6),45.5,0
+Chevrolet CRUZE PREMIER HATCHBACK,1.4,4,Auto(S6),46.9,0
+Chevrolet MALIBU,1.5,4,Auto(A6),41.4,0
+Chevrolet MALIBU,1.8,4,Auto(AV),64.8,0
+Chevrolet MALIBU,2,4,Auto(A9),34.7,1000
+Chrysler 200,2.4,4,Auto(A9),36.9,0
+Chrysler 200,2.4,4,Auto(A9),36.9,0
+Chrysler 200,3.6,6,Auto(A9),30.7,1000
+Chrysler 200 AWD,3.6,6,Auto(A9),28.8,1250
+Dodge Challenger,3.6,6,Auto(A8),30.1,1000
+Dodge Challenger,5.7,8,Auto(A8),24.8,3500
+Dodge Challenger,5.7,8,Manual(M6),23.3,4750
+Dodge Challenger,6.4,8,Auto(A8),23.7,4750
+Dodge Challenger,6.4,8,Manual(M6),21.8,5250
+Dodge Challenger GT,3.6,6,Auto(A8),28.2,1750
+Dodge Challenger SRT,6.2,8,Auto(A8),20.2,6000
+Dodge Challenger SRT,6.2,8,Manual(M6),19.9,6000
+Dodge Challenger SRT,6.4,8,Auto(A8),23.7,4750
+Dodge Challenger SRT,6.4,8,Manual(M6),21.8,5250
+Ford FOCUS RS AWD,2.3,4,Manual(M6),28.5,2500
+Ford Focus ST FWD,2,4,Manual(M6),34.3,250
+Ford FUSION AWD,2,4,Auto(S6),30.6,1000
+Ford FUSION AWD,2.7,6,Auto(S6),27.2,2250
+Ford FUSION FWD,1.5,4,Auto(S6),36.5,0
+Ford FUSION FWD,2,4,Auto(S6),32.8,250
+Ford FUSION FWD,2.5,4,Auto(A6),32.8,250
+Ford FUSION HYBRID FWD,2,4,Auto(AV),61.5,0
+Honda ACCORD,2,4,Auto(AV),70.3,0
+Honda ACCORD,2.4,4,Auto(AV),41.4,0
+Honda ACCORD,2.4,4,Auto(AV-S7),39.7,0
+Honda ACCORD,2.4,4,Manual(M6),35.6,0
+Honda ACCORD,3.5,6,Auto(A6),34,250
+Honda ACCORD,3.5,6,Auto(S6),32.6,750
+Honda ACCORD,3.5,6,Manual(M6),28.3,1750
+Honda CIVIC 4Dr,1.5,4,Auto(AV),48.7,0
+Honda CIVIC 4Dr,1.5,4,Manual(M6),46.7,0
+Honda CIVIC 4Dr,2,4,Auto(AV),47.4,0
+Honda CIVIC 4Dr,2,4,Manual(M6),42.2,0
+HYUNDAI MOTOR COMPANY Elantra,1.4,4,Auto(AM7),48.5,0
+HYUNDAI MOTOR COMPANY Elantra,1.6,4,Auto(AM7),38.4,0
+HYUNDAI MOTOR COMPANY Elantra,1.6,4,Manual(M6),33.5,250
+HYUNDAI MOTOR COMPANY Elantra,2,4,Auto(S6),43.8,0
+HYUNDAI MOTOR COMPANY Elantra,2,4,Manual(M6),40.5,0
+HYUNDAI MOTOR COMPANY Elantra GT,2,4,Auto(S6),36.5,0
+HYUNDAI MOTOR COMPANY Elantra GT,2,4,Manual(M6),36.5,0
+HYUNDAI MOTOR COMPANY Elantra SE,2,4,Auto(S6),45.5,0
+HYUNDAI MOTOR COMPANY Sonata HYBRID,2,4,Auto(AM6),56.6,0
+HYUNDAI MOTOR COMPANY Sonata HYBRID SE,2,4,Auto(AM6),58.5,0
+INFINITI Q50,2,4,Auto(S7),35.4,1000
+INFINITI Q50,3,6,Auto(S7),30.3,2250
+INFINITI Q50 AWD,2,4,Auto(S7),33.7,1750
+INFINITI Q50 AWD,3,6,Auto(S7),28.8,2500
+INFINITI Q50S  RED SPORT,3,6,Auto(S7),29.6,2500
+INFINITI Q50S AWD RED SPORT,3,6,Auto(S7),28.6,2500
+INFINITI Q70,3.7,6,Auto(S7),27,3000
+INFINITI Q70,5.6,8,Auto(S7),25,4000
+INFINITI Q70 AWD,3.7,6,Auto(S7),26.5,3500
+INFINITI Q70 AWD,5.6,8,Auto(S7),23.7,4750
+INFINITI Q70 HYBRID,3.5,6,Auto(S7),41.3,0
+Jaguar XF,2,4,Auto(S8),49,0
+Jaguar XF,3,6,Auto(S8),31,2250
+Jaguar XF AWD,2,4,Auto(S8),49,0
+Jaguar XF AWD,3,6,Auto(S8),30,2250
+KIA MOTORS CORPORATION Forte,2,4,Auto(S6),44.6,0
+KIA MOTORS CORPORATION Forte,2,4,Auto(S6),38.6,0
+KIA MOTORS CORPORATION Forte,2,4,Manual(M6),39,0
+KIA MOTORS CORPORATION Optima Hybrid,2,4,Auto(AM6),58,0
+LEXUS ES 300h,2.5,4,Auto(AV-S6),55.8,0
+LEXUS ES 350,3.5,6,Auto(S6),32.3,750
+LEXUS GS 200t,2,4,Auto(S8),34.6,1000
+LEXUS GS 200t F SPORT,2,4,Auto(S8),32.1,1750
+LEXUS GS 350,3.5,6,Auto(S8),30.3,2250
+LEXUS GS 350 AWD,3.5,6,Auto(S6),28.6,2500
+LEXUS GS 350 F SPORT,3.5,6,Auto(S8),28.9,2500
+LEXUS GS 450h,3.5,6,Auto(AV-S8),42.1,0
+LEXUS LS 460,4.6,8,Auto(S8),25.1,4000
+LEXUS LS 460 AWD,4.6,8,Auto(S8),23.8,4750
+LEXUS LS 460 L,4.6,8,Auto(S8),25.1,4000
+LEXUS LS 460 L AWD,4.6,8,Auto(S8),23.8,4750
+Lincoln MKZ AWD,2,4,Auto(S6),30.6,1000
+Lincoln MKZ AWD,3,6,Auto(S6),26.1,2250
+Lincoln MKZ FWD,2,4,Auto(S6),32.8,750
+Lincoln MKZ FWD,3,6,Auto(S6),27.5,1750
+Lincoln MKZ HYBRID FWD,2,4,Auto(AV),61.5,0
+MASERATI Ghibli  S RWD,3,6,Auto(A8),24.6,4000
+MASERATI Ghibli V6 Rear Wheel Drive (RWD),3,6,Auto(A8),25.2,4000
+MASERATI Ghibli V6 SQ4 AWD,3,6,Auto(A8),24.4,4000
+MAZDA MAZDA3 5-Door,2,4,Auto(S6),43.4,0
+MAZDA MAZDA3 5-Door,2,4,Manual(M6),42.8,0
+MAZDA MAZDA3 5-Door,2.5,4,Auto(S6),41.2,0
+MAZDA MAZDA3 5-Door,2.5,4,Auto(S6),41.6,0
+MAZDA MAZDA3 5-Door,2.5,4,Manual(M6),37.7,0
+MAZDA MAZDA6,2.5,4,Auto(S6),39.6,0
+MAZDA MAZDA6,2.5,4,Auto(S6),40.7,0
+MAZDA MAZDA6,2.5,4,Manual(M6),38,0
+Mercedes-Benz AMG E 43 4MATIC,3,6,Auto(A9),27.2,3000
+Mercedes-Benz E 300,2,4,Auto(A9),33.7,1500
+Mercedes-Benz E 300 4MATIC,2,4,Auto(A9),32.6,1750
+Mini JOHN COOPER WORKS CLUBMAN ALL4,2,4,Auto(S8),35.1,1000
+Mini JOHN COOPER WORKS CLUBMAN ALL4,2,4,Manual(M6),32.2,1750
+Mini MINI COOPER CLUBMAN,1.5,3,Auto(S6),37.8,500
+Mini MINI COOPER CLUBMAN,1.5,3,Manual(M6),37.8,500
+Mini MINI COOPER CLUBMAN ALL4,1.5,3,Auto(S8),34.8,1500
+Mini MINI COOPER CLUBMAN ALL4,1.5,3,Manual(M6),34.4,1000
+Mini MINI COOPER COUNTRYMAN,1.5,3,Auto(S6),37.5,500
+Mini MINI COOPER COUNTRYMAN,1.5,3,Manual(M6),37.4,500
+Mini MINI COOPER COUNTRYMAN ALL4,1.5,3,Auto(S8),34.2,1500
+Mini MINI COOPER COUNTRYMAN ALL4,1.5,3,Manual(M6),34.4,1000
+Mini Mini Cooper S Clubman,2,4,Auto(S8),36.3,750
+Mini Mini Cooper S Clubman,2,4,Manual(M6),34,1500
+Mini Mini Cooper S Clubman ALL4,2,4,Auto(S8),34.3,1000
+Mini Mini Cooper S Clubman ALL4,2,4,Manual(M6),32.1,1750
+Mini MINI COOPER S COUNTRYMAN,2,4,Auto(S8),35.7,750
+Mini MINI COOPER S COUNTRYMAN ALL4,2,4,Auto(S8),34.3,1000
+Mini MINI COOPER S COUNTRYMAN ALL4,2,4,Manual(M6),32.5,1750
+NISSAN ALTIMA,2.5,4,Auto(AV),44.2,0
+NISSAN ALTIMA,3.5,6,Auto(AV-S7),35,0
+NISSAN ALTIMA SR,2.5,4,Auto(AV-S7),43.2,0
+NISSAN MAXIMA,3.5,6,Auto(AV-S7),33.2,1500
+NISSAN SENTRA,1.6,4,Auto(AV-S7),41.5,250
+NISSAN SENTRA,1.6,4,Manual(M6),40.3,500
+NISSAN SENTRA,1.8,4,Auto(AV),44.7,0
+NISSAN SENTRA,1.8,4,Manual(M6),41.1,0
+NISSAN SENTRA NISMO,1.6,4,Auto(AV-S7),39.2,750
+NISSAN SENTRA NISMO,1.6,4,Manual(M6),38.7,750
+Rolls-Royce Motor Cars Limited Wraith,6.6,12,Auto(S8),18.7,7000
+Subaru IMPREZA 4-Door,2,4,Auto(AV-S7),43.1,0
+Subaru IMPREZA 4-Door,2,4,Manual(M5),35.8,0
+Subaru IMPREZA SPORT 4-Door,2,4,Auto(AV-S7),41.4,0
+Subaru IMPREZA SPORT 4-Door,2,4,Manual(M5),35.1,0
+Subaru LEGACY,2.5,4,Auto(AV-S6),38.5,0
+Subaru LEGACY,3.6,6,Auto(AV-S6),30.1,1000
+TOYOTA AVALON,3.5,6,Auto(S6),32.2,750
+TOYOTA AVALON HYBRID,2.5,4,Auto(AV-S6),55.8,0
+TOYOTA CAMRY,2.5,4,Auto(S6),37,0
+TOYOTA CAMRY,3.5,6,Auto(S6),32.5,750
+TOYOTA CAMRY HYBRID LE,2.5,4,Auto(AV),58.1,0
+TOYOTA CAMRY HYBRID XLE/SE,2.5,4,Auto(AV),55.4,0
+TOYOTA COROLLA,1.8,4,Auto(AV),44,0
+TOYOTA COROLLA,1.8,4,Auto(AV-S7),43.3,0
+TOYOTA COROLLA,1.8,4,Manual(M6),42.2,0
+TOYOTA COROLLA iM,1.8,4,Auto(AV-S7),43.2,0
+TOYOTA COROLLA iM,1.8,4,Manual(M6),40.8,0
+TOYOTA COROLLA LE ECO,1.8,4,Auto(AV),45.8,0
+TOYOTA COROLLA LE ECO,1.8,4,Auto(AV),48,0
+TOYOTA PRIUS,1.8,4,Auto(AV),74.3,0
+TOYOTA PRIUS Eco,1.8,4,Auto(AV),82.5,0
+Volkswagen Passat,1.8,4,Auto(S6),36.2,0
+Volkswagen Passat,3.6,6,Auto(AM-S6),28.5,1000
+Volvo Cars of North America  LLC S90 AWD,2,4,Auto(S8),33.3,1500
+Volvo Cars of North America  LLC S90 FWD,2,4,Auto(S8),36.2,750
+Audi A8L,3,6,Auto(S8),28.3,2500
+Audi A8L,4,8,Auto(S8),27.8,2500
+BMW 330i xDrive Gran Turismo,2,4,Auto(S8),35.6,1000
+BMW 340i xDrive Gran Turismo,3,6,Auto(S8),31.5,1750
+BMW 535i Gran Turismo,3,6,Auto(S8),29,2500
+BMW 535i xDrive Gran Turismo,3,6,Auto(S8),28,3000
+BMW 550i xDrive Gran Turismo,4.4,8,Auto(S8),23.8,4750
+BMW 740i,3,6,Auto(S8),31.7,1750
+BMW 740i xDrive,3,6,Auto(S8),29.5,2500
+BMW 750i,4.4,8,Auto(S8),26.4,3500
+BMW 750i xDrive,4.4,8,Auto(S8),25.3,4000
+BMW Alpina B7 xDrive,4.4,8,Auto(S8),23.9,4750
+BMW M760i xDrive,6.6,12,Auto(S8),20.1,6000
+BMW X1 sDrive28i,2,4,Auto(S8),35.4,1000
+BMW X1 xDrive28i,2,4,Auto(S8),33.9,1500
+Cadillac CT6,2,4,Auto(S8),33.1,1500
+Cadillac CT6 AWD,3,6,Auto(S8),27.5,3000
+Cadillac CT6 AWD,3.6,6,Auto(S8),28.1,1750
+Cadillac XTS,3.6,6,Auto(S6),28.3,1250
+Cadillac XTS AWD,3.6,6,Auto(S6),23.9,3250
+Cadillac XTS AWD,3.6,6,Auto(S6),26.6,2250
+Chevrolet IMPALA,2.5,4,Auto(S6),32.8,250
+Chevrolet IMPALA,3.6,6,Auto(S6),29.2,1250
+Chevrolet IMPALA,3.6,6,Auto(S6),28.7,1250
+Chevrolet SS,6.2,8,Auto(S6),20.6,6000
+Chevrolet SS,6.2,8,Manual(M6),21.6,5250
+Chrysler 300,3.6,6,Auto(A8),30.1,1000
+Chrysler 300,3.6,6,Auto(A8),30.1,1000
+Chrysler 300,5.7,8,Auto(A8),24.8,3500
+Chrysler 300 AWD,3.6,6,Auto(A8),28.2,1750
+Chrysler 300 AWD,3.6,6,Auto(A8),28.2,1750
+Dodge Charger,3.6,6,Auto(A8),30.1,1000
+Dodge Charger,3.6,6,Auto(A8),30.1,1000
+Dodge Charger,5.7,8,Auto(A8),24.8,3500
+Dodge Charger,6.4,8,Auto(A8),23.7,4750
+Dodge Charger AWD,3.6,6,Auto(A8),28.2,1750
+Dodge Charger AWD,3.6,6,Auto(A8),28.2,1750
+Dodge Charger SRT,6.2,8,Auto(A8),20.2,6000
+Dodge Charger SRT,6.4,8,Auto(A8),23.7,4750
+Ford C-MAX Hybrid FWD,2,4,Auto(AV),57.5,0
+Ford TAURUS AWD,3.5,6,Auto(S6),25.9,2750
+Ford TAURUS AWD,3.5,6,Auto(S6),25.7,2750
+Ford TAURUS AWD FFV,3.5,6,Auto(S6),25.9,2750
+Ford TAURUS FWD,2,4,Auto(S6),32.8,1000
+Ford TAURUS FWD,3.5,6,Auto(S6),29.4,1750
+Ford TAURUS FWD FFV,3.5,6,Auto(S6),29.4,1750
+GENESIS G80 AWD,3.8,6,Auto(S8),25.3,2750
+GENESIS G80 RWD,3.8,6,Auto(S8),28.4,1250
+GENESIS G80 RWD,5,8,Auto(S8),22.9,4750
+GENESIS G90 AWD,3.3,6,Auto(S8),26,3500
+GENESIS G90 AWD,5,8,Auto(S8),23.5,4750
+GENESIS G90 RWD,3.3,6,Auto(S8),25.8,3500
+GENESIS G90 RWD,5,8,Auto(S8),24.1,4000
+Honda CIVIC 5Dr,1.5,4,Auto(AV),47.6,0
+Honda CIVIC 5Dr,1.5,4,Manual(M6),43.9,0
+Honda CIVIC 5Dr Sport,1.5,4,Auto(AV-S7),44.6,0
+Honda CIVIC 5Dr Sport,1.5,4,Manual(M6),43.9,0
+HYUNDAI MOTOR COMPANY Azera,3.3,6,Auto(S6),30.2,1000
+HYUNDAI MOTOR COMPANY Azera Limited,3.3,6,Auto(S6),29.2,1250
+HYUNDAI MOTOR COMPANY Ioniq,1.6,4,Auto(AM6),73.6,0
+HYUNDAI MOTOR COMPANY Ioniq Blue,1.6,4,Auto(AM6),78.4,0
+HYUNDAI MOTOR COMPANY Sonata,1.6,4,Auto(AM7),31.3,0
+HYUNDAI MOTOR COMPANY Sonata,2,4,Auto(S6),34.4,0
+HYUNDAI MOTOR COMPANY Sonata,2.4,4,Auto(S6),39.8,0
+HYUNDAI MOTOR COMPANY Sonata Limited,2,4,Auto(S6),32.6,750
+HYUNDAI MOTOR COMPANY Sonata SPORT/LIMITED,2.4,4,Auto(S6),38.5,0
+Jaguar XJ,3,6,Auto(S8),28.2,3000
+Jaguar XJ,5,8,Auto(S8),22.9,4750
+Jaguar XJ AWD,3,6,Auto(S8),26.1,3500
+Jaguar XJL,3,6,Auto(S8),27.9,3000
+Jaguar XJL,5,8,Auto(S8),22.9,4750
+Jaguar XJL AWD,3,6,Auto(S8),25.8,3500
+KIA MOTORS CORPORATION Cadenza,3.3,6,Auto(S8),30.5,1000
+KIA MOTORS CORPORATION Forte5,1.6,4,Auto(AM7),36.4,0
+KIA MOTORS CORPORATION Forte5,1.6,4,Manual(M6),34,250
+KIA MOTORS CORPORATION Forte5,2,4,Auto(S6),38.6,0
+KIA MOTORS CORPORATION K900,3.8,6,Auto(S8),26.1,2250
+KIA MOTORS CORPORATION K900,5,8,Auto(S8),22.8,4750
+KIA MOTORS CORPORATION Optima,1.6,4,Auto(AM7),43.1,0
+KIA MOTORS CORPORATION Optima,2,4,Auto(S6),33.4,250
+KIA MOTORS CORPORATION Optima,2.4,4,Auto(S6),37.7,0
+KIA MOTORS CORPORATION Optima FE,2.4,4,Auto(S6),39.4,0
+Lincoln CONTINENTAL AWD,2.7,6,Auto(S6),25.7,2250
+Lincoln CONTINENTAL AWD,3,6,Auto(S6),24.8,2750
+Lincoln CONTINENTAL AWD,3.7,6,Auto(S6),24.9,2750
+Lincoln CONTINENTAL FWD,2.7,6,Auto(S6),27.7,1750
+Lincoln CONTINENTAL FWD,3.7,6,Auto(S6),26.4,2250
+MASERATI QUATTROPORTE GTS,3.8,8,Auto(A8),22.2,5250
+MASERATI QUATTROPORTE S,3,6,Auto(A8),23.9,4750
+MASERATI QUATTROPORTE SQ4 V6,3,6,Auto(A8),23.8,4750
+Mercedes-Benz AMG S 63 4MATIC,5.5,8,Auto(A7),23.1,4750
+Mercedes-Benz AMG S 65,6,12,Auto(A7),20.5,6000
+Mercedes-Benz Maybach S 600,6,12,Auto(A7),19.9,6000
+Mercedes-Benz S 550,4.7,8,Auto(A9),27,3000
+Mercedes-Benz S 550 4MATIC,4.7,8,Auto(A9),25.5,3500
+Mercedes-Benz S 550 4MATIC Maybach,4.7,8,Auto(A9),25,4000
+Mercedes-Benz S 600,6,12,Auto(A7),20.4,6000
+Rolls-Royce Motor Cars Limited Ghost,6.6,12,Auto(S8),18,8000
+Rolls-Royce Motor Cars Limited Ghost EWB,6.6,12,Auto(S8),18,8000
+Rolls-Royce Motor Cars Limited Phantom,6.7,12,Auto(S8),17.6,8000
+Rolls-Royce Motor Cars Limited Phantom EWB,6.7,12,Auto(S8),17.6,8000
+Audi A4 allroad quattro,2,4,Auto(AM-S7),33.9,1500
+BMW 328d xDrive Sports Wagon,2,4,Auto(S8),46.5,0
+BMW 330i xDrive Sports Wagon,2,4,Auto(S8),35.6,1000
+Chevrolet SONIC 5,1.4,4,Auto(S6),42.3,0
+Chevrolet SONIC 5,1.4,4,Manual(M6),44.8,0
+Chevrolet SONIC 5,1.8,4,Auto(S6),38.9,0
+Chevrolet SONIC 5,1.8,4,Manual(M5),39.7,0
+FIAT 500L,1.4,4,Auto(A6),33.4,1500
+Honda FIT,1.5,4,Auto(AV),50.5,0
+Honda FIT,1.5,4,Auto(AV-S7),47.5,0
+Honda FIT,1.5,4,Manual(M6),43.4,0
+Honda HR-V AWD,1.8,4,Auto(AV),39.1,0
+Honda HR-V AWD,1.8,4,Auto(AV-S7),39.1,0
+Honda HR-V FWD,1.8,4,Auto(AV),42,0
+Honda HR-V FWD,1.8,4,Auto(AV-S7),42,0
+Honda HR-V FWD,1.8,4,Manual(M6),38.1,0
+INFINITI QX50,3.7,6,Auto(S7),26.2,3500
+INFINITI QX50 AWD,3.7,6,Auto(S7),25.8,3500
+KIA MOTORS CORPORATION Niro,1.6,4,Auto(AM6),64.6,0
+KIA MOTORS CORPORATION Niro FE,1.6,4,Auto(AM6),67.7,0
+KIA MOTORS CORPORATION Niro Touring,1.6,4,Auto(AM6),59.6,0
+KIA MOTORS CORPORATION Soul,1.6,4,Auto(AM7),37.7,0
+KIA MOTORS CORPORATION Soul,1.6,4,Auto(S6),36.5,0
+KIA MOTORS CORPORATION Soul,1.6,4,Manual(M6),36,0
+KIA MOTORS CORPORATION Soul,2,4,Auto(S6),36.1,0
+NISSAN JUKE,1.6,4,Auto(AV-S7),40.5,250
+NISSAN JUKE,1.6,4,Manual(M6),41.1,250
+NISSAN JUKE AWD,1.6,4,Auto(AV-S7),38,500
+NISSAN JUKE NISMO RS,1.6,4,Manual(M6),38.7,500
+NISSAN JUKE NISMO RS AWD,1.6,4,Auto(AV-S8),35.7,1000
+Subaru IMPREZA 5-Door,2,4,Auto(AV-S7),43,0
+Subaru IMPREZA 5-Door,2,4,Manual(M5),35.4,0
+Subaru IMPREZA SPORT 5-Door,2,4,Auto(AV-S7),41.2,0
+Subaru IMPREZA SPORT 5-Door,2,4,Manual(M5),33.6,250
+Volkswagen Golf Alltrack,1.8,4,Auto(AM-S6),32.7,250
+Volkswagen Golf Alltrack,1.8,4,Manual(M6),32.3,0
+Volkswagen Golf SportWagen,1.8,4,Auto(S6),38.6,0
+Volkswagen Golf SportWagen,1.8,4,Manual(M5),38.1,0
+Volkswagen Golf SportWagen 4Motion,1.8,4,Auto(AM-S6),32.7,250
+Volkswagen Golf SportWagen 4Motion,1.8,4,Manual(M6),32.3,0
+Volvo Cars of North America  LLC V60 AWD,2,4,Auto(S8),34.4,0
+Volvo Cars of North America  LLC V60 AWD,2,4,Auto(S8),34.2,1000
+Volvo Cars of North America  LLC V60 CC AWD,2,4,Auto(S8),33.2,250
+Volvo Cars of North America  LLC V60 FWD,2,4,Auto(S8),39.7,0
+Volvo Cars of North America  LLC V60 Polestar AWD,2,4,Auto(S8),30,2250
+Mercedes-Benz AMG GLA 45 4MATIC,2,4,Auto(AM7),32.8,1500
+Mercedes-Benz E 400 4MATIC (station wagon),3,6,Auto(A9),28.2,3000
+Mercedes-Benz GLA 250,2,4,Auto(AM7),37.1,750
+NISSAN MURANO AWD,3.5,6,Auto(AV-S7),31.9,750
+NISSAN MURANO FWD,3.5,6,Auto(AV-S7),32.4,750
+TOYOTA PRIUS v,1.8,4,Auto(AV),59.5,0
+Volvo Cars of North America  LLC V90 CC AWD,2,4,Auto(S8),33.2,1500
+Chevrolet COLORADO 2WD,2.5,4,Auto(A6),0,1250
+Chevrolet COLORADO 2WD,2.5,4,Manual(M6),0,1250
+Chevrolet COLORADO 2WD,2.8,4,Auto(A6),0,1250
+Chevrolet COLORADO 2WD,3.6,6,Auto(A8),0,2250
+GMC CANYON 2WD,2.5,4,Auto(A6),0,1250
+GMC CANYON 2WD,2.5,4,Manual(M6),0,1250
+GMC CANYON 2WD,2.8,4,Auto(A6),0,1250
+GMC CANYON 2WD,3.6,6,Auto(A8),0,2250
+Honda RIDGELINE FWD,3.5,6,Auto(A6),28.4,1250
+NISSAN FRONTIER 2WD,2.5,4,Auto(A5),0,2750
+NISSAN FRONTIER 2WD,2.5,4,Manual(M5),0,1750
+NISSAN FRONTIER 2WD,4,6,Auto(A5),0,2750
+NISSAN FRONTIER 2WD,4,6,Manual(M6),0,2750
+NISSAN FRONTIER 2WD FFV,4,6,Auto(A5),0,3250
+TOYOTA TACOMA 2WD,2.7,4,Auto(S6),0,1750
+TOYOTA TACOMA 2WD,3.5,6,Auto(S6),0,1750
+Chevrolet COLORADO 4WD,2.5,4,Auto(A6),0,1750
+Chevrolet COLORADO 4WD,2.8,4,Auto(A6),0,2000
+Chevrolet COLORADO 4WD,3.6,6,Auto(A8),0,2750
+GMC CANYON 4WD,2.5,4,Auto(A6),0,1750
+GMC CANYON 4WD,2.8,4,Auto(A6),0,2000
+GMC CANYON 4WD,3.6,6,Auto(A8),0,2750
+NISSAN FRONTIER 4WD,4,6,Auto(A5),0,3750
+NISSAN FRONTIER 4WD,4,6,Manual(M6),0,3250
+NISSAN FRONTIER 4WD FFV,4,6,Auto(A5),0,3750
+TOYOTA TACOMA 4WD,2.7,4,Auto(S6),0,2250
+TOYOTA TACOMA 4WD,2.7,4,Manual(M5),0,2250
+TOYOTA TACOMA 4WD,3.5,6,Auto(S6),0,2250
+TOYOTA TACOMA 4WD,3.5,6,Manual(M6),0,3250
+TOYOTA TACOMA 4WD D-CAB V6 MT OFF-ROAD,3.5,6,Manual(M6),0,3250
+Chevrolet C15 SILVERADO 2WD,4.3,6,Auto(A6),0,2250
+Chevrolet C15 SILVERADO 2WD,5.3,8,Auto(A6),0,2750
+Chevrolet C15 SILVERADO 2WD,5.3,8,Auto(A6),0,2750
+Chevrolet C15 SILVERADO 2WD,5.3,8,Auto(A8),0,3250
+Chevrolet C15 SILVERADO 2WD,5.3,8,Auto(A8),0,2250
+Chevrolet C15 SILVERADO 2WD,6.2,8,Auto(A8),0,3750
+Ford F150 2.7L 2WD GVWR>6649 LBS,2.7,6,Auto(S6),0,1750
+Ford F150 2WD BASE PAYLOAD LT TIRE,2.7,6,Auto(S6),0,1750
+Ford F150 2WD BASE PAYLOAD LT TIRE,3.5,6,Auto(S10),0,2250
+Ford F150 3.5L 2WD GVWR>7599 LBS,3.5,6,Auto(S10),0,2750
+Ford F150 5.0L 2WD FFV GVWR>7599 LBS,5,8,Auto(S6),0,4500
+Ford F150 PICKUP 2WD,2.7,6,Auto(S6),0,1250
+Ford F150 PICKUP 2WD,3.5,6,Auto(S10),0,1750
+Ford F150 PICKUP 2WD FFV,3.5,6,Auto(A6),0,2250
+Ford F150 PICKUP 2WD FFV,5,8,Auto(S6),0,3250
+GMC C15 SIERRA 2WD,4.3,6,Auto(A6),0,2250
+GMC C15 SIERRA 2WD,5.3,8,Auto(A6),0,2750
+GMC C15 SIERRA 2WD,5.3,8,Auto(A6),0,2750
+GMC C15 SIERRA 2WD,5.3,8,Auto(A8),0,3250
+GMC C15 SIERRA 2WD,5.3,8,Auto(A8),0,2250
+GMC C15 SIERRA 2WD,6.2,8,Auto(A8),0,3750
+NISSAN TITAN 2WD,5.6,8,Auto(S7),0,3250
+RAM 1500 4X2,3.6,6,Auto(A8),0,2250
+RAM 1500 4X2,5.7,8,Auto(A8),0,4750
+Roush Industries  Inc. F150 Pickup 2WD,5,8,Auto(S6),0,9250
+TOYOTA TUNDRA 2WD,4.6,8,Auto(S6),0,4500
+TOYOTA TUNDRA 2WD,5.7,8,Auto(S6),0,5250
+TOYOTA TUNDRA 2WD FFV,5.7,8,Auto(S6),0,5250
+Chevrolet K15 SILVERADO 4WD,4.3,6,Auto(A6),0,2750
+Chevrolet K15 SILVERADO 4WD,5.3,8,Auto(A6),0,3250
+Chevrolet K15 SILVERADO 4WD,5.3,8,Auto(A6),0,3250
+Chevrolet K15 SILVERADO 4WD,5.3,8,Auto(A8),0,3750
+Chevrolet K15 SILVERADO 4WD,5.3,8,Auto(A8),0,3250
+Chevrolet K15 SILVERADO 4WD,6.2,8,Auto(A8),0,3750
+Ford F150 2.7L 4WD GVWR>6649 LBS,2.7,6,Auto(S6),0,2750
+Ford F150 3.5L 4WD GVWR>7599 LBS,3.5,6,Auto(S10),0,2750
+Ford F150 4WD BASE PAYLOAD LT TIRE,2.7,6,Auto(S6),0,2750
+Ford F150 4WD BASE PAYLOAD LT TIRE,3.5,6,Auto(S10),0,2750
+Ford F150 4WD FFV BASE PAYLOAD LT TIRE,5,8,Auto(S6),0,3750
+Ford F150 5.0L 4WD FFV GVWR>7599 LBS,5,8,Auto(S6),0,4500
+Ford F150 PICKUP 4WD,2.7,6,Auto(S6),0,2250
+Ford F150 PICKUP 4WD,3.5,6,Auto(S10),0,2250
+Ford F150 PICKUP 4WD FFV,3.5,6,Auto(A6),0,2750
+Ford F150 PICKUP 4WD FFV,5,8,Auto(S6),0,3750
+Ford F150 RAPTOR 4WD,3.5,6,Auto(S10),0,4500
+GMC K15 SIERRA 4WD,4.3,6,Auto(A6),0,2750
+GMC K15 SIERRA 4WD,5.3,8,Auto(A6),0,3250
+GMC K15 SIERRA 4WD,5.3,8,Auto(A6),0,3250
+GMC K15 SIERRA 4WD,5.3,8,Auto(A8),0,3750
+GMC K15 SIERRA 4WD,5.3,8,Auto(A8),0,3250
+GMC K15 SIERRA 4WD,6.2,8,Auto(A8),0,3750
+Honda RIDGELINE AWD,3.5,6,Auto(A6),27.4,1750
+NISSAN TITAN 4WD,5.6,8,Auto(S7),0,3250
+NISSAN TITAN 4WD PRO-4X,5.6,8,Auto(S7),0,3750
+RAM 1500 4X4,3.6,6,Auto(A8),0,2750
+RAM 1500 4X4,5.7,8,Auto(A6),0,6250
+RAM 1500 4X4,5.7,8,Auto(A8),0,4750
+Roush Industries  Inc. F150 Pickup 4WD,5,8,Auto(S6),0,9250
+TOYOTA TUNDRA 4WD,4.6,8,Auto(S6),0,4500
+TOYOTA TUNDRA 4WD,5.7,8,Auto(S6),0,5250
+TOYOTA TUNDRA 4WD FFV,5.7,8,Auto(S6),0,5250
+Chevrolet G2500 EXPRESS 2WD PASS MDPV,6,8,Auto(A6),0,7250
+Chevrolet G3500 EXPRESS 2WD PASS MDPV,6,8,Auto(A6),0,8250
+Ford Transit T150 Wagon,3.5,6,Auto(S6),0,4500
+Ford TRANSIT T150 WAGON FFV,3.7,6,Auto(S6),0,4500
+GMC G2500 SAVANA 2WD PASS MDPV,6,8,Auto(A6),0,7250
+GMC G3500 SAVANA 2WD PASS MDPV,6,8,Auto(A6),0,8250
+Cadillac XTS HEARSE,3.6,6,Auto(S6),21.9,3750
+Cadillac XTS LIMO,3.6,6,Auto(S6),21.9,3750
+CHEVROLET City Express Cargo Van,2,4,Auto(AV),0,250
+Ford Transit Connect Van 2WD,2.5,4,Auto(S6),0,1000
+Ford TRANSIT CONNECT VAN FFV,2.5,4,Auto(S6),0,1000
+Ford TRANSIT CONNECT WAGON FFV,2.5,4,Auto(S6),29.3,1250
+Ford TRANSIT CONNECT WAGON FWD,2.5,4,Auto(S6),28.8,1250
+Ford TRANSIT CONNECT WAGON LWB FFV,2.5,4,Auto(S6),0,1250
+Ford Transit Connect Wagon LWB FWD,2.5,4,Auto(S6),0,1250
+Mercedes-Benz Metris (Cargo Van),2,4,Auto(A7),30.4,2500
+Mercedes-Benz Metris (Passenger Van),2,4,Auto(A7),29.6,2500
+NISSAN NV200 Cargo Van,2,4,Auto(AV),0,250
+NISSAN NV200 NYC Taxi,2,4,Auto(AV),34.3,750
+RAM Promaster City,2.4,4,Auto(A9),0,750
+Lincoln MKT LIVERY AWD,3.7,6,Auto(A6),0,3250
+Chevrolet C15 SILVERADO 2WD CAB CHASSIS,5.3,8,Auto(A6),0,3750
+Chevrolet COLORADO CAB CHASSIS 2WD,3.6,6,Auto(A8),0,4500
+Chevrolet K15 SILVERADO 4WD CAB CHASSIS,5.3,8,Auto(A6),0,3750
+GMC C15 SIERRA 2WD CAB CHASSIS,5.3,8,Auto(A6),0,3750
+GMC CANYON CAB CHASSIS 2WD,3.6,6,Auto(A8),0,4500
+GMC K15 SIERRA 4WD CAB CHASSIS,5.3,8,Auto(A6),0,3750
+Chrysler Pacifica,3.6,6,Auto(A9),0,1250
+Chrysler Pacifica,3.6,6,Auto(A9),0,1250
+Dodge Grand Caravan,3.6,6,Auto(A6),0,2250
+Dodge Grand Caravan,3.6,6,Auto(A6),0,2250
+Honda ODYSSEY FWD,3.5,6,Auto(A6),0,1250
+KIA MOTORS CORPORATION Sedona,3.3,6,Auto(S6),0,2250
+KIA MOTORS CORPORATION Sedona SX,3.3,6,Auto(S6),0,1750
+KIA MOTORS CORPORATION Sedona SXL,3.3,6,Auto(S6),0,2750
+NISSAN QUEST,3.5,6,Auto(AV),0,1250
+TOYOTA SIENNA,3.5,6,Auto(S8),0,1250
+TOYOTA SIENNA AWD,3.5,6,Auto(S8),0,2250
+Acura MDX FWD,3.5,6,Auto(S9),0,2250
+Acura MDX FWD,3.5,6,Auto(S9),0,2500
+Acura RDX FWD,3.5,6,Auto(S6),0,2250
+BMW X3 sDrive 28i,2,4,Auto(S8),0,1750
+Buick ENCORE,1.4,4,Auto(S6),40.8,0
+Buick ENCORE,1.4,4,Auto(S6),38.4,0
+Buick ENVISION FWD,2.5,4,Auto(A6),33.4,250
+Cadillac XT5,3.6,6,Auto(S8),0,1250
+Chevrolet EQUINOX FWD,2.4,4,Auto(A6),34.3,250
+Chevrolet EQUINOX FWD,2.4,4,Auto(A6),34.3,250
+Chevrolet EQUINOX FWD,3.6,6,Auto(A6),25.5,2250
+Chevrolet TRAX,1.4,4,Auto(S6),38.4,0
+Dodge Journey,2.4,4,Auto(A4),0,1750
+Dodge Journey,3.6,6,Auto(A6),0,2750
+FIAT 500X,1.4,4,Manual(M6),0,500
+FIAT 500X,2.4,4,Auto(A9),0,250
+Ford EDGE FWD,2,4,Auto(S6),33.3,750
+Ford EDGE FWD,2,4,Auto(S6),31.5,750
+Ford EDGE FWD,3.5,6,Auto(S6),26.8,2250
+Ford ESCAPE FWD,1.5,4,Auto(S6),34.9,0
+Ford ESCAPE FWD,2,4,Auto(S6),33.3,250
+Ford ESCAPE FWD,2.5,4,Auto(S6),32.2,750
+Ford ESCAPE FWD FFV,2.5,4,Auto(S6),32.2,750
+GMC TERRAIN FWD,2.4,4,Auto(A6),34.3,250
+GMC TERRAIN FWD,2.4,4,Auto(A6),34.3,250
+GMC TERRAIN FWD,3.6,6,Auto(A6),25.5,2250
+Honda CR-V FWD,1.5,4,Auto(AV),0,0
+Honda CR-V FWD,2.4,4,Auto(AV),0,0
+Honda PILOT FWD,3.5,6,Auto(A6),29.6,1250
+Honda PILOT FWD,3.5,6,Auto(S9),30.1,1000
+HYUNDAI MOTOR COMPANY Santa Fe FWD,3.3,6,Auto(S6),0,1750
+HYUNDAI MOTOR COMPANY Santa Fe Sport FWD,2,4,Auto(S6),0,1000
+HYUNDAI MOTOR COMPANY Santa Fe Sport FWD,2.4,4,Auto(S6),0,750
+HYUNDAI MOTOR COMPANY Santa Fe Sport ULTIMATE FWD,2,4,Auto(S6),0,1000
+HYUNDAI MOTOR COMPANY Santa Fe Ultimate FWD,3.3,6,Auto(S6),0,2250
+HYUNDAI MOTOR COMPANY Tucson Eco FWD,1.6,4,Auto(AM7),0,0
+HYUNDAI MOTOR COMPANY Tucson FWD,1.6,4,Auto(AM7),0,0
+HYUNDAI MOTOR COMPANY Tucson FWD,2,4,Auto(S6),0,0
+INFINITI QX60 FWD,3.5,6,Auto(AV-S7),0,2500
+INFINITI QX70 RWD,3.7,6,Auto(S7),0,4000
+Jeep Cherokee FWD,2.4,4,Auto(A9),0,250
+Jeep Cherokee FWD,2.4,4,Auto(A9),0,250
+Jeep Cherokee FWD,3.2,6,Auto(A9),0,1250
+Jeep Compass FWD,2,4,Auto(AV),0,750
+Jeep Compass FWD,2,4,Manual(M5),0,250
+Jeep Compass FWD,2.4,4,Auto(A6),0,1000
+Jeep Compass FWD,2.4,4,Manual(M5),0,250
+Jeep New Compass 4X2,2.4,4,Auto(A6),0,250
+Jeep New Compass 4X2,2.4,4,Manual(M6),0,0
+Jeep Patriot FWD,2,4,Auto(AV),0,750
+Jeep Patriot FWD,2,4,Manual(M5),0,250
+Jeep Patriot FWD,2.4,4,Auto(A6),0,1000
+Jeep Patriot FWD,2.4,4,Manual(M5),0,250
+Jeep Renegade 4x2,1.4,4,Manual(M6),0,1000
+Jeep Renegade 4x2,2.4,4,Auto(A9),0,250
+KIA MOTORS CORPORATION Sorento FWD,2,4,Auto(S6),0,1000
+KIA MOTORS CORPORATION Sorento FWD,2.4,4,Auto(S6),0,750
+KIA MOTORS CORPORATION Sorento FWD,3.3,6,Auto(S6),0,2250
+KIA MOTORS CORPORATION Sportage FE FWD,2.4,4,Auto(S6),0,0
+KIA MOTORS CORPORATION Sportage FWD,2,4,Auto(S6),0,1000
+KIA MOTORS CORPORATION Sportage FWD,2.4,4,Auto(S6),0,250
+LEXUS NX 200t,2,4,Auto(S6),0,1500
+LEXUS RX 350,3.5,6,Auto(S8),0,1000
+Lincoln MKC  FWD,2,4,Auto(S6),33.3,1000
+Lincoln MKX FWD,2.7,6,Auto(S6),27.7,2250
+Lincoln MKX FWD,3.7,6,Auto(S6),26.4,2250
+MAZDA CX-5 2WD,2.5,4,Auto(S6),0,0
+MAZDA CX-9 2WD,2.5,4,Auto(S6),0,750
+Mercedes-Benz GLC 300,2,4,Auto(A9),32.5,1750
+Mitsubishi Motors Corporation OUTLANDER 2WD,2.4,4,Auto(AV-S6),36.4,0
+Mitsubishi Motors Corporation OUTLANDER SPORT 2WD,2,4,Auto(AV-S6),36.1,0
+Mitsubishi Motors Corporation OUTLANDER SPORT 2WD,2,4,Manual(M5),33.8,250
+Mitsubishi Motors Corporation OUTLANDER SPORT 2WD,2.4,4,Auto(AV-S6),33.6,250
+NISSAN PATHFINDER 2WD,3.5,6,Auto(AV),0,1000
+NISSAN ROGUE FWD,2.5,4,Auto(AV),0,0
+NISSAN ROGUE FWD Hybrid,2,4,Auto(AV-S7),0,0
+TOYOTA HIGHLANDER,2.7,4,Auto(S6),0,1250
+TOYOTA HIGHLANDER,3.5,6,Auto(S8),0,1000
+TOYOTA HIGHLANDER LE/XLE/SE/LTD,3.5,6,Auto(S8),0,1000
+TOYOTA RAV4,2.5,4,Auto(S6),0,250
+TOYOTA RAV4 LE/XLE,2.5,4,Auto(S6),0,0
+Volkswagen Tiguan,2,4,Auto(S6),28.7,2500
+Volvo Cars of North America  LLC XC60 FWD,2,4,Auto(S8),34.1,0
+Acura MDX AWD,3,6,Auto(AM-S7),36.4,750
+Acura MDX AWD,3.5,6,Auto(S9),0,3000
+Acura MDX AWD,3.5,6,Auto(S9),0,2500
+Acura RDX AWD,3.5,6,Auto(S6),0,2500
+Audi Q5,2,4,Auto(S8),29.6,2500
+Audi Q5,3,6,Auto(S8),27.2,3000
+Audi SQ5,3,6,Auto(S8),24.9,4000
+BMW X3 xDrive28i,2,4,Auto(S8),31.5,1750
+BMW X3 xDrive35i,3,6,Auto(S8),0,3000
+BMW X4 M40i,3,6,Auto(S8),0,3000
+BMW X4 xDrive28i,2,4,Auto(S8),0,2250
+Buick ENCORE AWD,1.4,4,Auto(S6),0,0
+Buick ENCORE AWD,1.4,4,Auto(S6),0,0
+Buick ENVISION AWD,2,4,Auto(A6),0,2500
+Buick ENVISION AWD,2.5,4,Auto(A6),0,750
+Cadillac XT5 AWD,3.6,6,Auto(S8),0,1750
+Chevrolet EQUINOX AWD,2.4,4,Auto(A6),0,1000
+Chevrolet EQUINOX AWD,2.4,4,Auto(A6),0,1000
+Chevrolet EQUINOX AWD,3.6,6,Auto(A6),23.6,3250
+Chevrolet TRAX AWD,1.4,4,Auto(S6),0,0
+Dodge Journey AWD,3.6,6,Auto(A6),0,2750
+FIAT 500X AWD,2.4,4,Auto(A9),0,750
+Ford EDGE AWD,2,4,Auto(S6),0,1000
+Ford EDGE AWD,2.7,6,Auto(S6),0,2250
+Ford EDGE AWD,3.5,6,Auto(S6),0,2750
+Ford ESCAPE AWD,1.5,4,Auto(S6),0,750
+Ford ESCAPE AWD,2,4,Auto(S6),0,1000
+GMC TERRAIN AWD,2.4,4,Auto(A6),0,1000
+GMC TERRAIN AWD,3.6,6,Auto(A6),23.6,3250
+Honda CR-V AWD,1.5,4,Auto(AV),0,0
+Honda CR-V AWD,2.4,4,Auto(AV),0,0
+Honda PILOT AWD,3.5,6,Auto(A6),27.8,1750
+Honda PILOT AWD,3.5,6,Auto(S9),29.3,1250
+HYUNDAI MOTOR COMPANY Santa Fe AWD,3.3,6,Auto(S6),0,2250
+HYUNDAI MOTOR COMPANY Santa Fe Sport AWD,2,4,Auto(S6),0,1250
+HYUNDAI MOTOR COMPANY Santa Fe Sport AWD,2.4,4,Auto(S6),0,1250
+HYUNDAI MOTOR COMPANY Santa Fe Sport ULTIMATE AWD,2,4,Auto(S6),0,1750
+HYUNDAI MOTOR COMPANY Santa Fe Ultimate AWD,3.3,6,Auto(S6),0,2750
+HYUNDAI MOTOR COMPANY Tucson AWD,1.6,4,Auto(AM7),0,250
+HYUNDAI MOTOR COMPANY Tucson AWD,2,4,Auto(S6),0,1000
+HYUNDAI MOTOR COMPANY Tucson Eco AWD,1.6,4,Auto(AM7),0,0
+INFINITI QX60 AWD,3.5,6,Auto(AV-S7),0,2500
+INFINITI QX70 AWD,3.7,6,Auto(S7),0,4750
+Jaguar F-Pace,2,4,Auto(S8),39.5,0
+Jaguar F-Pace,3,6,Auto(S8),26.1,3500
+Jeep Cherokee 4X4,2.4,4,Auto(A9),0,1000
+Jeep Cherokee 4X4,2.4,4,Auto(A9),0,1000
+Jeep Cherokee 4X4,3.2,6,Auto(A9),0,1750
+Jeep Cherokee 4x4 Active Drive II,2.4,4,Auto(A9),0,1000
+Jeep Cherokee 4x4 Active Drive II,3.2,6,Auto(A9),0,2500
+Jeep Cherokee Trailhawk 4X4,2.4,4,Auto(A9),0,1250
+Jeep Cherokee Trailhawk 4X4,3.2,6,Auto(A9),0,2500
+Jeep Compass 4X4,2.4,4,Auto(A6),0,1250
+Jeep Compass 4X4,2.4,4,Auto(AV),0,1750
+Jeep Compass 4X4,2.4,4,Manual(M5),0,750
+Jeep New Compass 4X4,2.4,4,Auto(A9),0,250
+Jeep New Compass 4X4,2.4,4,Manual(M6),0,250
+Jeep Patriot 4X4,2.4,4,Auto(A6),0,1250
+Jeep Patriot 4X4,2.4,4,Auto(AV),0,1750
+Jeep Patriot 4X4,2.4,4,Manual(M5),0,750
+Jeep Renegade 4x4,1.4,4,Manual(M6),0,1000
+Jeep Renegade 4x4,2.4,4,Auto(A9),0,750
+Jeep Wrangler 4X4,3.6,6,Auto(A5),0,3250
+Jeep Wrangler 4X4,3.6,6,Manual(M6),0,3250
+Jeep Wrangler Unlimited 4X4,3.6,6,Auto(A5),0,3250
+Jeep Wrangler Unlimited 4X4,3.6,6,Manual(M6),0,3250
+KIA MOTORS CORPORATION Sorento AWD,2,4,Auto(S6),0,1250
+KIA MOTORS CORPORATION Sorento AWD,2.4,4,Auto(S6),0,1250
+KIA MOTORS CORPORATION Sorento AWD,3.3,6,Auto(S6),0,2750
+KIA MOTORS CORPORATION Sorento AWD FE,3.3,6,Auto(S6),0,1750
+KIA MOTORS CORPORATION Sportage AWD,2,4,Auto(S6),0,1750
+KIA MOTORS CORPORATION Sportage AWD,2.4,4,Auto(S6),0,1000
+KIA MOTORS CORPORATION Sportage FE AWD,2.4,4,Auto(S6),0,1250
+Land Rover Discovery Sport,2,4,Auto(S9),29,2500
+Land Rover Range Rover Evoque,2,4,Auto(S9),31.9,1750
+Land Rover Range Rover Evoque Cabriolet,2,4,Auto(S9),29.8,2250
+LEXUS NX 200t AWD,2,4,Auto(S6),0,1750
+LEXUS NX 200t AWD F SPORT,2,4,Auto(S6),0,1750
+LEXUS NX 300h AWD,2.5,4,Auto(AV-S6),0,0
+LEXUS RX 350 AWD,3.5,6,Auto(S8),0,1250
+Lincoln MKC  AWD,2,4,Auto(S6),0,1250
+Lincoln MKC  AWD,2,4,Auto(S6),0,1750
+Lincoln MKC  AWD,2.3,4,Auto(S6),0,1750
+Lincoln MKX AWD,2.7,6,Auto(S6),0,2750
+Lincoln MKX AWD,3.7,6,Auto(S6),0,2750
+MAZDA CX-5 4WD,2.5,4,Auto(S6),0,0
+MAZDA CX-9 4WD,2.5,4,Auto(S6),0,1000
+Mercedes-Benz AMG GLC 43 4MATIC,3,6,Auto(A9),26.5,3500
+Mercedes-Benz AMG GLC 43 4MATIC (coupe),3,6,Auto(A9),26.8,3500
+Mercedes-Benz GLA 250 4MATIC,2,4,Auto(AM7),34.5,1000
+Mercedes-Benz GLA 250 4MATIC,2,4,Auto(AM7),34.5,1000
+Mercedes-Benz GLC 300 4MATIC,2,4,Auto(A9),31.5,1750
+Mercedes-Benz GLC 300 4MATIC (Coupe),2,4,Auto(A9),31.7,1750
+Mitsubishi Motors Corporation OUTLANDER 4WD,2.4,4,Auto(AV-S6),35.1,0
+Mitsubishi Motors Corporation OUTLANDER 4WD,3,6,Auto(S6),30.2,2250
+Mitsubishi Motors Corporation OUTLANDER SPORT 4WD,2,4,Auto(AV-S6),34.3,0
+Mitsubishi Motors Corporation OUTLANDER SPORT 4WD,2.4,4,Auto(AV-S6),32.9,750
+NISSAN PATHFINDER 4WD,3.5,6,Auto(AV),0,1250
+NISSAN PATHFINDER 4WD PLATINUM,3.5,6,Auto(AV),0,1750
+NISSAN ROGUE AWD,2.5,4,Auto(AV),0,0
+NISSAN ROGUE AWD Hybrid,2,4,Auto(AV-S7),0,0
+Porsche Macan,2,4,Auto(AM-S7),0,2500
+Porsche Macan GTS,3,6,Auto(AM-S7),0,4000
+Porsche Macan S,3,6,Auto(AM-S7),0,4000
+Porsche Macan Turbo,3.6,6,Auto(AM-S7),0,4000
+Porsche Macan Turbo Kit,3.6,6,Auto(AM-S7),0,4000
+Subaru CROSSTREK,2,4,Auto(AV-S6),0,0
+Subaru CROSSTREK,2,4,Manual(M5),0,0
+Subaru FORESTER,2,4,Auto(AV-S8),0,1500
+Subaru FORESTER,2.5,4,Auto(AV),0,0
+Subaru FORESTER,2.5,4,Manual(M6),0,750
+Subaru OUTBACK,2.5,4,Auto(AV-S6),0,0
+Subaru OUTBACK,3.6,6,Auto(AV-S6),0,1250
+TOYOTA RAV4 AWD,2.5,4,Auto(S6),0,250
+TOYOTA RAV4 HYBRID AWD,2.5,4,Auto(AV-S6),0,0
+TOYOTA RAV4 Limited AWD/SE AWD,2.5,4,Auto(S6),0,750
+Volkswagen Tiguan 4Motion,2,4,Auto(S6),27.8,3000
+Volvo Cars of North America  LLC XC60 AWD,2,4,Auto(S8),30.5,1000
+Volvo Cars of North America  LLC XC60 AWD,2,4,Auto(S8),29.6,2500
+BMW X5 sDrive35i,3,6,Auto(S8),0,3000
+BMW X6 sDrive35i,3,6,Auto(S8),0,3000
+Buick ENCLAVE FWD,3.6,6,Auto(A6),0,3250
+Cadillac ESCALADE 2WD,6.2,8,Auto(A8),0,3750
+Chevrolet C1500 SUBURBAN 2WD,5.3,8,Auto(A6),0,2750
+Chevrolet C1500 SUBURBAN 2WD,5.3,8,Auto(A6),0,2750
+Chevrolet C1500 TAHOE 2WD,5.3,8,Auto(A6),0,2750
+Chevrolet C1500 TAHOE 2WD,5.3,8,Auto(A6),0,2750
+Chevrolet TRAVERSE FWD,3.6,6,Auto(A6),0,3250
+Dodge Durango RWD,3.6,6,Auto(A8),0,1750
+Dodge Durango RWD,5.7,8,Auto(A8),0,4750
+Ford Expedition 2WD,3.5,6,Auto(S6),0,3250
+Ford Expedition EL 2WD,3.5,6,Auto(S6),0,3750
+Ford EXPLORER FFV 2WD,3.5,6,Auto(S6),0,2250
+Ford EXPLORER FWD,2.3,4,Auto(S6),0,1250
+Ford EXPLORER FWD,3.5,6,Auto(S6),0,2250
+Ford Flex FWD,3.5,6,Auto(S6),0,2750
+GMC ACADIA FWD,2.5,4,Auto(A6),0,1000
+GMC ACADIA FWD,3.6,6,Auto(A6),0,1750
+GMC ACADIA LIMITED FWD,3.6,6,Auto(A6),0,3250
+GMC C1500 YUKON 2WD,5.3,8,Auto(A6),0,2750
+GMC C1500 YUKON 2WD,5.3,8,Auto(A6),0,2750
+GMC C1500 YUKON 2WD,6.2,8,Auto(A8),0,3750
+GMC C1500 YUKON XL 2WD,5.3,8,Auto(A6),0,2750
+GMC C1500 YUKON XL 2WD,5.3,8,Auto(A6),0,2750
+GMC C1500 YUKON XL 2WD,6.2,8,Auto(A8),0,3750
+INFINITI QX60 FWD Hybrid,2.5,4,Auto(AV-S7),0,0
+INFINITI QX80 2WD,5.6,8,Auto(S7),0,6000
+Jeep Grand Cherokee 4X2,3.6,6,Auto(A8),0,1750
+Lincoln MKT FWD,3.7,6,Auto(S6),0,2750
+Lincoln Navigator 2WD,3.5,6,Auto(S6),0,3750
+Lincoln Navigator L 2WD,3.5,6,Auto(S6),0,3750
+Mercedes-Benz GLE 350,3.5,6,Auto(A7),26.6,3500
+NISSAN ARMADA 2WD,5.6,8,Auto(S7),0,4500
+TOYOTA 4RUNNER 2WD,4,6,Auto(S5),0,3250
+TOYOTA SEQUOIA 2WD,5.7,8,Auto(S6),0,5250
+Volvo Cars of North America  LLC XC90 FWD,2,4,Auto(S8),32.9,1750
+Audi Q7,2,4,Auto(S8),29.9,2500
+Audi Q7,3,6,Auto(S8),27.6,3000
+Bentley Bentayga,6,12,Auto(S8),18.4,7000
+BMW X5 M,4.4,8,Auto(S8),0,6000
+BMW X5 xDrive 35d,3,6,Auto(S8),0,1250
+BMW X5 xDrive35i,3,6,Auto(S8),0,3500
+BMW X5 xDrive50i,4.4,8,Auto(S8),0,5250
+BMW X6 M,4.4,8,Auto(S8),0,6000
+BMW X6 xDrive35i,3,6,Auto(S8),0,3500
+BMW X6 xDrive50i,4.4,8,Auto(S8),0,5250
+Buick ENCLAVE AWD,3.6,6,Auto(A6),0,3750
+Cadillac ESCALADE 4WD,6.2,8,Auto(A8),0,3750
+Chevrolet K1500 SUBURBAN 4WD,5.3,8,Auto(A6),0,3250
+Chevrolet K1500 SUBURBAN 4WD,5.3,8,Auto(A6),0,3250
+Chevrolet K1500 TAHOE 4WD,5.3,8,Auto(A6),0,3250
+Chevrolet K1500 TAHOE 4WD,5.3,8,Auto(A6),0,3250
+Chevrolet TRAVERSE AWD,3.6,6,Auto(A6),0,3750
+Dodge Durango AWD,3.6,6,Auto(A8),0,1750
+Dodge Durango AWD,5.7,8,Auto(A8),0,4750
+Ford Expedition 4WD,3.5,6,Auto(S6),0,3750
+Ford Expedition EL 4WD,3.5,6,Auto(S6),0,4500
+Ford EXPLORER AWD,2.3,4,Auto(S6),0,1750
+Ford EXPLORER AWD,3.5,6,Auto(S6),0,3250
+Ford EXPLORER AWD,3.5,6,Auto(S6),0,2750
+Ford EXPLORER FFV AWD,3.5,6,Auto(S6),0,2750
+Ford FLEX AWD,3.5,6,Auto(S6),0,3750
+Ford FLEX AWD,3.5,6,Auto(S6),0,3250
+GMC ACADIA AWD,2.5,4,Auto(A6),0,1000
+GMC ACADIA AWD,3.6,6,Auto(A6),0,2250
+GMC ACADIA LIMITED AWD,3.6,6,Auto(A6),0,3750
+GMC K1500 YUKON 4WD,5.3,8,Auto(A6),0,3250
+GMC K1500 YUKON 4WD,5.3,8,Auto(A6),0,3250
+GMC K1500 YUKON 4WD,6.2,8,Auto(A8),0,3750
+GMC K1500 YUKON XL 4WD,5.3,8,Auto(A6),0,3250
+GMC K1500 YUKON XL 4WD,5.3,8,Auto(A6),0,3250
+GMC K1500 YUKON XL 4WD,6.2,8,Auto(A8),0,4500
+INFINITI QX60 AWD Hybrid,2.5,4,Auto(AV-S7),0,0
+INFINITI QX80 4WD,5.6,8,Auto(S7),0,7000
+Jeep Grand Cherokee 4X4,3.6,6,Auto(A8),0,1750
+Jeep Grand Cherokee 4X4,5.7,8,Auto(A8),0,4750
+Jeep Grand Cherokee SRT 4x4,6.4,8,Auto(A8),0,7000
+Land Rover Range Rover,3,6,Auto(S8),0,1500
+Land Rover Range Rover,3,6,Auto(S8),0,4000
+Land Rover Range Rover,5,8,Auto(S8),0,6000
+Land Rover Range Rover LWB,5,8,Auto(S8),0,6000
+Land Rover Range Rover Sport,3,6,Auto(S8),0,1500
+Land Rover Range Rover Sport,3,6,Auto(S8),0,4000
+Land Rover Range Rover Sport,5,8,Auto(S8),0,6000
+LEXUS GX 460,4.6,8,Auto(S6),0,6000
+LEXUS LX 570,5.7,8,Auto(S8),0,7000
+LEXUS RX 450h AWD,3.5,6,Auto(AV-S6),0,0
+Lincoln MKT AWD,3.5,6,Auto(S6),0,3750
+Lincoln Navigator 4WD,3.5,6,Auto(S6),0,3750
+Lincoln Navigator L 4WD,3.5,6,Auto(S6),0,4500
+MASERATI LEVANTE,3,8,Auto(A8),21.1,6000
+MASERATI LEVANTE S,3,8,Auto(A8),21.1,6000
+Mercedes-Benz AMG G 63,5.5,8,Auto(A7),17.2,9250
+Mercedes-Benz AMG G 65,6,12,Auto(A7),15.1,10500
+Mercedes-Benz AMG GLE 43 4MATIC,3,6,Auto(A9),25.5,3500
+Mercedes-Benz AMG GLE 43 4MATIC (coupe),3,6,Auto(A9),25.6,3500
+Mercedes-Benz AMG GLE 63,5.5,8,Auto(A7),19.9,7000
+Mercedes-Benz AMG GLE 63 S,5.5,8,Auto(A7),19.9,7000
+Mercedes-Benz AMG GLE 63 S (coupe),5.5,8,Auto(A7),19.7,7000
+Mercedes-Benz AMG GLS 63,5.5,8,Auto(A7),19.3,8000
+Mercedes-Benz G 550,4,8,Auto(A7),17.9,9250
+Mercedes-Benz G 550 4x4 (Special Off-Road Model),4,8,Auto(A7),14.3,12000
+Mercedes-Benz GLE 350 4MATIC,3.5,6,Auto(A7),25.4,4000
+Mercedes-Benz GLE 350 4MATIC,3.5,6,Auto(A7),25.4,4000
+Mercedes-Benz GLE 400 4MATIC,3,6,Auto(A9),26.3,3500
+Mercedes-Benz GLS 450 4MATIC,3,6,Auto(A9),24.3,4000
+Mercedes-Benz GLS 550 4MATIC,4.7,8,Auto(A9),20.6,6000
+NISSAN ARMADA 4WD,5.6,8,Auto(S7),0,5250
+Porsche Cayenne,3.6,6,Auto(S8),0,3500
+Porsche Cayenne GTS,3.6,6,Auto(S8),0,4000
+Porsche Cayenne Platinum,3.6,6,Auto(S8),0,4000
+Porsche Cayenne S,3.6,6,Auto(S8),0,3500
+Porsche Cayenne Turbo,4.8,8,Auto(S8),0,5250
+Porsche Cayenne Turbo S,4.8,8,Auto(S8),0,5250
+TOYOTA 4RUNNER 4WD,4,6,Auto(S5),0,3250
+TOYOTA 4RUNNER 4WD,4,6,Auto(S5),0,3250
+TOYOTA HIGHLANDER AWD,3.5,6,Auto(S8),0,1250
+TOYOTA HIGHLANDER AWD,3.5,6,Auto(S8),0,1250
+TOYOTA HIGHLANDER AWD LE,3.5,6,Auto(S8),0,1000
+TOYOTA HIGHLANDER HYBRID AWD,3.5,6,Auto(AV-S6),0,0
+TOYOTA HIGHLANDER HYBRID AWD LE Plus,3.5,6,Auto(AV-S6),0,0
+TOYOTA LAND CRUISER WAGON 4WD,5.7,8,Auto(S8),0,5250
+TOYOTA SEQUOIA 4WD,5.7,8,Auto(S6),0,6000
+TOYOTA SEQUOIA 4WD FFV,5.7,8,Auto(S6),0,6000
+Volkswagen Touareg,3.6,6,Auto(S8),25,2750
+Volvo Cars of North America  LLC XC90 AWD,2,4,Auto(S8),31.7,2250
+Volvo Cars of North America  LLC XC90 AWD,2,4,Auto(S8),29.7,2500

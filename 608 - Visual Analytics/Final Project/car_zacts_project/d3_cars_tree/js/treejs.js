@@ -1,41 +1,10 @@
-<!DOCTYPE html>
-<meta charset="UTF-8">
-<style>
 
-.node circle {
-  fill: #fff;
-  stroke: steelblue;
-  stroke-width: 3px;
-}
-
-.node text {
-  font: 12px sans-serif;
-}
-
-.link {
-  fill: none;
-  stroke: #ccc;
-  stroke-width: 2px;
-}
-
-</style>
-
-<head><title> Cars Classification </title></head>
-
-<body>
-<h2>Cars Classification </h2>
-
-<!-- load the d3.js library -->	
-<script src="https://d3js.org/d3.v4.min.js"></script>
-    <script type="text/javascript" src="http://projects.delimited.io/experiments/csv-json/lib/underscore-min.js"></script>
-
-<script>
-
-
+showchart = function(){
+  d3.select('body').select('#text').append('p').text( [option1.options[option1.selectedIndex].value, '->' ,option2.options[option2.selectedIndex].value, '->' ,option3.options[option3.selectedIndex].value, '->' ,option4.options[option4.selectedIndex].value, '->' ,option5.options[option5.selectedIndex].value, '->' ,option6.options[option6.selectedIndex].value]);
       //*************************************************
       // GET THE CSV DATA - all_cars_data_tree
       //*************************************************
-      d3.csv("all_cars_data_tree_part2.csv", function(error, data) {
+      d3.csv("all_cars_full_data_tree1.csv", function(error, data) {
 
         _.each(data, function(element, index, list){
             element.pop = +element.pop;
@@ -76,20 +45,16 @@
         //*************************************************
         // CALL THE FUNCTION
         //*************************************************
-        var treeData = genJSON(data, ['VClass', 'make','model'
-])
-              console.log(treeData);
+//        var treeData = genJSON(data, ['year','vclass','fueltype','make','model','drive'])
 
 
-
-
-
+  var treeData = genJSON(data, [option1.options[option1.selectedIndex].value,option2.options[option2.selectedIndex].value,option3.options[option3.selectedIndex].value,option4.options[option4.selectedIndex].value,option5.options[option5.selectedIndex].value,option6.options[option6.selectedIndex].value]);
 
 
 
 // Set the dimensions and margins of the diagram
 var margin = {top: 20, right: 90, bottom: 30, left: 90},
-    width = 960 - margin.left - margin.right,
+    width = 1200 - margin.left - margin.right,
     height = 1000 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
@@ -271,5 +236,7 @@ function update(source) {
 
 
       });
-</script>
-</body>
+
+
+
+}

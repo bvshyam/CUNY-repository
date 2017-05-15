@@ -33,6 +33,26 @@ Hyundai,Sonata,Midsize Cars
 Infiniti,Q45,Midsize Cars
 Infiniti,Q45 Full-Active Suspension,Midsize Cars
 Lexus,LS 400,Midsize Cars
+Buick,Century,Midsize Cars
+Buick,Regal,Midsize Cars
+Buick,Riviera,Midsize Cars
+Cadillac,Eldorado,Midsize Cars
+Cadillac,Seville,Midsize Cars
+Chevrolet,Lumina,Midsize Cars
+Chrysler,New Yorker,Midsize Cars
+CX Automotive,XM v6,Midsize Cars
+CX Automotive,XM v6a,Midsize Cars
+Nissan,Maxima,Midsize Cars
+Dodge,Dynasty,Midsize Cars
+Dodge,Spirit,Midsize Cars
+Ford,Taurus,Midsize Cars
+Ford,Taurus SHO,Midsize Cars
+Dodge,B350 Wagon 2WD,Vans
+Ford,Thunderbird,Midsize Cars
+Hyundai,Sonata,Midsize Cars
+Infiniti,Q45,Midsize Cars
+Infiniti,Q45 Full-Active Suspension,Midsize Cars
+Lexus,LS 400,Midsize Cars
 Mercury,Cougar,Midsize Cars
 Mercury,Sable,Midsize Cars
 Mazda,626,Midsize Cars
@@ -75,8 +95,8 @@ GMC,G15/25 Rally 2WD,Vans
 Pontiac,Bonneville,Large Cars
 Rolls-Royce,Silver Spur II Mpw Touring L,Large Cars
 Saab,9000,Large Cars
-Audi,100 quattro Wagon,Small Station Wagons
 BMW,525i Touring,Small Station Wagons
+Audi,100 quattro Wagon,Small Station Wagons
 Chevrolet,Cavalier Wagon,Small Station Wagons
 CX Automotive,XM v6 Break,Small Station Wagons
 Ford,Escort Wagon,Small Station Wagons

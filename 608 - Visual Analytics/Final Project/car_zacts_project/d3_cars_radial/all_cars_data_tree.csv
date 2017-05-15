@@ -1,0 +1,691 @@
+make,model,Car_Type
+Alfa Romeo,Spider Veloce 2000,Two Seaters
+Ferrari,Testarossa,Two Seaters
+Dodge,Charger,Subcompact Cars
+Dodge,B150/B250 Wagon 2WD,Vans
+Subaru,Legacy AWD Turbo,Compact Cars
+Hyundai,Elantra SE,Midsize Cars
+Hyundai,Elantra,Midsize Cars
+Hyundai,Elantra,Midsize Cars
+Mitsubishi,Mirage,Compact Cars
+Mitsubishi,Mirage,Compact Cars
+Mitsubishi,i-MiEV,Subcompact Cars
+Audi,R8,Two Seaters
+Audi,R8 Spyder,Two Seaters
+Audi,A4 quattro,Compact Cars
+Audi,A4,Compact Cars
+Subaru,WRX,Compact Cars
+Subaru,WRX,Compact Cars
+Subaru,WRX,Compact Cars
+BMW,740i xDrive,Large Cars
+Chevrolet,Volt,Compact Cars
+Jaguar,F-Type R AWD Coupe,Two Seaters
+Jaguar,F-Type R AWD Convertible,Two Seaters
+Jaguar,F-Type Coupe,Two Seaters
+Jaguar,F-Type Convertible,Two Seaters
+Jaguar,F-Type S Coupe,Two Seaters
+Jaguar,F-Type S Convertible,Two Seaters
+Jaguar,F-Type S AWD Coupe,Two Seaters
+Jaguar,F-Type S AWD Convertible,Two Seaters
+Jaguar,F-Type Coupe,Two Seaters
+Jaguar,F-Type Convertible,Two Seaters
+Jaguar,F-Type S Coupe,Two Seaters
+Jaguar,F-Type S Convertible,Two Seaters
+BMW,640i Coupe,Subcompact Cars
+BMW,640i Convertible,Subcompact Cars
+BMW,640i xDrive Coupe,Subcompact Cars
+BMW,640i xDrive Convertible,Subcompact Cars
+BMW,M6 Coupe,Subcompact Cars
+BMW,M6 Coupe,Subcompact Cars
+BMW,M6 Convertible,Subcompact Cars
+BMW,M6 Convertible,Subcompact Cars
+BMW,640i Gran Coupe,Compact Cars
+BMW,640i xDrive Gran Coupe,Compact Cars
+BMW,M6 Gran Coupe,Compact Cars
+BMW,M6 Gran Coupe,Compact Cars
+Mitsubishi,Mirage G4,Compact Cars
+Mitsubishi,Mirage G4,Compact Cars
+Hyundai,Elantra GT,Midsize Cars
+MINI,Cooper S Clubman All4,Midsize Cars
+MINI,Cooper S Clubman All4,Midsize Cars
+Hyundai,Elantra GT,Midsize Cars
+BMW,650i xDrive Coupe,Subcompact Cars
+BMW,650i xDrive Convertible,Subcompact Cars
+Maserati,GranTurismo,Subcompact Cars
+Maserati,GranTurismo Convertible,Subcompact Cars
+Acura,ILX,Compact Cars
+BMW,650i xDrive Gran Coupe,Compact Cars
+BMW,Alpina B6 xDrive Gran Coupe,Compact Cars
+Ford,Fusion AWD,Midsize Cars
+Ford,Fusion FWD,Midsize Cars
+Ford,Fusion Hybrid FWD,Midsize Cars
+Hyundai,Elantra,Midsize Cars
+Lincoln,MKZ Hybrid FWD,Midsize Cars
+Lincoln,MKZ AWD,Midsize Cars
+Lincoln,MKZ FWD,Midsize Cars
+BMW,550i xDrive Gran Turismo,Large Cars
+Genesis,G80 RWD,Large Cars
+Genesis,G80 AWD,Large Cars
+Jaguar,XE,Compact Cars
+Ford,Fusion FWD,Midsize Cars
+Kia,Rio Eco,Compact Cars
+Kia,Rio,Compact Cars
+Kia,Rio,Compact Cars
+Mercedes-Benz,C300 4matic Coupe,Subcompact Cars
+Ford,Fusion FWD,Midsize Cars
+Subaru,Legacy AWD,Midsize Cars
+Hyundai,Sonata Limited,Large Cars
+Hyundai,Sonata,Large Cars
+Hyundai,Sonata Sport Limited,Large Cars
+Acura,NSX Hybrid,Two Seaters
+Subaru,Legacy AWD,Midsize Cars
+Hyundai,Sonata,Large Cars
+Nissan,370Z,Two Seaters
+Nissan,370Z,Two Seaters
+Nissan,370Z Roadster,Two Seaters
+Nissan,370Z Roadster,Two Seaters
+Mercedes-Benz,C300 Coupe,Subcompact Cars
+Hyundai,Sonata,Large Cars
+Ford,Fusion Energi Plug-in Hybrid,Midsize Cars
+Lamborghini,Huracan,Two Seaters
+Lamborghini,Huracan 2WD,Two Seaters
+Lamborghini,Huracan Spyder,Two Seaters
+Lamborghini,Huracan Spyder 2WD,Two Seaters
+Hyundai,Accent,Compact Cars
+Hyundai,Accent,Compact Cars
+Jaguar,XE,Compact Cars
+Jaguar,XE AWD,Compact Cars
+Mazda,CX-3 2WD,Compact Cars
+Mazda,CX-3 4WD,Compact Cars
+Rolls-Royce,Phantom Drophead Coupe,Compact Cars
+Rolls-Royce,Phantom Coupe,Compact Cars
+Buick,Regal,Midsize Cars
+Buick,Regal,Midsize Cars
+Jaguar,XF,Midsize Cars
+Jaguar,XF AWD,Midsize Cars
+Kia,Forte,Midsize Cars
+Cadillac,XTS,Large Cars
+Chevrolet,Impala,Large Cars
+Chevrolet,Impala,Large Cars
+Genesis,G80 RWD,Large Cars
+Rolls-Royce,Phantom,Large Cars
+Rolls-Royce,Phantom EWB,Large Cars
+Fiat,124 Spider,Two Seaters
+Fiat,124 Spider,Two Seaters
+Ford,Shelby GT350 Mustang,Subcompact Cars
+Hyundai,Sonata Hybrid SE,Midsize Cars
+Hyundai,Sonata Hybrid,Midsize Cars
+Nissan,Maxima,Midsize Cars
+Toyota,Camry,Midsize Cars
+Genesis,G90 AWD,Large Cars
+Genesis,G90 RWD,Large Cars
+Genesis,G90 AWD,Large Cars
+Genesis,G90 RWD,Large Cars
+Kia,K900,Large Cars
+Nissan,GT-R,Subcompact Cars
+Volvo,S60 Inscription FWD,Compact Cars
+Volvo,S60 FWD,Compact Cars
+Volvo,S60 Inscription AWD,Compact Cars
+Volvo,S60 AWD,Compact Cars
+Volvo,S60 CC AWD,Compact Cars
+Kia,Forte,Midsize Cars
+Kia,Forte,Midsize Cars
+Volvo,S90 FWD,Midsize Cars
+Volvo,S90 AWD,Midsize Cars
+Kia,K900,Large Cars
+Lamborghini,Aventador Coupe,Two Seaters
+Lamborghini,Aventador Roadster,Two Seaters
+Porsche,Boxster,Two Seaters
+Porsche,Boxster,Two Seaters
+Porsche,Boxster S,Two Seaters
+Porsche,Boxster S,Two Seaters
+Ford,Mustang,Subcompact Cars
+Ford,Mustang,Subcompact Cars
+Ford,Mustang Convertible,Subcompact Cars
+Ford,Mustang,Subcompact Cars
+Ford,Mustang,Subcompact Cars
+Ford,Mustang,Subcompact Cars
+Ford,Mustang Convertible,Subcompact Cars
+Ford,Mustang,Subcompact Cars
+Ford,Mustang Performance Package,Subcompact Cars
+Ford,Mustang Performance Package,Subcompact Cars
+Ford,Mustang Performance Package,Subcompact Cars
+Ford,Mustang Convertible,Subcompact Cars
+Ford,Mustang Convertible,Subcompact Cars
+Volvo,S60 AWD,Compact Cars
+Mercedes-Benz,E300,Midsize Cars
+Mercedes-Benz,E300 4matic,Midsize Cars
+Cadillac,XTS AWD,Large Cars
+Ferrari,488 GTB,Two Seaters
+Ferrari,F12 tdf,Two Seaters
+Mercedes-Benz,SL550,Two Seaters
+Mercedes-Benz,SL450,Two Seaters
+Mercedes-Benz,AMG SL63,Two Seaters
+Chevrolet,Camaro,Subcompact Cars
+Chevrolet,Camaro,Subcompact Cars
+Chevrolet,Camaro,Subcompact Cars
+Chevrolet,Camaro,Subcompact Cars
+Chevrolet,Camaro,Subcompact Cars
+Chevrolet,Camaro,Subcompact Cars
+Mercedes-Benz,AMG S63 4matic Convertible,Subcompact Cars
+Cadillac,ATS,Compact Cars
+Lexus,CT 200h,Compact Cars
+Ford,Fusion AWD,Midsize Cars
+Honda,Accord,Midsize Cars
+Honda,Accord,Midsize Cars
+Honda,Accord,Midsize Cars
+Honda,Accord,Midsize Cars
+Honda,Accord,Midsize Cars
+Honda,Accord,Midsize Cars
+Lincoln,MKZ AWD,Midsize Cars
+Lincoln,MKZ FWD,Midsize Cars
+Maserati,Ghibli V6 SQ4 AWD,Midsize Cars
+Maserati,Ghibli V6,Midsize Cars
+Maserati,Ghibli S RWD,Midsize Cars
+BMW,535i Gran Turismo,Large Cars
+BMW,535i xDrive Gran Turismo,Large Cars
+Maserati,Quattroporte GTS,Large Cars
+Maserati,Quattroporte SQ4 V6,Large Cars
+Maserati,Quattroporte S,Large Cars
+Ferrari,488 GTB,Two Seaters
+Ferrari,F12 Berlinetta,Two Seaters
+Ferrari,F12 tdf,Two Seaters
+Audi,A5 quattro,Subcompact Cars
+Audi,A5 Cabriolet quattro,Subcompact Cars
+Bentley,Continental GT Convertible,Subcompact Cars
+Mercedes-Benz,E400 Coupe,Subcompact Cars
+Mercedes-Benz,E400 4matic Coupe,Subcompact Cars
+Mercedes-Benz,E550 Convertible,Subcompact Cars
+Mercedes-Benz,E400 Convertible,Subcompact Cars
+Mercedes-Benz,S550 Convertible,Subcompact Cars
+Bentley,Continental GT,Compact Cars
+Mercedes-Benz,AMG CLS63 S 4matic,Compact Cars
+Audi,A6 quattro,Midsize Cars
+Audi,A7 quattro,Midsize Cars
+Audi,S7,Midsize Cars
+Audi,RS 7,Midsize Cars
+Bentley,Flying Spur,Midsize Cars
+Toyota,Camry,Midsize Cars
+Volkswagen,Passat,Midsize Cars
+Volkswagen,Passat,Midsize Cars
+Audi,A8 L,Large Cars
+Audi,A8 L,Large Cars
+Hyundai,Azera Limited,Large Cars
+Hyundai,Azera,Large Cars
+Audi,A5 quattro,Subcompact Cars
+Audi,S5,Subcompact Cars
+Audi,S5 Cabriolet,Subcompact Cars
+Audi,S5,Subcompact Cars
+BMW,M2,Subcompact Cars
+BMW,M2,Subcompact Cars
+BMW,M4 Convertible,Subcompact Cars
+BMW,M4 Convertible,Subcompact Cars
+Mercedes-Benz,E550 Coupe,Subcompact Cars
+MINI,Cooper Hardtop 2 door,Subcompact Cars
+MINI,Cooper Hardtop 2 door,Subcompact Cars
+MINI,Cooper Hardtop 4 door,Subcompact Cars
+MINI,Cooper Hardtop 4 door,Subcompact Cars
+Acura,TLX FWD,Compact Cars
+Acura,TLX FWD,Compact Cars
+Acura,TLX AWD,Compact Cars
+BMW,320i,Compact Cars
+BMW,M3,Compact Cars
+BMW,M3,Compact Cars
+BMW,M4 Coupe,Compact Cars
+BMW,M4 Coupe,Compact Cars
+Buick,Verano,Compact Cars
+Cadillac,ATS,Compact Cars
+Cadillac,ATS AWD,Compact Cars
+Mercedes-Benz,AMG CLA45 4matic,Compact Cars
+Audi,S8,Midsize Cars
+Audi,S6,Midsize Cars
+Cadillac,CTS,Midsize Cars
+Cadillac,CTS AWD,Midsize Cars
+MINI,Cooper Clubman,Midsize Cars
+MINI,Cooper Clubman,Midsize Cars
+Cadillac,XTS AWD,Large Cars
+Cadillac,CT6 AWD,Large Cars
+Cadillac,CT6 AWD,Large Cars
+Chevrolet,Impala,Large Cars
+Dodge,Viper,Two Seaters
+Ferrari,F12 Berlinetta,Two Seaters
+Mercedes-Benz,SLC300,Two Seaters
+Mercedes-Benz,AMG SLC43,Two Seaters
+Audi,S3,Subcompact Cars
+BMW,650i Coupe,Subcompact Cars
+BMW,650i Convertible,Subcompact Cars
+MINI,Cooper S Hardtop 2 door,Subcompact Cars
+MINI,Cooper S Hardtop 2 door,Subcompact Cars
+MINI,Cooper S Hardtop 4 door,Subcompact Cars
+MINI,Cooper S Hardtop 4 door,Subcompact Cars
+MINI,John Cooper Works Hardtop,Subcompact Cars
+MINI,John Cooper Works Hardtop,Subcompact Cars
+Audi,Q3,Compact Cars
+BMW,650i Gran Coupe,Compact Cars
+Honda,Accord Hybrid,Midsize Cars
+Kia,Optima Hybrid,Midsize Cars
+MINI,Cooper S Clubman,Midsize Cars
+Toyota,Camry Hybrid LE,Midsize Cars
+Toyota,Camry Hybrid XLE/SE,Midsize Cars
+Kia,Cadenza,Large Cars
+Chevrolet,Corvette,Two Seaters
+Chevrolet,Corvette,Two Seaters
+Chevrolet,Corvette,Two Seaters
+Chevrolet,Corvette,Two Seaters
+smart,fortwo cabriolet,Two Seaters
+smart,fortwo cabriolet,Two Seaters
+Audi,TTS Coupe,Subcompact Cars
+BMW,230i Coupe,Subcompact Cars
+BMW,230i xDrive Coupe,Subcompact Cars
+BMW,230i Convertible,Subcompact Cars
+BMW,230i xDrive Convertible,Subcompact Cars
+BMW,430i Convertible,Subcompact Cars
+BMW,430i xDrive Convertible,Subcompact Cars
+Chevrolet,Spark,Subcompact Cars
+Chevrolet,Spark,Subcompact Cars
+Toyota,Yaris iA,Subcompact Cars
+Toyota,Yaris iA,Subcompact Cars
+Audi,Q3 quattro,Compact Cars
+BMW,330i,Compact Cars
+BMW,330i,Compact Cars
+BMW,330i xDrive,Compact Cars
+BMW,320i,Compact Cars
+BMW,320i xDrive,Compact Cars
+BMW,340i,Compact Cars
+BMW,430i Coupe,Compact Cars
+BMW,430i Coupe,Compact Cars
+BMW,430i xDrive Coupe,Compact Cars
+BMW,430i Gran Coupe,Compact Cars
+BMW,430i xDrive Gran Coupe,Compact Cars
+Cadillac,ATS,Compact Cars
+Cadillac,ATS,Compact Cars
+Cadillac,ATS-V,Compact Cars
+Cadillac,ATS-V,Compact Cars
+Cadillac,ATS AWD,Compact Cars
+Chevrolet,Sonic,Compact Cars
+Chevrolet,Sonic,Compact Cars
+Chevrolet,Sonic,Compact Cars
+Chevrolet,Sonic,Compact Cars
+Chevrolet,Cruze,Compact Cars
+Chevrolet,Cruze Premier,Compact Cars
+Chevrolet,Cruze Hatchback,Midsize Cars
+Chevrolet,Cruze Premier Hatchback,Midsize Cars
+Chevrolet,Cruze,Compact Cars
+Chevrolet,Cruze Hatchback,Midsize Cars
+Mercedes-Benz,C300 4matic,Compact Cars
+Rolls-Royce,Dawn,Compact Cars
+Volkswagen,Golf R,Compact Cars
+Volkswagen,Golf R,Compact Cars
+Volkswagen,Jetta,Compact Cars
+Volkswagen,Jetta,Compact Cars
+Acura,RLX,Midsize Cars
+Acura,RLX Hybrid,Midsize Cars
+Buick,LaCrosse,Midsize Cars
+Buick,LaCrosse AWD,Midsize Cars
+Buick,Regal AWD,Midsize Cars
+Cadillac,CTS,Midsize Cars
+Cadillac,CTS,Midsize Cars
+Cadillac,CTS AWD,Midsize Cars
+Cadillac,CTS-V,Midsize Cars
+Chevrolet,Malibu,Midsize Cars
+Rolls-Royce,Wraith,Midsize Cars
+BMW,X1 xDrive28i,Large Cars
+BMW,X1 sDrive28i,Large Cars
+BMW,330i xDrive Gran Turismo,Large Cars
+BMW,750i,Large Cars
+BMW,750i xDrive,Large Cars
+BMW,Alpina B7 xDrive,Large Cars
+Cadillac,CT6,Large Cars
+Rolls-Royce,Ghost,Large Cars
+Rolls-Royce,Ghost EWB,Large Cars
+Ferrari,488 Spider,Two Seaters
+Ferrari,488 Spider,Two Seaters
+Mercedes-Benz,AMG GT S,Two Seaters
+Mercedes-Benz,AMG GT,Two Seaters
+BMW,M240i Coupe,Subcompact Cars
+BMW,M240i Convertible,Subcompact Cars
+BMW,440i Convertible,Subcompact Cars
+Infiniti,Q60,Subcompact Cars
+Infiniti,Q60S Red Sport,Subcompact Cars
+Infiniti,Q60,Subcompact Cars
+Infiniti,Q60 AWD,Subcompact Cars
+Infiniti,Q60S Red Sport AWD,Subcompact Cars
+Infiniti,Q60 AWD,Subcompact Cars
+BMW,440i Coupe,Compact Cars
+BMW,440i Gran Coupe,Compact Cars
+Toyota,Yaris,Compact Cars
+Toyota,Yaris,Compact Cars
+Volkswagen,GTI,Compact Cars
+Volkswagen,GTI,Compact Cars
+Volkswagen,Jetta,Compact Cars
+Volkswagen,Jetta,Compact Cars
+Volkswagen,Jetta,Compact Cars
+Volkswagen,Golf,Compact Cars
+Volkswagen,Golf,Compact Cars
+BMW,740i,Large Cars
+BMW,i3 BEV (60  Amp-hour battery),Subcompact Cars
+BMW,i3 BEV (94 Amp-hour battery),Subcompact Cars
+Mercedes-Benz,B250e,Midsize Cars
+Audi,TT Roadster quattro,Two Seaters
+Audi,A3 quattro,Subcompact Cars
+Audi,TT Coupe quattro,Subcompact Cars
+BMW,M240i Coupe,Subcompact Cars
+BMW,M240i xDrive Coupe,Subcompact Cars
+BMW,M240i Convertible,Subcompact Cars
+BMW,M240i xDrive Convertible,Subcompact Cars
+BMW,440i xDrive Convertible,Subcompact Cars
+Audi,A4 Ultra,Compact Cars
+BMW,340i,Compact Cars
+BMW,340i xDrive,Compact Cars
+BMW,340i xDrive,Compact Cars
+BMW,440i Coupe,Compact Cars
+BMW,440i xDrive Coupe,Compact Cars
+BMW,440i xDrive Coupe,Compact Cars
+BMW,440i xDrive Gran Coupe,Compact Cars
+Hyundai,Veloster,Compact Cars
+Hyundai,Veloster,Compact Cars
+Mazda,2,Compact Cars
+Mazda,2,Compact Cars
+Mercedes-Benz,C300,Compact Cars
+Mercedes-Benz,CLS550,Compact Cars
+Mercedes-Benz,CLS550 4matic,Compact Cars
+Audi,A6 quattro,Midsize Cars
+Audi,A6,Midsize Cars
+Bentley,Mulsanne,Midsize Cars
+Mazda,6,Midsize Cars
+Mazda,6,Midsize Cars
+Mazda,6,Midsize Cars
+BMW,340i xDrive Gran Turismo,Large Cars
+Chevrolet,SS,Large Cars
+Chevrolet,SS,Large Cars
+Lincoln,Continental  AWD,Large Cars
+Lincoln,Continental  AWD,Large Cars
+Lincoln,Continental  FWD,Large Cars
+Lincoln,Continental  FWD,Large Cars
+Lincoln,Continental  AWD,Large Cars
+BMW,740e xDrive,Large Cars
+Hyundai,Sonata Plug-in Hybrid,Midsize Cars
+Ferrari,LaFerrari Aperta,Two Seaters
+Mercedes-Benz,AMG SL65,Two Seaters
+Bentley,Continental GT Convertible,Subcompact Cars
+Mercedes-Benz,S65 AMG Convertible,Subcompact Cars
+Bentley,Continental GT,Compact Cars
+Infiniti,QX30,Compact Cars
+Infiniti,QX30 AWD,Compact Cars
+Nissan,Versa,Compact Cars
+Nissan,Versa,Compact Cars
+Nissan,Versa,Compact Cars
+Volkswagen,CC,Compact Cars
+Volvo,S60 Polestar AWD,Compact Cars
+Bentley,Flying Spur,Midsize Cars
+Toyota,Prius,Midsize Cars
+Toyota,Prius Eco,Midsize Cars
+Mercedes-Benz,Maybach S600,Large Cars
+Mercedes-Benz,S600,Large Cars
+Mercedes-Benz,AMG S65,Large Cars
+BMW,330e,Compact Cars
+Buick,Cascada,Subcompact Cars
+Mercedes-Benz,AMG C63 S Coupe,Subcompact Cars
+Mercedes-Benz,AMG C63 Coupe,Subcompact Cars
+Hyundai,Veloster,Compact Cars
+Hyundai,Veloster,Compact Cars
+Jaguar,XE,Compact Cars
+Jaguar,XE AWD,Compact Cars
+Kia,Forte Koup,Compact Cars
+Kia,Forte Koup,Compact Cars
+Kia,Forte Koup,Compact Cars
+Mercedes-Benz,AMG C63,Compact Cars
+Mercedes-Benz,AMG C63 S,Compact Cars
+Chevrolet,Malibu,Midsize Cars
+Chevrolet,Malibu Hybrid,Midsize Cars
+Chrysler,200,Midsize Cars
+Chrysler,200,Midsize Cars
+Chrysler,200,Midsize Cars
+Chrysler,200 AWD,Midsize Cars
+Infiniti,Q50,Midsize Cars
+Infiniti,Q50S Red Sport,Midsize Cars
+Infiniti,Q50 AWD,Midsize Cars
+Infiniti,Q50S Red Sport  AWD,Midsize Cars
+Infiniti,Q50,Midsize Cars
+Infiniti,Q50 AWD,Midsize Cars
+Jaguar,XF,Midsize Cars
+Jaguar,XF AWD,Midsize Cars
+Lexus,ES 350,Midsize Cars
+Lexus,ES 300h,Midsize Cars
+Toyota,Corolla iM,Midsize Cars
+Toyota,Corolla iM,Midsize Cars
+Kia,Forte 5,Large Cars
+Kia,Forte 5,Large Cars
+Kia,Forte 5,Large Cars
+Mercedes-Benz,S550,Large Cars
+Mercedes-Benz,S550 4matic,Large Cars
+Aston Martin,V12 Vantage S,Two Seaters
+Aston Martin,V12 Vantage S,Two Seaters
+McLaren Automotive,570S Coupe,Two Seaters
+McLaren Automotive,570GT,Two Seaters
+Aston Martin,Rapide S,Subcompact Cars
+Mercedes-Benz,C300 4matic Convertible,Subcompact Cars
+Mercedes-Benz,C300 Convertible,Subcompact Cars
+Mercedes-Benz,CLA250 4matic,Compact Cars
+Mercedes-Benz,S550 4matic Coupe,Compact Cars
+Mercedes-Benz,AMG S63 4matic Coupe,Compact Cars
+Mitsubishi,Lancer,Compact Cars
+Mitsubishi,Lancer,Compact Cars
+Mitsubishi,Lancer 4WD,Compact Cars
+Volkswagen,CC 4motion,Compact Cars
+Nissan,Altima SR,Midsize Cars
+Nissan,Altima,Midsize Cars
+Nissan,Altima,Midsize Cars
+Toyota,Corolla,Midsize Cars
+Toyota,Corolla,Midsize Cars
+Toyota,Corolla,Midsize Cars
+Toyota,Corolla LE Eco,Midsize Cars
+Toyota,Corolla LE Eco,Midsize Cars
+Mercedes-Benz,AMG S63 4matic,Large Cars
+Mazda,MX-5,Two Seaters
+Mazda,MX-5,Two Seaters
+Audi,A3 Cabriolet quattro,Subcompact Cars
+Hyundai,Elantra,Midsize Cars
+Hyundai,Elantra,Midsize Cars
+MINI,Cooper S Clubman,Midsize Cars
+Lexus,RC 300 AWD,Subcompact Cars
+Lexus,RC 350,Subcompact Cars
+Lexus,RC 350 AWD,Subcompact Cars
+Lexus,RC F,Subcompact Cars
+Lexus,RC 200t,Subcompact Cars
+Roush Performance,Stage 3 Mustang,Subcompact Cars
+Roush Performance,Stage 3 Mustang,Subcompact Cars
+Lexus,GS F,Compact Cars
+Mercedes-Benz,CLA250 4matic,Compact Cars
+Lexus,LS 460,Midsize Cars
+Lexus,LS 460 AWD,Midsize Cars
+Lexus,LS 460 L,Midsize Cars
+Lexus,LS 460 L AWD,Midsize Cars
+Lexus,GS 350,Midsize Cars
+Lexus,GS 350 AWD,Midsize Cars
+Lexus,GS 350 F Sport,Midsize Cars
+Lexus,GS 200t,Midsize Cars
+Lexus,GS 200t F Sport,Midsize Cars
+Lexus,GS 450h,Midsize Cars
+MINI,Cooper Clubman All4,Midsize Cars
+Kia,Optima,Large Cars
+Kia,Optima,Large Cars
+Kia,Optima FE,Large Cars
+Kia,Optima,Large Cars
+Mercedes-Benz,Maybach S550 4matic,Large Cars
+Audi,A3 e-tron,Compact Cars
+BMW,i3 REX  (94 Amp-hour battery),Subcompact Cars
+BMW,i8,Subcompact Cars
+Audi,A3,Subcompact Cars
+Audi,A3 Cabriolet,Subcompact Cars
+Chevrolet,Camaro,Subcompact Cars
+Volkswagen,Beetle Convertible,Subcompact Cars
+Volkswagen,Beetle Dune Convertible,Subcompact Cars
+Honda,Civic 2Dr,Compact Cars
+Honda,Civic 2Dr,Compact Cars
+Honda,Civic 2Dr,Compact Cars
+Honda,Civic 2Dr,Compact Cars
+Mercedes-Benz,CLA250,Compact Cars
+Volkswagen,Beetle,Compact Cars
+Volkswagen,Beetle,Compact Cars
+Volkswagen,Beetle Dune,Compact Cars
+Bentley,Mulsanne EWB,Midsize Cars
+Ford,Focus RS AWD,Midsize Cars
+Honda,Civic 4Dr,Midsize Cars
+Honda,Civic 4Dr,Midsize Cars
+Honda,Civic 4Dr,Midsize Cars
+Honda,Civic 4Dr,Midsize Cars
+MINI,Cooper Clubman All4,Midsize Cars
+Nissan,Sentra,Midsize Cars
+Nissan,Sentra,Midsize Cars
+Nissan,Sentra,Midsize Cars
+Nissan,Sentra,Midsize Cars
+Honda,Civic 5Dr,Large Cars
+Honda,Civic 5Dr,Large Cars
+Honda,Civic 5Dr Sport,Large Cars
+Honda,Civic 5Dr Sport,Large Cars
+Infiniti,Q50 Hybrid,Compact Cars
+Infiniti,Q50 Hybrid AWD,Compact Cars
+Toyota,Avalon,Midsize Cars
+Toyota,Avalon Hybrid,Midsize Cars
+Mazda,3 4-Door,Compact Cars
+Mazda,3 4-Door,Compact Cars
+Mazda,3 4-Door,Compact Cars
+Mazda,3 4-Door,Compact Cars
+Mazda,3 4-Door,Compact Cars
+Mercedes-Benz,S65 AMG Coupe,Compact Cars
+Dodge,Challenger,Midsize Cars
+Dodge,Challenger,Midsize Cars
+Dodge,Challenger,Midsize Cars
+Dodge,Challenger,Midsize Cars
+Dodge,Challenger SRT,Midsize Cars
+Dodge,Challenger SRT,Midsize Cars
+Dodge,Challenger SRT,Midsize Cars
+Mazda,3 5-Door,Midsize Cars
+Mazda,3 5-Door,Midsize Cars
+Mazda,3 5-Door,Midsize Cars
+Mazda,3 5-Door,Midsize Cars
+Mazda,3 5-Door,Midsize Cars
+Subaru,Impreza 4-Door,Midsize Cars
+Subaru,Impreza Sport 4-Door,Midsize Cars
+Chrysler,300,Large Cars
+Chrysler,300 AWD,Large Cars
+Chrysler,300,Large Cars
+Dodge,Charger,Large Cars
+Dodge,Charger AWD,Large Cars
+Dodge,Charger,Large Cars
+Dodge,Charger,Large Cars
+Dodge,Charger SRT,Large Cars
+Dodge,Charger SRT,Large Cars
+Lexus,IS 300 AWD,Compact Cars
+Lexus,IS 350,Compact Cars
+Lexus,IS 350 AWD,Compact Cars
+Lexus,IS 200t,Compact Cars
+Jaguar,XJ,Large Cars
+Jaguar,XJL,Large Cars
+Jaguar,XJ,Large Cars
+Jaguar,XJ AWD,Large Cars
+Jaguar,XJL AWD,Large Cars
+Jaguar,XJL,Large Cars
+Mercedes-Benz,AMG C63 S Convertible,Subcompact Cars
+Mercedes-Benz,AMG C63 Convertible,Subcompact Cars
+Mercedes-Benz,AMG C43 4matic Coupe,Subcompact Cars
+Mercedes-Benz,AMG C43 4matic Convertible,Subcompact Cars
+BMW,328d xDrive,Compact Cars
+Mercedes-Benz,AMG C43 4matic,Compact Cars
+Alfa Romeo,Giulia,Midsize Cars
+Infiniti,Q70,Midsize Cars
+Infiniti,Q70 AWD,Midsize Cars
+Infiniti,Q70 Hybrid,Midsize Cars
+Infiniti,Q70,Midsize Cars
+Infiniti,Q70 AWD,Midsize Cars
+Mercedes-Benz,AMG E43 4matic,Midsize Cars
+MINI,John Cooper Works Clubman All4,Midsize Cars
+Kia,Optima Plug-in Hybrid,Midsize Cars
+Alfa Romeo,4C,Two Seaters
+Lamborghini,Aventador Roadster LP740-4,Two Seaters
+Lamborghini,Aventador Coupe LP740-4,Two Seaters
+Dodge,Challenger,Midsize Cars
+Dodge,Challenger SRT,Midsize Cars
+Nissan,Leaf,Midsize Cars
+BMW,328d,Compact Cars
+MINI,John Cooper Works Clubman All4,Midsize Cars
+Hyundai,Ioniq Electric,Midsize Cars
+Chevrolet,Spark ACTIV,Subcompact Cars
+Chevrolet,Spark ACTIV,Subcompact Cars
+Chrysler,300 AWD,Large Cars
+Dodge,Charger AWD,Large Cars
+Mercedes-Benz,S550e,Large Cars
+smart,fortwo coupe,Two Seaters
+smart,fortwo coupe,Two Seaters
+BMW,230i Coupe,Subcompact Cars
+Ford,Fiesta FWD,Subcompact Cars
+Ford,Fiesta FWD,Subcompact Cars
+Ford,Fiesta SFE FWD,Subcompact Cars
+Audi,A4 quattro,Compact Cars
+Ford,Fiesta ST FWD,Compact Cars
+Ford,Focus FWD,Compact Cars
+Ford,Focus FWD,Compact Cars
+Ford,Focus FWD,Compact Cars
+Ford,Focus FWD,Compact Cars
+Ford,Focus FWD,Compact Cars
+Ford,Focus FWD FFV,Compact Cars
+Ford,Focus FWD FFV,Compact Cars
+Ford,Focus FWD FFV,Compact Cars
+Ford,Focus ST FWD,Midsize Cars
+Ford,Taurus FWD,Large Cars
+Ford,Taurus AWD FFV,Large Cars
+Ford,Taurus FWD FFV,Large Cars
+Ford,Taurus AWD,Large Cars
+Ford,Taurus FWD,Large Cars
+Ford,Taurus AWD,Large Cars
+Hyundai,Ioniq,Large Cars
+Hyundai,Ioniq Blue,Large Cars
+Chrysler,300,Large Cars
+Dodge,Charger,Large Cars
+Ford,C-MAX Hybrid FWD,Large Cars
+MINI,Cooper Countryman All4,Midsize Cars
+BMW,M760i xDrive,Large Cars
+Ford,Focus Electric,Compact Cars
+Ford,C-MAX Energi Plug-In Hybrid,Midsize Cars
+Ford,GT,Two Seaters
+Toyota,Prius c,Compact Cars
+Alfa Romeo,Giulia,Midsize Cars
+Alfa Romeo,Giulia AWD,Midsize Cars
+Nissan,Sentra Nismo,Midsize Cars
+Nissan,Sentra Nismo,Midsize Cars
+Tesla,Model S AWD - 60D,Large Cars
+Tesla,Model S AWD - 75D,Large Cars
+Tesla,Model S AWD - P100D,Large Cars
+Toyota,Prius Prime,Midsize Cars
+Chevrolet,Camaro,Subcompact Cars
+Dodge,Challenger GT,Midsize Cars
+Tesla,Model S AWD - P90D,Large Cars
+Subaru,Impreza 4-Door,Midsize Cars
+Subaru,Impreza Sport 4-Door,Midsize Cars
+BMW,530i,Midsize Cars
+BMW,530i xDrive,Midsize Cars
+BMW,540i,Midsize Cars
+BMW,540i xDrive,Midsize Cars
+Volkswagen,e-Golf,Compact Cars
+Chevrolet,Cruze,Compact Cars
+Chevrolet,Cruze,Compact Cars
+MINI,Cooper S Countryman,Midsize Cars
+Tesla,Model S (60 kW-hr battery pack),Large Cars
+Tesla,Model S (75 kW-hr battery pack),Large Cars
+MINI,Cooper Countryman,Midsize Cars
+MINI,Cooper Countryman,Midsize Cars
+MINI,Cooper Countryman All4,Midsize Cars
+MINI,Cooper S Countryman All4,Midsize Cars
+MINI,Cooper S Countryman All4,Midsize Cars
+Tesla,Model S AWD - 90D,Large Cars
+Porsche,Panamera,Large Cars
+Porsche,Panamera 4,Large Cars
+Porsche,Panamera 4 Executive,Large Cars
+Porsche,Panamera 4S,Large Cars
+Porsche,Panamera 4S Executive,Large Cars
+Porsche,Panamera Turbo,Large Cars
+Porsche,Panamera Turbo Executive,Large Cars
+Tesla,Model S AWD - 100D,Large Cars
+Cadillac,CT6 Plug-In,Midsize Cars
+Honda,Civic 5Dr,Large Cars

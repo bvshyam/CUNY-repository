@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+
+
+
+<head><title> Cars Classification </title>
+<link rel="stylesheet" href="css/style.css">
+<script src="js/treejs.js"></script>
+</head>
+
+<body>
+
+
+<h2>Cars Classification </h2> 
+
+<h4>Select below values to create tree:</h4> 
+<select id="option1" onchange="myFunction(this)">
+<option value="select">Select Value</option>
+ <option value="Year">Year</option>
+  <option value="Car_type">Car_type</option>
+    <option value="Fuel_type">Fuel_type</option>
+    <option value="Make">Make</option>
+    <option value="model" >Model</option>
+<option value="Drive_type">Drive_type</option>
+
+</select>
+
+<select id="option2" onchange="myFunction(this)">
+ <option value="select2">Select Value</option>
+</select>
+
+<select id="option3" onchange="myFunction(this)">
+ <option value="select3">Select Value</option>
+</select>
+
+<select id="option4" onchange="myFunction(this)">
+ <option value="select4">Select Value</option>
+</select>
+
+<select id="option5" onchange="myFunction(this)">
+ <option value="select5">Select Value</option>
+</select>
+
+<select id="option6" onchange="myFunction(this)">
+ <option value="select6">Select Value</option>
+</select>
+
+<button class="button" onclick="showchart()"><span>Draw Tree</span></button>
+<button class="button" onclick="reset()"><span>Reset </span></button>
+
+<script>
+
+function reset(){
+
+var selectobject1=document.getElementById("option1");
+var selectobject2=document.getElementById("option2");
+var selectobject3=document.getElementById("option3");
+var selectobject4=document.getElementById("option4");
+var selectobject5=document.getElementById("option5");
+var selectobject6=document.getElementById("option6");
+
+
+selectobject2.options.length=1
+selectobject3.options.length=1
+selectobject4.options.length=1
+selectobject5.options.length=1
+selectobject6.options.length=1
+
+document.getElementById("option1").selectedIndex = 0;
+
+d3.select("p").remove();
+d3.select("svg").remove();
+
+}
+
+
+  
+function myFunction(sel) {
+
+var col = ['Year','Car_type','Fuel_type','Make','Model','Drive_type'];
+
+
+if(sel.id =='option1') {
+//document.getElementById("option2").remove(0);
+
+for(i in col) {
+ if(col[i] != option1.options[option1.selectedIndex].value) {
+ option2 = document.getElementById('option2');
+ option2.options[option2.options.length] = new Option(col[i], col[i]);
+
+  }
+}
+
+}
+
+else if(sel.id =='option2') {
+
+//document.getElementById("option3").remove(0);
+
+for(i in col) {
+
+ if(col[i] != option1.options[option1.selectedIndex].value & col[i] != option2.options[option2.selectedIndex].value) {
+
+ option3 = document.getElementById('option3');
+ option3.options[option3.options.length] = new Option(col[i], col[i]);
+
+  }
+}
+
+
+}
+else if(sel.id =='option3') {
+
+//document.getElementById("option4").remove(0);
+
+for(i in col) {
+
+ if(col[i] != option1.options[option1.selectedIndex].value & col[i] != option2.options[option2.selectedIndex].value & col[i] != option3.options[option3.selectedIndex].value) {
+
+ option4 = document.getElementById('option4');
+ option4.options[option4.options.length] = new Option(col[i], col[i]);
+
+  }
+}
+}
+
+else if(sel.id =='option4') {
+//document.getElementById("option5").remove(0);
+
+for(i in col) {
+
+ if(col[i] != option1.options[option1.selectedIndex].value & col[i] != option2.options[option2.selectedIndex].value & col[i] != option3.options[option3.selectedIndex].value  & col[i] != option4.options[option4.selectedIndex].value) {
+
+ option5 = document.getElementById('option5');
+ option5.options[option5.options.length] = new Option(col[i], col[i]);
+
+  }
+}
+}
+else if(sel.id =='option5') {
+//document.getElementById("option6").remove(0);
+
+for(i in col) {
+
+ if(col[i] != option1.options[option1.selectedIndex].value & col[i] != option2.options[option2.selectedIndex].value & col[i] != option3.options[option3.selectedIndex].value  & col[i] != option4.options[option4.selectedIndex].value & col[i] != option5.options[option5.selectedIndex].value) {
+
+ option6 = document.getElementById('option6');
+ option6.options[option6.options.length] = new Option(col[i], col[i]);
+
+  }
+}}
+
+
+}
+</script>
+
+<div id="text"> </div>
+
+<!-- load the d3.js library --> 
+<script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="http://projects.delimited.io/experiments/csv-json/lib/underscore-min.js"></script>
+
+<script>
+
+
+
+</script>
+</body>
