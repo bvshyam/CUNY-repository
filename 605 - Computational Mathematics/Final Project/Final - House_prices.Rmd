@@ -1,0 +1,816 @@
+---
+title: "Final Project - House Price Analysis"
+author: "Shyam BV"
+date: "May 16, 2017"
+output:
+  html_document:
+    highlight: tango
+    theme: cerulean
+    toc: yes
+    toc_depth: 5
+    toc_float:
+      collapsed: yes
+      number_sections: yes
+      smooth_scroll: no
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+---
+
+
+```{r include=FALSE}
+if(!require("Hmisc", character.only = TRUE, quietly = TRUE)) {
+  install.packages("Hmisc")
+  library("Hmisc", character.only = TRUE)
+}
+
+if(!require("corrplot", character.only = TRUE, quietly = TRUE)) {
+  install.packages("corrplot")
+  library("corrplot", character.only = TRUE)
+}
+
+if(!require("MASS", character.only = TRUE, quietly = TRUE)) {
+  install.packages("MASS")
+  library("MASS", character.only = TRUE)
+}
+
+if(!require("fitdistrplus", character.only = TRUE, quietly = TRUE)) {
+  install.packages("fitdistrplus")
+  library("fitdistrplus", character.only = TRUE)
+}
+if(!require("logspline", character.only = TRUE, quietly = TRUE)) {
+  install.packages("logspline")
+  library("logspline", character.only = TRUE)
+}
+
+if(!require("ggplot2", character.only = TRUE, quietly = TRUE)) {
+  install.packages("ggplot2")
+  library("ggplot2", character.only = TRUE)
+}
+
+
+if(!require("dplyr", character.only = TRUE, quietly = TRUE)) {
+  install.packages("dplyr")
+  library("dplyr", character.only = TRUE)
+}
+
+if(!require("car", character.only = TRUE, quietly = TRUE)) {
+  install.packages("car")
+  library("car", character.only = TRUE)
+}
+
+if(!require("nortest", character.only = TRUE, quietly = TRUE)) {
+  install.packages("nortest")
+  library("nortest", character.only = TRUE)
+}
+
+if(!require("tidyr", character.only = TRUE, quietly = TRUE)) {
+  install.packages("tidyr")
+  library("tidyr", character.only = TRUE)
+}
+
+if(!require("caret", character.only = TRUE, quietly = TRUE)) {
+  install.packages("caret")
+  library("caret", character.only = TRUE)
+}
+
+if(!require("RANN", character.only = TRUE, quietly = TRUE)) {
+  install.packages("RANN")
+  library("RANN", character.only = TRUE)
+}
+
+
+if(!require("caTools", character.only = TRUE, quietly = TRUE)) {
+  install.packages("caTools")
+  library("caTools", character.only = TRUE)
+}
+
+if(!require("Metrics", character.only = TRUE, quietly = TRUE)) {
+  install.packages("Metrics")
+  library("Metrics", character.only = TRUE)
+}
+
+if(!require("readr", character.only = TRUE, quietly = TRUE)) {
+  install.packages("readr")
+  library("readr", character.only = TRUE)
+}
+```
+
+
+###Dataset
+
+#####The House Prices:  https://www.kaggle.com/c/house-prices-advanced-regression-techniques 
+
+
+```{r}
+house_df <- read.csv('data/train.csv',header = T,stringsAsFactors = F)
+
+```
+
+###Probability   
+
+#####Calculate Probabilities
+**Calculate as a minimum the below probabilities a through c.  Assume the small letter "x" is estimated as the 4th quartile of the X variable, and the small letter "y" is estimated as the 2d quartile of the Y variable.  Interpret the meaning of all probabilities. **
+
+**a. $P(X>x | Y>y)$	**
+
+$P(LotArea> 4th_Quartile | SalePrice>2nd_Quartile) = P(LotArea> 4th_Quartile & SalePrice>2nd_Quartile)/P(SalePrice>2nd_Quartile)$
+
+```{r}
+
+xQ4 =quantile(house_df$LotArea,1)
+yQ2 = quantile(house_df$SalePrice,.50)
+
+
+a = (nrow(filter(house_df,(LotArea > xQ4) & (SalePrice>yQ2)))/nrow(house_df))/(nrow(filter(house_df,SalePrice>yQ2))/nrow(house_df))
+
+a
+
+```
+
+**b. $P(X>x, Y>y)$**
+
+$P(LotArea> 4th_Quartile & SalePrice>2nd_Quartile) = P(LotArea> 4th_Quartile) * P(SalePrice>2nd_Quartile)$
+
+```{r}
+b = nrow(filter(house_df,(LotArea > xQ4)))/nrow(house_df) *
+nrow(filter(house_df,SalePrice>yQ2))/nrow(house_df)
+
+b
+
+
+```
+
+
+
+**c. $P(X<x | Y>y)$**
+
+$P(LotArea< 4th_Quartile | SalePrice>2nd_Quartile) = P(LotArea< 4th_Quartile & SalePrice>2nd_Quartile)/P(SalePrice>2nd_Quartile)$
+
+
+```{r}
+
+
+c = (nrow(filter(house_df,(LotArea < xQ4) & (SalePrice>yQ2)))/nrow(house_df))/(nrow(filter(house_df,SalePrice>yQ2))/nrow(house_df))
+c
+
+
+(nrow(filter(house_df,(LotArea < xQ4) & (SalePrice>yQ2)))/nrow(house_df))
+
+nrow(filter(house_df,(LotArea < xQ4)))/nrow(house_df) *
+nrow(filter(house_df,SalePrice>yQ2))/nrow(house_df)
+```
+
+#####Independence
+
+**Does splitting the training data in this fashion make them independent? In other words, does P(XY) = P(X)P(Y) or P(X|Y)= P(X) ? **  
+
+No. Splitting the training data does not make them independent.
+
+
+```{r}
+#P(X|Y) = P(X)P(Y)
+P_XY = nrow(filter(house_df,(LotArea < xQ4)))/nrow(house_df) *
+nrow(filter(house_df,SalePrice>yQ2))/nrow(house_df)
+
+P_XY
+
+P_X = nrow(filter(house_df,(LotArea < xQ4)))/nrow(house_df)
+                                                  
+P_X
+```
+
+Both the values are not equal. So the Lot area and Sale price are not independent.
+
+#####Chi Square test
+**Evaluate by running a Chi Square test for association**
+
+$H_0$: LotArea and SalePrice are independent
+$H_A$: LotArea and SalePrice are not independent
+
+
+```{r}
+#As xQ4 is 0, subsituting xQ2
+xQ2 = quantile(house_df$LotArea,.50)
+
+x_11= nrow(filter(house_df,(LotArea >  xQ2) & (SalePrice>yQ2)))
+
+x_12= nrow(filter(house_df,(LotArea <= xQ2) & (SalePrice>yQ2)))
+
+y_21 = nrow(filter(house_df,(LotArea > xQ2) & (SalePrice<=yQ2)))
+
+y_22 = nrow(filter(house_df,(LotArea <=xQ2) & (SalePrice<=yQ2)))
+
+#counts tablea
+matrix(c(x_11,y_21,x_12,y_22),ncol=2)
+
+#Chisquared test
+chisq.test(matrix(c(x_11,y_21,x_12,y_22),ncol=2))
+
+```
+
+As the p-value is very low, we reject the null hypothesis.
+
+
+
+###Descriptive and Inferential Statistics. 
+
+#####Descriptive statistics
+
+**Provide univariate descriptive statistics and appropriate plots for both variables.** 
+
+
+
+```{r}
+X <- house_df$LotArea
+Y <- house_df$SalePrice
+
+#Mean and min/max values, etc
+describe(X)
+
+#Mean, Median, Quartile
+summary(X)
+
+#Standard Deviation
+sd(X)
+
+#Mean and min/max values, etc
+describe(Y)
+
+#Mean, Median, Quartile
+summary(Y)
+
+#Standard Deviation
+sd(Y)
+
+```
+
+
+#####**Provide a scatterplot of X and Y. **
+
+
+```{r}
+
+#Histogram of Sale Price
+ggplot(house_df,aes(x = SalePrice)) +geom_histogram(bins=100) + ggtitle("Histogram of Sale Price")
+
+#Histogram of Lot area
+ggplot(house_df,aes(x = LotArea)) +geom_histogram(bins=100) + ggtitle("Histogram of Lot area")
+
+#Scatterplot of LotArea vs SalePrice
+ggplot(house_df,aes(x = LotArea, y= SalePrice)) + geom_point(aes(color=SalePrice)) +geom_smooth() + ggtitle("Scatterplot of LotArea vs SalePrice")
+
+
+#Scatterplot of LotArea vs SalePrice(Excluding outliers)
+house_df %>% filter(LotArea <50000) %>% ggplot(aes(x = LotArea, y= SalePrice)) + geom_point(aes(color=SalePrice)) +geom_smooth() + ggtitle("Scatterplot of LotArea vs SalePrice(Excluding outliers > 50000)")
+```
+
+
+
+#####Box-Cox transformations
+**Transform both variables simultaneously using Box-Cox transformations. Using the transformed variables, run a correlation analysis and interpret.Test the hypothesis that the correlation between these variables is 0 and provide a 99% confidence interval.  Discuss the meaning of your analysis.  ** 
+
+
+```{r}
+#Histogram of Lot Area
+qplot(X,bins=100) 
+
+#qqplot of Lot Area
+qqnorm(X); qqline(X); 
+
+
+#Create a linear model between Lot Area and Sale Price for Boxcox transformations
+area_scale_lm = lm(house_df$SalePrice ~house_df$LotArea)
+area_scale_lm
+
+#Perform a box-cox transformation to find the correct lambda
+
+area_scale_bc = boxcox(area_scale_lm)
+
+#Optimal lambda
+optimal_lambda = with(area_scale_bc,x[which.max(y)])
+optimal_lambda
+
+
+```
+
+For this lambda, it can be approximated as zero. Apply log transformation for the source variable.
+
+```{r}
+
+#Create a new dataframe with required columns
+house_df2 <- data.frame(X = house_df$LotArea , Y= house_df$SalePrice)
+
+#Transform the column
+house_df2 <- house_df2 %>%  mutate(X_dash = log10(X))
+
+
+ggplot(house_df2,aes(x = X, y= Y)) + geom_point(aes(color=Y)) +geom_smooth() + ggtitle("Lot Area vs Sale Price")
+
+#Scatter plot of transformed column(Lot Area) vs Sale Price
+ggplot(house_df2,aes(x = X_dash, y= Y)) + geom_point(aes(color=Y)) +geom_smooth() + ggtitle("Lot Area(Transformed column) vs Sale Price")
+
+
+#Histogram of Transformed column
+ggplot(house_df2,aes(x = X_dash)) +geom_histogram(bins=100) + ggtitle("Histogram of Lot area")
+
+
+#QQPlot of Transformed column
+qqnorm(house_df2$X_dash); qqline(house_df2$X_dash)
+
+#QQPlot of Transformed column with confidence interval
+qqPlot(house_df2$X_dash,envelope = .99)
+
+
+
+```
+
+
+#####Normality test
+$H_0$: Transformed variable(Lot Area) is normally distributed
+$H_A$: Transformed variable(Lot Area) is not normally distributed
+
+ 
+```{r}
+
+#Shapiro-Wilk Normality Test
+
+shapiro.test(house_df2$X_dash)
+
+#Anderson-Darling test for normality
+ad.test(house_df2$X_dash)
+```
+p-value is very low. Hence we reject null hypothesis and conclude that the transformed variables are not normally distributed.
+
+
+
+#####Correlation test
+$H_0$: Correlation between LotArea and Sale Price variables is 0
+$H_A$: Correlation between LotArea and Sale Price variables is not 0
+
+
+```{r}
+#Correlation between Lot Area and Sale Price
+cor(house_df$LotArea,house_df$SalePrice)
+
+
+#Correlation between Lot Area(Transformed) and Sale Price
+cor(house_df2$X_dash,house_df2$Y)
+
+#Correlation Test between Lot Area and Sale Price
+cor.test(house_df2$X,house_df2$Y)
+
+#Correlation Test between Lot Area(Transformed) and Sale Price
+cortest = cor.test(house_df2$X_dash,house_df2$Y, conf.level = .99)
+cortest
+```
+This correlation test shows that the p-value is almost 0. Hence we can reject null hypothesis and conclude that the correlation is not 0 between these variables.
+
+Confidence interval for correlation coefficient is `r cortest$conf.int`
+
+
+###Linear Algebra and Correlation.  
+
+#####Correlation
+**Invert your correlation matrix. (This is known as the precision matrix and contains variance inflation factors on the diagonal.) Multiply the correlation matrix by the precision matrix, and then multiply the precision matrix by the correlation matrix.**
+
+```{r}
+
+#https://cran.r-project.org/web/packages/corrplot/vignettes/corrplot-intro.html
+
+
+house_values <- data.frame(house_df$LotArea,house_df$BsmtFinSF1,house_df$BsmtUnfSF,house_df$TotalBsmtSF,house_df$X1stFlrSF,house_df$X2ndFlrSF,house_df$GrLivArea,house_df$SalePrice)
+
+
+house_cor = cor(house_values)
+
+#Precision matrix
+house_pre = solve(house_cor)
+house_pre
+
+house_cor_pre = house_cor %*% house_pre
+
+house_pre_cor = house_pre %*% house_cor
+
+#Correlation matrix of all variables in number
+corrplot(house_cor,method="number")
+
+#Correlation matrix of all variables in square
+corrplot(house_cor,method="square")
+
+#Correlation matrix by precision matrix
+corrplot(house_cor_pre,method="circle")
+
+
+#Precision matrix by Correlation matrix
+corrplot(house_pre_cor,method="circle")
+```
+
+###Calculus-Based Probability & Statistics.
+
+#####Distribution
+Many times, it makes sense to fit a closed form distribution to data.  For your non-transformed independent variable, location shift it so that the minimum value is above zero.  Then load the MASS package and run fitdistr to fit a density function of your choice.  (See https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/fitdistr.html ).  Find the optimal value of the parameters for this distribution, and then take 1000 samples from this distribution (e.g., rexp(1000, ) for an exponential).  Plot a histogram and compare it with a histogram of your non-transformed original variable
+
+```{r}
+
+hist(house_df$LotArea,xlab = "Lot Area",main = "Histogram of Lot Area")
+
+dist_values = fitdistr(house_df$LotArea, densfun="exponential")
+
+rexp_lotarea <- rexp(1000,dist_values$estimate[1])
+                     
+
+hist(rexp_lotarea,xlab = "Lot Area",main = "Histogram of Random exponential values")
+
+
+```
+
+Test the distribution of randomly generated exponential variables.
+
+
+```{r}
+
+#Kolmogorov-Smirnov Tests
+
+ks.test(rexp_lotarea,"pexp")
+```
+
+Plot all the distributions and try to fit the exact curve.
+
+
+
+
+```{r}
+descdist(rexp_lotarea, discrete = F)
+
+```
+
+
+Above plot shows that the 'gamma' and 'exponential' distribution are nearly close to the observation.
+
+
+```{r}
+#Adding very low value to the random values
+rexp_lotarea1 <- rexp_lotarea+.000001
+
+fit.exp <- fitdist(rexp_lotarea1,"exp",method="mme",lower = c(0, 0))
+fit.gamma <- fitdist(rexp_lotarea1,"gamma",method="mme",lower = c(0, 0))
+
+#Exponential Distribution Plot
+plot(fit.exp)
+#Gamma Distribution Plot
+plot(fit.gamma)
+
+
+fit.exp$aic
+fit.gamma$aic
+```
+
+
+From above plot and AIC values, we can conclude that exponential distribution is the exact fit of randomly generated exponential values.
+
+
+
+###Modeling
+
+#####Create Model
+
+**Build some type of regression model and submit your model to the competition board.  Provide your complete model summary and results with analysis.**
+
+
+
+```{r warning=FALSE}
+
+house_df$Id <- factor(house_df$Id)
+
+house_df$YearBuilt <- factor(house_df$YearBuilt)
+
+house_df$YrSold <- factor(house_df$YrSold)
+
+
+house_df$MoSold <- factor(house_df$MoSold)
+
+#To find all the quantitative and categorical columns
+split(names(house_df),sapply(house_df,function(x) paste(class(x),collapse=",")))
+
+
+#Distribution of numerical variables
+house_df %>% select(MSSubClass,LotFrontage,LotArea,OverallQual,OverallCond , 
+ MasVnrArea,BsmtFinSF1,BsmtFinSF2,
+BsmtUnfSF, TotalBsmtSF,X1stFlrSF, X2ndFlrSF, LowQualFinSF ,
+GrLivArea, BsmtFullBath, BsmtHalfBath , FullBath,  HalfBath, 
+BedroomAbvGr,  KitchenAbvGr,  TotRmsAbvGrd , Fireplaces,GarageYrBlt ,
+GarageCars,GarageArea,WoodDeckSF,OpenPorchSF,EnclosedPorch,
+X3SsnPorch,ScreenPorch,PoolArea,  MiscVal,SalePrice) %>% gather() %>%  ggplot(aes(value)) + facet_wrap(~key,scales ="free") + geom_density()
+
+
+```
+#####Data cleaning
+
+```{r}
+#data cleaning
+
+Num_NA<-sapply(house_df,function(y)length(which(is.na(y)==T)))
+NA_Count<- data.frame(Item=colnames(house_df),Count=Num_NA)
+
+#NA count list
+NA_Count
+
+
+
+house_clean <- house_df
+
+mask <- is.na(house_clean$MasVnrType)
+house_clean$MasVnrType[mask] <- 'None'
+
+mask <- is.na(house_clean$MasVnrType)
+house_clean$MasVnrType[mask] <- 'None'
+
+mask <- is.na(house_clean$BsmtCond)
+house_clean$BsmtCond[mask] <- 'NoBasement'
+
+
+mask <- is.na(house_clean$BsmtFinType1)
+house_clean$BsmtFinType1[mask] <- 'None'
+mask <- is.na(house_clean$BsmtFinType2)
+house_clean$BsmtFinType2[mask] <- 'None'
+mask <- is.na(house_clean$FireplaceQu)
+house_clean$FireplaceQu[mask] <- 'NoFireplace'
+mask <- is.na(house_clean$GarageFinish)
+house_clean$GarageFinish[mask] <- 'NoGarage'
+
+mask <- is.na(house_clean$GarageQual)
+house_clean$GarageQual[mask] <- 'NoGarage'
+mask <- is.na(house_clean$MiscFeature)
+house_clean$MiscFeature[mask] <- 'NoMisc'
+
+
+mask <- is.na(house_clean$BsmtExposure)
+house_clean$BsmtExposure[mask] <- 'NoBasement'
+mask <- is.na(house_clean$PoolQC)
+house_clean$PoolQC[mask] <- 'NoPool'
+mask <- is.na(house_clean$Fence)
+house_clean$Fence[mask] <- 'NoFence'
+mask <- is.na(house_clean$GarageType)
+house_clean$GarageType[mask] <- 'NoGarage'
+mask <- is.na(house_clean$GarageCond)
+house_clean$GarageCond[mask] <- 'NoGarage'
+mask <- is.na(house_clean$GarageArea)
+house_clean$GarageArea[mask] <- 0
+mask <- is.na(house_clean$GarageCars)
+house_clean$GarageCars[mask] <- 0
+mask <- is.na(house_clean$LotFrontage)
+house_clean$LotFrontage[mask] <- 0
+
+```
+
+
+#####Data Splitting and getting required columns
+```{r results = "hide"}
+
+#Segregate training and testing dataset
+
+#Split into training and test dataset
+
+set.seed(7340)
+
+row <- sample(nrow(house_clean))
+
+house_split <- house_clean[row,]
+
+split <- round(nrow(house_split)*.80)
+training <- data.frame(house_split[1:split,])
+test <- data.frame(house_split[(split+1):nrow(house_split),])
+
+test_x<- select(test,c(MSSubClass,MSZoning,  LotFrontage,LotArea,
+Street,LotShape,  LandContour,Utilities,
+LotConfig, LandSlope, Neighborhood , Condition1,Condition2,
+BldgType,  HouseStyle,OverallQual,OverallCond,YearBuilt, YearRemodAdd,  RoofStyle, RoofMatl,  Exterior1st,Exterior2nd  ,MasVnrType,MasVnrArea,ExterQual, ExterCond, Foundation,  BsmtCond,  BsmtExposure , BsmtFinType1,  BsmtFinSF1,
+BsmtFinType2 , BsmtFinSF2,BsmtUnfSF, TotalBsmtSF,Heating,
+HeatingQC, CentralAir,X1stFlrSF, X2ndFlrSF,
+LowQualFinSF,  GrLivArea, BsmtFullBath,  BsmtHalfBath , FullBath,
+HalfBath,  BedroomAbvGr , KitchenAbvGr,  KitchenQual,TotRmsAbvGrd ,
+Functional,Fireplaces,FireplaceQu,GarageType,GarageYrBlt ,
+GarageFinish , GarageCars,GarageArea,GarageQual,GarageCond,
+PavedDrive,WoodDeckSF,OpenPorchSF,EnclosedPorch, X3SsnPorch, ScreenPorch,PoolArea,  PoolQC,Fence, MiscFeature  ,
+MiscVal,MoSold,YrSold,SaleType,  SaleCondition)) %>% data.frame()
+
+test_y <- select(test,SalePrice) %>% data.frame()
+
+test_or1 <- read.csv('data/test.csv',header = T,stringsAsFactors = F) 
+
+test_original <- test_or1 %>%  select(c(MSSubClass,MSZoning,  LotFrontage,LotArea,
+Street,LotShape,  LandContour,Utilities,
+LotConfig, LandSlope, Neighborhood , Condition1,Condition2,
+BldgType,  HouseStyle,OverallQual,OverallCond,YearBuilt, YearRemodAdd,  RoofStyle, RoofMatl,  Exterior1st,Exterior2nd  ,MasVnrType,MasVnrArea,ExterQual, ExterCond, Foundation,  BsmtCond,  BsmtExposure , BsmtFinType1,  BsmtFinSF1,
+BsmtFinType2 , BsmtFinSF2,BsmtUnfSF, TotalBsmtSF,Heating,
+HeatingQC, CentralAir,X1stFlrSF, X2ndFlrSF,
+LowQualFinSF,  GrLivArea, BsmtFullBath,  BsmtHalfBath , FullBath,
+HalfBath,  BedroomAbvGr , KitchenAbvGr,  KitchenQual,TotRmsAbvGrd ,
+Functional,Fireplaces,FireplaceQu,GarageType,GarageYrBlt ,
+GarageFinish , GarageCars,GarageArea,GarageQual,GarageCond,
+PavedDrive,WoodDeckSF,OpenPorchSF,EnclosedPorch, X3SsnPorch, ScreenPorch,PoolArea,  PoolQC,Fence, MiscFeature  ,
+MiscVal,MoSold,YrSold,SaleType,  SaleCondition)) %>% data.frame()
+
+#Clean Test dataset
+
+mask <- is.na(test_original$MasVnrType)
+test_original$MasVnrType[mask] <- 'None'
+mask <- is.na(test_original$MasVnrType)
+test_original$MasVnrType[mask] <- 'None'
+mask <- is.na(test_original$BsmtCond)
+test_original$BsmtCond[mask] <- 'NoBasement'
+
+mask <- is.na(test_original$BsmtFinType1)
+test_original$BsmtFinType1[mask] <- 'None'
+mask <- is.na(test_original$BsmtFinType2)
+test_original$BsmtFinType2[mask] <- 'None'
+mask <- is.na(test_original$FireplaceQu)
+test_original$FireplaceQu[mask] <- 'NoFireplace'
+mask <- is.na(test_original$GarageFinish)
+test_original$GarageFinish[mask] <- 'NoGarage'
+
+mask <- is.na(test_original$GarageQual)
+test_original$GarageQual[mask] <- 'NoGarage'
+mask <- is.na(test_original$MiscFeature)
+test_original$MiscFeature[mask] <- 'NoMisc'
+
+
+mask <- is.na(test_original$BsmtExposure)
+test_original$BsmtExposure[mask] <- 'NoBasement'
+mask <- is.na(test_original$PoolQC)
+test_original$PoolQC[mask] <- 'NoPool'
+mask <- is.na(test_original$Fence)
+test_original$Fence[mask] <- 'NoFence'
+mask <- is.na(test_original$GarageType)
+test_original$GarageType[mask] <- 'NoGarage'
+mask <- is.na(test_original$GarageCond)
+test_original$GarageCond[mask] <- 'NoGarage'
+mask <- is.na(test_original$GarageArea)
+test_original$GarageArea[mask] <- 0
+mask <- is.na(test_original$GarageCars)
+test_original$GarageCars[mask] <- 0
+mask <- is.na(test_original$LotFrontage)
+test_original$LotFrontage[mask] <- 0
+
+test_original$GarageCond[mask] <- 'NoGarage'
+mask <- is.na(test_original$GarageArea)
+test_original$GarageArea[mask] <- 0
+mask <- is.na(test_original$GarageCars)
+test_original$GarageCars[mask] <- 0
+mask <- is.na(test_original$LotFrontage)
+test_original$LotFrontage[mask] <- 0
+
+#Having 0 for all null columns
+test_original <- mutate_each(test_original,funs(replace(.,is.na(.),0)))
+
+
+
+training$YearBuilt <- as.integer(training$YearBuilt )
+
+#Split with between valid variables
+
+#All variables
+house_all <- select(training,c(MSSubClass,MSZoning,  LotFrontage,LotArea,
+Street,LotShape,  LandContour,Utilities,
+LotConfig, LandSlope, Neighborhood , Condition1,Condition2,
+BldgType,  HouseStyle,OverallQual,OverallCond,YearBuilt, YearRemodAdd,  RoofStyle, RoofMatl,  Exterior1st,Exterior2nd  ,MasVnrType,MasVnrArea,ExterQual, ExterCond, Foundation,  BsmtCond,  BsmtExposure , BsmtFinType1,  BsmtFinSF1,
+BsmtFinType2 , BsmtFinSF2,BsmtUnfSF, TotalBsmtSF,Heating,
+HeatingQC, CentralAir,X1stFlrSF, X2ndFlrSF,
+LowQualFinSF,  GrLivArea, BsmtFullBath,  BsmtHalfBath , FullBath,
+HalfBath,  BedroomAbvGr , KitchenAbvGr,  KitchenQual,TotRmsAbvGrd ,
+Functional,Fireplaces,FireplaceQu,GarageType,GarageYrBlt ,
+GarageFinish , GarageCars,GarageArea,GarageQual,GarageCond,
+PavedDrive,WoodDeckSF,OpenPorchSF,EnclosedPorch, X3SsnPorch, ScreenPorch,PoolArea,  PoolQC,Fence, MiscFeature  ,
+MiscVal,MoSold,YrSold,SaleType,  SaleCondition, SalePrice)) %>% data.frame()
+
+
+house_all_x <- select(training,c(MSSubClass,MSZoning,  LotFrontage,LotArea,
+Street,LotShape,  LandContour,Utilities,
+LotConfig, LandSlope, Neighborhood , Condition1,Condition2,
+BldgType,  HouseStyle,OverallQual,OverallCond,YearBuilt, YearRemodAdd,  RoofStyle, RoofMatl,  Exterior1st,Exterior2nd  ,MasVnrType,MasVnrArea,ExterQual, ExterCond, Foundation,  BsmtCond,  BsmtExposure , BsmtFinType1,  BsmtFinSF1,
+BsmtFinType2 , BsmtFinSF2,BsmtUnfSF, TotalBsmtSF,Heating,
+HeatingQC, CentralAir,X1stFlrSF, X2ndFlrSF,
+LowQualFinSF,  GrLivArea, BsmtFullBath,  BsmtHalfBath , FullBath,
+HalfBath,  BedroomAbvGr , KitchenAbvGr,  KitchenQual,TotRmsAbvGrd ,
+Functional,Fireplaces,FireplaceQu,GarageType,GarageYrBlt ,
+GarageFinish , GarageCars,GarageArea,GarageQual,GarageCond,
+PavedDrive,WoodDeckSF,OpenPorchSF,EnclosedPorch, X3SsnPorch, ScreenPorch,PoolArea,  PoolQC,Fence, MiscFeature  ,
+MiscVal,MoSold,YrSold,SaleType,  SaleCondition)) %>% data.frame()
+
+#Electrical, OverallQual, Alley
+
+house_num <- select(training,c(MSSubClass,LotFrontage,LotArea,OverallQual,OverallCond ,  MasVnrArea,BsmtFinSF1,BsmtFinSF2,
+BsmtUnfSF, TotalBsmtSF,X1stFlrSF, X2ndFlrSF, LowQualFinSF ,
+GrLivArea, BsmtFullBath, BsmtHalfBath , FullBath,  HalfBath, 
+BedroomAbvGr,  KitchenAbvGr,  TotRmsAbvGrd , Fireplaces,GarageYrBlt ,
+GarageCars,GarageArea,WoodDeckSF,OpenPorchSF,EnclosedPorch,
+X3SsnPorch,ScreenPorch,PoolArea,  MiscVal,SalePrice))
+
+#Numeric variables
+house_num_x <- select(training,c(MSSubClass,LotFrontage,LotArea,OverallQual,OverallCond ,  MasVnrArea,BsmtFinSF1,BsmtFinSF2,
+BsmtUnfSF, TotalBsmtSF,X1stFlrSF, X2ndFlrSF, LowQualFinSF ,
+GrLivArea, BsmtFullBath, BsmtHalfBath , FullBath,  HalfBath, 
+BedroomAbvGr,  KitchenAbvGr,  TotRmsAbvGrd , Fireplaces,GarageYrBlt ,
+GarageCars,GarageArea,WoodDeckSF,OpenPorchSF,EnclosedPorch,
+X3SsnPorch,ScreenPorch,PoolArea,  MiscVal))
+
+
+#Dependent variable
+house_y <- select(training,SalePrice) %>% data.frame()
+
+```
+
+
+#####Model 1 - Simple GLM with all Numeric variables
+
+```{r warning=FALSE}
+
+model_glm <- glm(SalePrice~ ., data = house_num)
+
+predicted <- predict(model_glm,newdata=test)
+
+predicted_up <- ifelse(is.na(predicted)==TRUE,0,predicted)
+
+RMSE(test_y$SalePrice, predicted_up) # 42286.25
+
+```
+
+
+
+#####Model 2 - Process the original dataset with cleanup using KnnImpute
+
+```{r warning=FALSE}
+
+#Model 2 - Process the original dataset with cleanup using 
+
+model_radomforest <- train(x=house_all_x, y=house_y$SalePrice, method = "ranger",preProcess = c("knnImpute","center","scale"), trControl = trainControl(method ="cv",number =5,verboseIter=TRUE))
+
+#Test dataset
+
+predicted <- predict(model_radomforest,newdata=test)
+
+
+RMSE(test_y$SalePrice, predicted) # 24427.89
+
+#It is low around 38 variables
+plot(model_radomforest)
+
+```
+
+
+#####Model 3 -Removing low-variance variables 
+```{r results="hide"}
+#Model 3 -Removing low-variance variables 
+
+model_zv <- train(x=house_all_x, y=house_y$SalePrice, method = "ranger",preProcess = c("zv","medianImpute","center","scale"), trControl = trainControl(method ="cv",number =5,verboseIter=TRUE))
+
+
+predicted <- predict(model_zv,newdata=test)
+
+RMSE(test_y$SalePrice, predicted) # 24480.04
+```
+
+
+#####Model 4 -Creating using glmnet with numeric values
+
+```{r warning=FALSE}
+#Model 4 -Creating using glmnet with numeric values
+
+model_glmnet <- train(x=house_num_x, y=house_y$SalePrice, method = "glmnet",preProcess = c("medianImpute","center","scale"), trControl = trainControl(method ="cv",number =5,verboseIter=TRUE))
+
+
+predicted <- predict(model_glmnet,newdata=test)
+
+RMSE(test_y$SalePrice, predicted) 
+
+
+```
+
+
+
+
+#####Selecting the best model and apply to test data
+
+After analyzing various models, it seems below is the best model. 
+
+```{r output=FALSE}
+
+#Predict with original test data
+predicted <- predict(model_radomforest,newdata=test_original)
+
+
+final_output <- data.frame(test_or1,predicted) 
+
+final_output %>% select(c(Id, predicted)) %>% head()
+
+final_output %>% select(c(Id, SalePrice = predicted)) %>% write_csv(path = 'submission.csv')
+
+
+rm(list=ls())
+
+```
+
+
+
+
