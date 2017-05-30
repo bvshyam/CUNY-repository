@@ -1,0 +1,30 @@
+welcome: |
+    <speak>
+        Welcome to house price predictor. This application will predict the house price. 
+        Say in the order of Overall quality, Year built, lot area and Living. Start with Overall Quality in the scale of 1 - 10?     
+    </speak>
+
+year: |
+    When the house was built? 
+
+lotss: |
+    What is the lot area?
+
+living: |
+    What is the living area?
+
+quality_wrong: |
+    Wrong input parameters. Please start again.
+
+year_wrong: |
+    Can you say the year built again?
+
+lot_wrong: |
+   Can you say the lot area again?
+
+living_wrong: |
+   Can you say the living area again?
+
+result: |
+    It is precdicted that your house price will be around {{ sel_result }} US dollars. 
+    Thank you for using this application.
