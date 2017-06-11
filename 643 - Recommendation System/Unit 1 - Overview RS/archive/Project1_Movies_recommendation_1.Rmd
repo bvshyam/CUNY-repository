@@ -1,0 +1,188 @@
+---
+title: "Movie Recommendation"
+author: "Shyam BV"
+date: "June 7, 2017"
+output: html_document
+---
+
+This system recommends movies to different users
+
+```{r}
+if(!require("dplyr", character.only = TRUE, quietly = TRUE)) {
+  install.packages("dplyr")
+  library("dplyr", character.only = TRUE)
+}
+
+if(!require("tidyr", character.only = TRUE, quietly = TRUE)) {
+  install.packages("tidyr")
+  library("tidyr", character.only = TRUE)
+}
+
+if(!require("ggplot2", character.only = TRUE, quietly = TRUE)) {
+  install.packages("ggplot2")
+  library("ggplot2", character.only = TRUE)
+}
+
+if(!require("Metrics", character.only = TRUE, quietly = TRUE)) {
+  install.packages("Metrics")
+  library("Metrics", character.only = TRUE)
+}
+
+```
+
+
+```{r}
+ratings_na <- read.csv("data/ratings.csv",sep=",",header=TRUE) %>% select(-timestamp) %>% spread(movieId,rating) 
+
+ratings <- ratings_na %>% mutate_each(funs(replace(.,is.na(.),0)),c(1:ncol(.)) )
+
+ratings_na <- ratings_na %>% select(-userId)
+```
+
+
+Separate between training and test dataset
+
+
+```{r}
+set.seed(10)
+test_rows <- sort(sample(nrow(ratings_na),nrow(ratings_na)*.1))
+
+test_cols <- sort(sample(ncol(ratings_na),ncol(ratings_na)*.1))
+
+test_na <- ratings_na
+
+
+# test_na[c(head(test_rows)),c(head(test_cols))] <- 10
+
+# test_na[setdiff(c(1:nrow(ratings_na)),test_rows),setdiff(c(1:ncol(ratings_na)),test_cols)] = NA
+
+# ratings_na[test_rows,test_cols] = 0
+
+test = ratings_na[test_rows,test_cols]
+
+
+
+
+```
+
+Removing Userid from training dataset
+
+```{r}
+#ratings_na <- ratings_na %>% select(-userId)
+```
+
+
+Raw average of training dataset
+
+```{r}
+
+
+(train_raw_mean <- mean(as.matrix(ratings_na),na.rm = TRUE))
+
+(test_raw_mean <- mean(as.matrix(test),na.rm = TRUE))
+
+```
+
+
+#RMSE
+
+```{r}
+
+nzrmse <- function(x,type) {
+  
+  if (type=='training'){
+    if (all(is.na(x))) 0 else rmse(x[!is.na(x)],train_raw_mean)
+  }
+  else if(type=='test'){
+        if (all(is.na(x))) 0 else rmse(x[!is.na(x)],test_raw_mean)
+  }
+    }
+
+#Training
+(final_rmse = sum(ratings_na %>%  apply(1,nzrmse,type='training')))
+
+
+#Test
+(test_rmse = sum(test %>% apply(1,nzrmse,type='test')))
+
+
+
+```
+
+
+
+#Baseline Predictor
+
+```{r}
+user_mean =  c(rowMeans(ratings_na,na.rm=TRUE)-train_raw_mean)
+
+#ratings_mean = cbind(user_mean,ratings_na)
+
+movie_mean = c(colMeans(ratings_mean,na.rm=TRUE)-train_raw_mean) 
+
+ratings_mean = rbind(movie_mean,ratings_mean)
+
+#test_test = rbind(movie_mean[1:5],ratings_mean[,5])
+
+#test_test = data.frame(num1 = c(1:5))
+
+#rbind(10,test_test)
+
+temp_df = data.frame()
+
+for(i in 1:671){
+  
+   final_bias <- train_raw_mean+ user_mean[i] +movie_mean
+  temp_df <- rbind(temp_df,final_bias)
+  
+}
+
+```
+
+
+#Final baseline predictor recommendation
+
+
+```{r}
+
+rmse(temp_df,)
+
+
+temp_df[18,9]
+test_na[18,9]
+ratings_na[18,9]
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,256 @@
+---
+title: "Book Recommendation"
+author: "Shyam BV"
+date: "June 7, 2017"
+output:
+  html_document:
+    highlight: tango
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: yes
+      number_sections: yes
+      smooth_scroll: no
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+---
+
+
+###Objective
+********
+
+This system recommends different data science books to students in CUNY Class according to their ratings.
+
+
+```{r include=FALSE}
+if(!require("dplyr", character.only = TRUE, quietly = TRUE)) {
+  install.packages("dplyr")
+  library("dplyr", character.only = TRUE)
+}
+
+if(!require("tidyr", character.only = TRUE, quietly = TRUE)) {
+  install.packages("tidyr")
+  library("tidyr", character.only = TRUE)
+}
+
+if(!require("ggplot2", character.only = TRUE, quietly = TRUE)) {
+  install.packages("ggplot2")
+  library("ggplot2", character.only = TRUE)
+}
+
+if(!require("Metrics", character.only = TRUE, quietly = TRUE)) {
+  install.packages("Metrics")
+  library("Metrics", character.only = TRUE)
+}
+
+if(!require("knitr", character.only = TRUE, quietly = TRUE)) {
+  install.packages("knitr")
+  library("knitr", character.only = TRUE)
+}
+
+library(DT)
+
+```
+
+###Dataset
+********
+
+Dataset which is used here is from the book ratings which by the stutends of CUNY MSDA program. There are around 12 users and 9 books. Some of them have rated randomly on these books. That data set will be used as to make predictions using prediction metods.
+
+
+###Loading Data
+********
+
+```{r tidy=TRUE, tidy.opts=list(width.cutoff=80)}
+ratings_na <- read.csv("data/book_ratings.csv",sep=",",header=TRUE,na.strings = c('Did not read',''))  
+
+datatable(ratings_na,options=list(scrollX='400px'))
+
+#Set temp names
+ratings_na <- setNames(ratings_na,c('userId',1:9))
+
+#Remove unused columns
+ratings_na <- ratings_na %>% select(-userId)
+
+#backup of full data to calculate RMSE
+full_data <- ratings_na
+
+
+```
+
+###Separate training and test dataset
+********
+
+After analyzing the dataset, we can see that the dataset is dense. But there are some missing ratings from each user.
+
+
+As this is a small dataset, we are allocating 30% to test dataset. Others will be part of training dataset.
+
+
+```{r}
+set.seed(10)
+
+#Random selection of rows from test dataset
+test_rows <- sort(sample(nrow(ratings_na),nrow(ratings_na)*.30))
+
+test = ratings_na[test_rows,]
+
+#Selecting only training dataset
+ratings_na = ratings_na[-test_rows,]
+
+```
+
+
+###Raw average of training dataset
+********
+
+Calculating raw average of training dataset by converting into a matrix.
+
+```{r}
+
+(train_raw_mean <- mean(as.matrix(ratings_na),na.rm = TRUE))
+
+
+```
+
+
+###RMSE calculation
+********
+
+Once we calculate the raw average, we can utilize it for calculating RMSE for training and test dataset. 
+
+```{r}
+#Create function for RMSE calculation
+
+rmse_calc = function(df,mean_val){
+
+  #As it utilizes NA, converting to 0 to get correct RMSE.
+  df[is.na(df)] =0
+  
+  #Using mean or a dataframe
+  if(is.data.frame(df)) mean_val[is.na(mean_val)] =0
+  
+  return(rmse(df,mean_val))
+}
+
+
+rmse_calc(ratings_na,train_raw_mean)
+
+#Calculate RMSE for test dataset
+rmse_calc(test,train_raw_mean)
+
+
+```
+
+
+
+###Bias and Baseline Predictor
+********
+
+To calculate baseline predictor, we need to calculate bias. Bias has to be calculated in the prespective of user and books. 
+
+```{r}
+#Create function for baseline predictor
+
+baseline_predictor = function(df) {
+
+#User bias: means of each user - raw mean
+user_mean =  c(rowMeans(df,na.rm=TRUE)-train_raw_mean)
+
+#book bias: means of each book- raw mean
+movie_mean = c(colMeans(df,na.rm=TRUE)-train_raw_mean) 
+
+temp_df = data.frame()
+
+for(i in 1:nrow(df)){
+  
+  #add all the user and book bias
+  final_bias <- train_raw_mean+ user_mean[i] +movie_mean
+  temp_df <- rbind(temp_df,final_bias)
+  
+}
+
+#Set temp names
+temp_df = setNames(temp_df, c(1:ncol(temp_df))) %>% data.frame()
+
+#Return the baseline predicted value
+return(temp_df)
+}
+
+```
+
+### RMSE for baseline predictors
+********
+
+Calculate RMSE by comparing baseline predicors and original training, testing and full dataset.
+
+
+```{r}
+
+#Training dataset RMSE
+rmse_calc(ratings_na,baseline_predictor(ratings_na))
+
+#Test dataset RMSE
+rmse_calc(test,baseline_predictor(test))
+
+#Full dataset RMSE
+rmse_calc(full_data,baseline_predictor(full_data))
+
+```
+
+###Summarize your results
+********
+
+Below is the summary of all the baseline predictors
+
+```{r}
+#predicted ratings for each user
+prediction = baseline_predictor(full_data)
+
+#Setting max and min value
+
+prediction[prediction>5 & !is.na(prediction)] =5
+prediction[prediction<1 & !is.na(prediction)] =1
+
+prediction <- setNames(prediction,c("Signal and the Noise","Data Science for Business","Automated Data Collection with R","R for Data Science","Introduction to Statistical Learning","Machine Learning with Scikit-Learn and Tensorflow","Weapons of Math Destruction","Programming Collective Intelligence","R in Action"))
+
+
+names = c("David Stern","Andy","Walt","Dan Fanelli","James T","Robert Sellers","Tulasi ","Logan","Shyam BV","Yun","Kumudini","Jason Joseph")
+
+
+datatable(cbind(names,prediction),options=list(scrollX='400px'))
+```
+
+After calculating predictions, we will rank the recommended books according to their score.
+
+```{r}
+indexes = which(is.na(full_data), arr.ind = TRUE) %>% data.frame() 
+
+indexes['score'] = 0
+
+#Create function for fetching the values
+
+cal_recommendation = function(x){
+  
+  prediction[x[1],x[2]]
+}
+
+indexes['score'] = apply(indexes,1,cal_recommendation)
+
+#Setting Na's to 0
+indexes['score'][is.na(indexes['score'])] = 0
+
+
+names_lookup = data.frame(row = c(1:12), names=c("David Stern","Andy","Walt","Dan Fanelli","James T","Robert Sellers","Tulasi ","Logan","Shyam BV","Yun","Kumudini","Jason Joseph"))
+
+book_lookup = data.frame(col = c(1:9),books = c("Signal and the Noise","Data Science for Business","Automated Data Collection with R","R for Data Science","Introduction to Statistical Learning","Machine Learning with Scikit-Learn and Tensorflow","Weapons of Math Destruction","Programming Collective Intelligence","R in Action"))
+
+full_recommendations = inner_join(indexes,names_lookup) %>% data.frame() %>%  inner_join(book_lookup) %>% arrange(row,-score) %>% group_by(row) %>% mutate(rank=row_number()) %>% select(-col)
+
+
+
+datatable(full_recommendations,options=list(scrollY='300px'))
+```
+
