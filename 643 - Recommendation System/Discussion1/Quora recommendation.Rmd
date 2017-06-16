@@ -1,0 +1,19 @@
+---
+title: "Quora Recommendation System"
+author: "Shyam BV"
+date: "June 15, 2017"
+output: html_document
+---
+<b>Introduction:</b> Often many will come across Quora. It uses recommendation systems and here is how ( I think ) Quora is doing it.
+
+<b>Description:</b>
+In Quora, content recommended to a user based on the fact that you and another user have similar taste. I’m not 100% sure about this but I think that Quora is using a recommendation algorithm to do that based on the collaborative filtering technique. Once that two users have a similar taste on a certain thing (which might also be a Quora topic )they are similar and can be used by the system.
+
+For calculating the similarity between users Quora might be using Euclidean distance or Pearson correlation coefficient.
+
+Collaborative filtering itself is based on “the underlying assumption that if a person A has the same opinion as a person B on an issue, A is more likely to have B's opinion on a different issue than that of a randomly chosen person” as of Wikipedia.
+
+	• CF engines are more versatile, in the sense that they can be applied to any domain, and with some care could also provide cross-domain recommendations. CB engines need item metadata, so they require domain modeling and their extension to different domains is problematic.
+	• CF engines work best when the user space is large (since that is their source of data). CB engines are more or less insensitive to user size.
+	• CF engines may be better at helping the user escape from the "filter bubble" problem, thanks to users drawing bridges across subspaces in the item space. CB engines tend to provide by nature items more within the "paved road" of user tastes, though there are countermeasures to increase diversity.
+	• As a CF drawback, they suffer from the "new item" problem much more than CB engines (both CB & CF engines suffer roughly equally from the "new user" problem, though their solutions for initial profiling might be different)
