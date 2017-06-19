@@ -1,0 +1,368 @@
+---
+title: "Recsys - Collaborative Filters"
+author: "Shyam BV"
+date: "June 18, 2017"
+output:
+  html_document:
+    highlight: tango
+    theme: cerulean
+    toc: yes
+    toc_depth: 4
+    toc_float:
+      collapsed: yes
+      number_sections: yes
+      smooth_scroll: no
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
+---
+
+
+##Dataset
+*************
+
+For this assignment, I will be using Jester ratings dataset. This provides extensive ratings from users for different jokes. Below link contains detailed information about the dataset.
+
+Dataset Link: http://eigentaste.berkeley.edu/dataset/
+
+
+```{r include=FALSE}
+if(!require("recommenderlab", character.only = TRUE, quietly = TRUE)) {
+  install.packages("recommenderlab")
+  library("recommenderlab", character.only = TRUE)
+}
+
+if(!require("tidyverse", character.only = TRUE, quietly = TRUE)) {
+  install.packages("tidyverse")
+  library("tidyverse", character.only = TRUE)
+}
+```
+
+##Objective
+*************
+
+In this project, we will perform jokes recommendations to users. We will be using recommenderlab package to provide these recommendations. We will follow below types to provide these recommendations
+
+1. User-User Collaborative Filtering
+2. Item-Item Collaborative Filtering
+
+
+##Importing and cleaning data
+*************
+
+Importing the CSV data and converting the complete dataframe into realRatingMatrix. Also performing some cleanup activity on the dataset.
+
+
+```{r}
+
+#**Need to implement whole NA columns
+
+jester <-  read.csv('data/jesterfinal151cols.csv',header=FALSE,sep=",",
+            stringsAsFactors = FALSE, na.strings = c('99')) %>% select(c(-1)) %>% 
+              select(-c(1, 2, 3, 4, 6, 9, 10, 11, 12, 14)) %>% as.matrix() %>%         as("realRatingMatrix") 
+
+#Verify the class
+class(jester)
+
+```
+
+
+
+
+##Exploring data
+***********
+Exploratory analysis on the recommender dataset.
+
+###Explore Rows and Dimensions
+
+
+```{r}
+#Dimensions - 50692 users on 150 different jokes
+dim(jester)
+
+#Row counts -- Matches with original dataset
+head(rowCounts(jester))
+
+#Column counts
+head(colCounts(jester))
+
+#Row sums
+head(rowSums(jester))
+
+#Column sums
+head(colSums(jester))
+
+
+
+```
+
+###Exploring the values
+
+
+```{r}
+vector_ratings <- as.vector(jester@data)
+
+#Minimum rating
+min(vector_ratings)
+
+#Maximum rating
+max(vector_ratings)
+
+#0 ratings
+vector_ratings <- round(vector_ratings)
+
+vector_ratings <- factor(vector_ratings)
+
+qplot(vector_ratings) + ggtitle("Distribution of All ratings")
+
+table(vector_ratings)
+
+vector_ratings <- vector_ratings[vector_ratings != 0]
+
+qplot(vector_ratings) + ggtitle("Distribution of ratings without 0")
+
+```
+
+
+From the above charts it clearly says that 0 rating is outnumbered by any ratings. 
+
+
+###Exploring average Ratings of each user and jokes
+
+####Average ratings by each user
+
+```{r}
+
+avg_ratings_user <- rowMeans(jester@data)
+
+qplot(avg_ratings_user) + stat_bin(binwidth = 0.1) +
+ggtitle("Distribution of the average user rating")
+```
+The average user rating us centered around 0.
+
+
+####Average ratings by each item(jokes)
+
+```{r}
+avg_ratings_jokes <- colMeans(jester@data)
+
+qplot(avg_ratings_jokes) + stat_bin(binwidth = 0.1) +
+ggtitle("Distribution of the average jokes rating")
+
+```
+
+Here again the avearage jokes rating us centered around 0. There are average ratings around -2 to 2. 
+
+
+
+
+##Data Preparation 
+********
+
+As this dataset is so sparse, we can restrict the low and less ratings from user. As this will increase the sparcity. Restricting will yield better results.
+
+
+```{r}
+
+user_ratings <- table(rowCounts(jester)) %>% data.frame()
+head(user_ratings)
+#jester[rowCounts(jester) > 10, colCounts(jester) > 50]
+
+```
+
+##Data Modelling
+********
+We will perform modelling from the dataset. Also test it with below methods.
+
+1. Split the dataset into Training and test dataset by rows. 
+2. Also we will use the evaluation scheme function which is provide
+
+### Item-Item CF
+*******
+
+####Item based CF - Test1:
+
+Recommending 6 Jokes for each user
+
+```{r}
+#Split between training and test
+
+which_train <- sample(x = c(TRUE, FALSE), size = nrow(jester),replace = TRUE, prob = c(0.8, 0.2))
+
+jester_data_train <- jester[which_train, ]
+jester_data_test <- jester[!which_train, ]
+
+#Using Cosine Similarity
+recc_model_item <- Recommender(data = jester_data_test, method = "IBCF",parameter = list(method="Cosine"))
+
+recc_predicted <- predict(object = recc_model_item, newdata = jester_data_test, n= 6)
+
+
+#Below are the predictions of the joke number for each user.
+head(recc_predicted@items)
+
+#length(recc_predicted@items)
+# matrix(unlist(recc_predicted@items),ncol=6,byrow=T) %>% data.frame() %>% mutate(user = which(!which_train))
+# 
+# 
+# length(unlist(recc_predicted@items))
+# 10144*6
+# 
+# which(!which_train)
+
+```
+
+Above model predicts for all the users in the dataset. It is really hard to figure out the correct rating. So lets reapply for just two rows.
+
+
+####Item based CF - Test2:
+
+Verifying for just for two users
+
+```{r}
+jester_data_train1 <- jester[-c(2,3), ]
+jester_data_test1 <- jester[c(2,3), ]
+
+
+recc_model_item1 <- Recommender(data = jester_data_test1, method = "IBCF",parameter = list(method="Cosine"))
+
+recc_predicted1 <- predict(object = recc_model_item1, newdata = jester_data_test1, n= 6)
+
+#Labels of recommendation for user 2
+recc_predicted@itemLabels[recc_predicted1@items[[1]]]
+recc_predicted@itemLabels[recc_predicted1@items[[2]]]
+```
+
+Above method shows the recommended jokes for just two users.
+
+
+
+####Item based CF - Validation of the model(RMSE):
+
+Calculate RMSE for the model using evaluate scheme in recommender package.
+
+
+```{r}
+
+## create 90/10 split (known/unknown) 
+split_data <- evaluationScheme(jester, method="split", train=0.9, k=1, given=8) 
+#split_data 
+
+## create a item-based CF recommender using training data 
+recommender_model <- Recommender(getData(split_data, "train"), "IBCF",parameter = list(method="Cosine"))
+recommender_model
+
+## create predictions for the test data using known ratings 
+predict_items <- predict(recommender_model, getData(split_data, "known"), type="ratings") 
+predict_items 
+
+
+## compute error metrics averaged per user and then averaged over all recommendations
+(accuracy <- calcPredictionAccuracy(predict_items, getData(split_data, "unknown")) )
+
+head(calcPredictionAccuracy(predict_items, getData(split_data, "unknown"), byUser=TRUE)) 
+
+```
+
+Above mentioned is the average RMSE for the entire dataset. Lets try User based CF and see if we get different RMSE.
+
+
+###User-user based CF
+*********
+
+####User based CF - Test1:
+
+Recommending 6 Jokes for each user by user based CF.
+
+```{r}
+
+recc_model_item <- Recommender(data = jester_data_test, method = "UBCF",parameter = list(method="Pearson"))
+
+recc_predicted <- predict(object = recc_model_item, newdata = jester_data_test, n= 6)
+
+head(recc_predicted@items)
+```
+
+
+####User based CF- Test2:
+
+As we perfomed previously, verifying for two users
+
+```{r}
+
+recc_model_item1 <- Recommender(data = jester_data_test1, method = "UBCF",parameter = list(method="Pearson"))
+
+recc_predicted1 <- predict(object = recc_model_item1, newdata = jester_data_test1, n= 6)
+
+#Labels of recommendation for user 2
+recc_predicted@itemLabels[recc_predicted1@items[[1]]]
+recc_predicted@itemLabels[recc_predicted1@items[[2]]]
+
+```
+
+This provides different recommendations compared to item based CF.
+
+
+
+####User based CF - Validation of the model(RMSE):
+
+
+```{r}
+
+## create 90/10 split (known/unknown) 
+
+## create a User-based CF recommender using training data 
+recommender_model_UB <- Recommender(getData(split_data, "train"), "UBCF") 
+recommender_model_UB
+
+## create predictions for the test data using known ratings 
+predict_items_UB <- predict(recommender_model_UB, getData(split_data, "known"), type="ratings") 
+predict_items_UB
+
+
+## compute error metrics averaged per user and then averaged over all recommendations
+(accuracy_UB <- calcPredictionAccuracy(predict_items_UB, getData(split_data, "unknown")))
+
+#Detailed accuracy
+head(calcPredictionAccuracy(predict_items_UB, getData(split_data, "unknown"), byUser=TRUE)) 
+
+```
+Here all the calculations were performed with "pearson similarity". RMSE is less in a user based CF.
+
+
+####User based CF - Validation of the model(RMSE) with Cosine:
+
+
+```{r}
+
+
+recommender_model_UB_p <- Recommender(getData(split_data, "train"), "UBCF",parameter = list(method="Cosine"))
+
+recommender_model_UB_p
+
+## create predictions for the test data using known ratings 
+predict_items_UB_p <- predict(recommender_model_UB_p, getData(split_data, "known"), type="ratings") 
+predict_items_UB_p
+
+
+## compute error metrics averaged per user and then averaged over all recommendations
+(accuracy_UB_p <- calcPredictionAccuracy(predict_items_UB_p, getData(split_data, "unknown")) 
+)
+head(calcPredictionAccuracy(predict_items_UB_p, getData(split_data, "unknown"), byUser=TRUE)) 
+
+accuracy_UB
+
+#rm(list=ls(all=TRUE))
+```
+
+
+
+##Summary
+********
+We have created different recommendations on the Jester dataset. Below are some of the findings.
+
+1. User based CF(UBCF) and Item based CF(IBCF) does not match with each other. Each provides different recommendations.
+2. IBCF is faster compared with the UBCF.
+3. RMSE of IBCF is higher when compared with UBCF.
+4. IBCF provides same jokes(short tail) recommendations to most of the users. But UBCF provides variety of jokes(longer tail) recommendations compared to IBCF.
+5. Pearson and COsine similarity provides same RMSE value. 

@@ -1,0 +1,156 @@
+---
+title: "Practice"
+author: "Shyam BV"
+date: "June 17, 2017"
+output: html_document
+---
+
+```{r}
+library(cluster)
+library(ggplot2)
+data(iris)
+iris$Species = as.numeric(iris$Species)
+cost_df <- data.frame()
+for(i in 1:100){
+kmeans<- kmeans(x=iris, centers=i, iter.max=50)
+cost_df<- rbind(cost_df, cbind(i, kmeans$tot.withinss))
+}
+names(cost_df) <- c("cluster", "cost")
+#Elbow method to identify the idle number of Cluster
+#Cost plot
+ggplot(data=cost_df, aes(x=cluster, y=cost, group=1)) +
+theme_bw(base_family="Garamond") +
+geom_line(colour = "darkgreen") +
+theme(text = element_text(size=20)) +
+ggtitle("Reduction In Cost For Values of 'k'\n") +
+xlab("\nClusters") +
+ylab("Within-Cluster Sum of Squares\n")
+```
+
+```{r}
+#K-means
+library(cluster)
+data(iris)
+iris$Species = as.numeric(iris$Species)
+kmeans<- kmeans(x=iris, centers=10)
+clusplot(iris,kmeans$cluster, color=TRUE, shade=TRUE,labels=13,
+lines=0)
+```
+
+```{r}
+#SVM
+library(e1071)
+data(iris)
+sample = iris[sample(nrow(iris)),]
+train = sample[1:105,]
+test = sample[106:150,]
+tune =tune(svm,Species~.,data=train,kernel
+="radial",scale=FALSE,ranges =list(cost=c(0.001,0.01,0.1,1,5,10,100)))
+tune$best.model
+```
+
+```{r}
+#Decition trees
+library(tree)
+data(iris)
+sample = iris[sample(nrow(iris)),]
+train = sample[1:105,]
+test = sample[106:150,]
+model = tree(Species~.,train)
+summary(model)
+
+```
+
+```{r}
+plot(model)
+text(model)
+pred = predict(model,test[,-5],type="class")
+```
+
+```{r}
+#randomForest
+library(randomForest)
+data(iris)
+sample = iris[sample(nrow(iris)),]
+train = sample[1:105,]
+test = sample[106:150,]
+model =randomForest(Species~.,data=train,mtry=2,importance
+=TRUE,proximity=TRUE)
+model
+pred = predict(model,newdata=test[,-5])
+```
+
+```{r}
+#Boosting in R
+#install.packages("gbm")
+library(gbm)
+data(iris)
+sample = iris[sample(nrow(iris)),]
+train = sample[1:105,]
+test = sample[106:150,]
+model = gbm(Species~.,data=train,distribution="multinomial",
+trees=5000,interaction.depth=4)
+summary(model)
+```
+
+```{r}
+if(!"recommenderlab" %in% rownames(installed.packages())){
+install.packages("recommenderlab")}
+```
+
+
+```{r}
+#install.packages("arules")
+library(recommenderlab)
+```
+
+```{r}
+data_package <- data(package = "recommenderlab")
+data_package$results[, "Item"]
+
+data(MovieLense)
+```
+
+```{r}
+class(MovieLense)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
