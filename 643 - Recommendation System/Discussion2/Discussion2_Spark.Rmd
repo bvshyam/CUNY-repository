@@ -1,0 +1,38 @@
+---
+title: "Discussion 3 - Spotify"
+author: "Shyam BV"
+date: "June 25, 2017"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+###Topic
+Many of them have often come across the website called Quora. It is a sort of questions and answers(shortly stories) by commuinty users on Quora.com webiste. It uses recommendation systems  for suggesting to read other questions and answers. This article discusses how (I think) Quora is doing it.
+
+###Description
+In Quora, content is recommended to a user based on the fact that you and another user have similar taste. It lets you make the content you care about-pressing questions, interesting answers, personal posts-more prominent to people who'll be interested.
+
+They are using recommending questions by a hybrid method.
+ <br>
+1. Content Based Filtering
+2. Collabrative filtering
+ <br>
+ 
+####1. Content Based Filtering
+When a user registers in quora, it asks for user login and requests for the interest from that user. Questions are classified by variety of interests like Technology, Science, Economics, Sports, etc.
+
+Once the user select his interests(minimum of 10), it also requests for the categories which I know. By getting this information, on the inital view, it shows stories for the categories which the user selected. So this immediately attracts user and requests his attention to read those stories.
+
+####2. Collabrative Filtering(CF)
+Once the user selected his preferrence, then this filtering will take effect. It will look for two similar user. It is used to figure out the user taste and find the similar users of that taste.
+ 
+Often a single user is compared with different users. Once if finds that two users have a similar taste on a certain thing (which might also be a Quora topic )they are similar and can be used by the system.
+
+For calculating the similarity between users Quora might be using Euclidean distance or Pearson correlation coefficient.
+
+Collaborative filtering itself is based on "the underlying assumption that if a person A has the same opinion as a person B on an issue, A is more likely to have B's opinion on a different issue than that of a randomly chosen person" as of Wikipedia.
+
+
+By using the hybrid methodollogy of two filtering systems, it is able to provide stories which user may like. 
