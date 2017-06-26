@@ -8,31 +8,28 @@ output:
   word_document: default
 ---
 
-###Topic
-Many of them have often come across the website called Quora. It is a sort of questions and answers(shortly stories) by commuinty users on Quora.com webiste. It uses recommendation systems  for suggesting to read other questions and answers. This article discusses how (I think) Quora is doing it.
+##Overview
+****
 
-###Description
-In Quora, content is recommended to a user based on the fact that you and another user have similar taste. It lets you make the content you care about-pressing questions, interesting answers, personal posts-more prominent to people who'll be interested.
+Christopher Johnson is explaining about the recommendation system which is built on Spotify. He also explains about the different methods which they tried before ending up with the current setup.
 
-They are using recommending questions by a hybrid method.
- <br>
-1. Content Based Filtering
-2. Collabrative filtering
- <br>
- 
-####1. Content Based Filtering
-When a user registers in quora, it asks for user login and requests for the interest from that user. Questions are classified by variety of interests like Technology, Science, Economics, Sports, etc.
-
-Once the user select his interests(minimum of 10), it also requests for the categories which I know. By getting this information, on the inital view, it shows stories for the categories which the user selected. So this immediately attracts user and requests his attention to read those stories.
-
-####2. Collabrative Filtering(CF)
-Once the user selected his preferrence, then this filtering will take effect. It will look for two similar user. It is used to figure out the user taste and find the similar users of that taste.
- 
-Often a single user is compared with different users. Once if finds that two users have a similar taste on a certain thing (which might also be a Quora topic )they are similar and can be used by the system.
-
-For calculating the similarity between users Quora might be using Euclidean distance or Pearson correlation coefficient.
-
-Collaborative filtering itself is based on "the underlying assumption that if a person A has the same opinion as a person B on an issue, A is more likely to have B's opinion on a different issue than that of a randomly chosen person" as of Wikipedia.
+##Description
+***
 
 
-By using the hybrid methodollogy of two filtering systems, it is able to provide stories which user may like. 
+Spotify wants to recommend its users on the songs which the user listens and want to recommend songs similar to that category.  They follow different methods to do that.
+
+	1. Explain how other companies and Spotify is using recommendation systems.
+	2. Spotify is using machine learning recommendations instead of manual tagging.
+	3. It gathers users listening matrix by 0 or 1. And then it performs regular matrix factorization model. This method is called as implicit data rather than regular ratings matrix(explicit data).
+	4. Initially Hadoop is used for factoring. He explained how it works and the drawbacks of using it.
+	5. Next they switched to Spark to perform all the matrix factorizations and create recommendations list. 
+	6. Spark is much faster than Hadoop. As it uses in memory than disk method which Hadoop uses.
+	7. He also explained about the methods full and half gridify in spark to achieve higher performance. 
+
+##Cons or things which was not explained
+***
+
+	1. If a user listens to particular track and they did not like it. How the system will figure out if the user likes that track or not. 
+	2. How the users will say about disliked song?
+	3. What if the track was cut short? Will it still by counted as 0 or 1?
