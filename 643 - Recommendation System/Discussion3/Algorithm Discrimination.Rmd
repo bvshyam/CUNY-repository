@@ -1,0 +1,59 @@
+---
+title: "Algorithm Discrimination"
+author: "Shyam BV"
+date: "July 1, 2017"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+##Topic
+
+
+As more systems and sectors are driven by predictive analytics, there is increasing awareness of the possibility and pitfalls of algorithmic discrimination. In what ways do you think Recommender Systems reinforce human bias? Reflecting on the techniques we have covered, do you think recommender systems reinforce or help to prevent unethical targeting or customer segmentation?  Please provide one or more examples to support your arguments.
+
+
+##Algorithmic Discrimination
+
+
+Algorithmic discrimination is an serious issue as pointed out by Evan Estola. It is inevitable  to some extend when working on a problem. Also it is hard to control it without various measures. It follows the famous proverb in data science world, "Garbage in, garbage out!". It is highly true in supervised learning. Below are some cases where the alogrithms had huge discrimination.
+
+###Labor Discrimination
+
+Before some months back, there was a case that a firm called Palantir Technologies is discreminating against Asian gender for recruting.
+
+Link: https://www.inc.com/associated-press/palantir-labor-discrimination-lawsuit.html
+
+But the company mentioned that it has been using some alogrithms to determine the eligibility of job candidates. So in this scenario, the algorithm clearly discriminates against particular case.
+
+###Google Photos
+
+Before couple of years, an incident was reported that Google photos identifies two black people as 'gorillas'. This is a clear discrimination of people. 
+
+
+Link: http://mashable.com/2015/07/01/google-photos-black-people-gorillas/#XukePa8RCuq9
+
+We would be fine if there were no results. But it the algorithm is trained to consider their physical appreance. 
+
+###Amazon Low income group
+
+Amazon has prime and same day delivery options. It is predicted that the amazon is not providing same day delivery options to low-income people in specific zip codes. 
+
+Link: http://www.slate.com/blogs/future_tense/2016/08/18/data_and_algorithms_can_help_reduce_discrimination.html
+
+Only high/medium income group are likely to get this service. Again this is a discrimination according to the wage group.
+
+
+###Points to be considered
+1. Algorithm clearly would have differentiated the people across different race or color or by income. Or maybe it would have been modelled or trained with particular biased dataset.
+2. Assuming that the algorithm shows no discrimination, then it would have been perfomed by the company. If they foresee or get any issues about discrimination, then they can easily point it out to an algorithm. 
+3. If the algorithm is working and the companies get favaroble results, then they are likely to modify it until there is an issue.
+
+###Methods to remove discrimination
+1. It is always recommended use bagging and masking on datasets. Particularly parameters like race, color, gender, income, etc.
+2. Testing should be performed with various different datasets. One particular biased dataset will cause discrimination.
+
+
+
+
