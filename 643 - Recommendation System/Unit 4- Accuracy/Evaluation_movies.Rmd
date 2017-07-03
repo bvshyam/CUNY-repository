@@ -1,0 +1,358 @@
+---
+title: "Evaluating Recommenders"
+author: "Shyam BV"
+date: "July 1, 2017"
+output:
+  html_document:
+    highlight: tango
+    theme: cerulean
+    toc: yes
+    toc_depth: 4
+    toc_float:
+      collapsed: yes
+      number_sections: yes
+      smooth_scroll: no
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
+---
+
+##Project Description
+******
+
+The goal of this assignment is give you practice working with accuracy and other recommender system metrics. In this assignment you’re asked to do at least one or (if you like) both of the following:  
+
+• Work in a small group, and/or  
+
+• Choose a different dataset to work with from your previous projects.  
+
+Deliverables 
+
+1. As in your previous assignments, compare the accuracy of at least two recommender system algorithms against your offline data. 
+
+2. Implement support for at least one business or user experience goal such as increased serendipity, novelty, or diversity. 
+
+3. Compare and report on any change in accuracy before and after you’ve made the change in #2. 
+
+4. As part of your textual conclusion, discuss one or more additional experiments that could be performed and/or metrics that could be evaluated only if online evaluation was possible.  Also, briefly propose how you would design a reasonable online evaluation environment. 
+
+You’ll find some of the material discussed in this week’s reading to be helpful in completing this project.  You may also want to look at papers online, or search for “recsys” on youtube or slideshare.net. 
+
+
+```{r include=FALSE}
+if(!require("recommenderlab", character.only = TRUE, quietly = TRUE)) {
+  install.packages("recommenderlab")
+  library("recommenderlab", character.only = TRUE)
+}
+
+if(!require("tidyverse", character.only = TRUE, quietly = TRUE)) {
+  install.packages("tidyverse")
+  library("tidyverse", character.only = TRUE)
+}
+
+# if(!require("Metrics", character.only = TRUE, quietly = TRUE)) {
+#   install.packages("Metrics")
+#   library("Metrics", character.only = TRUE)
+# }
+# 
+# library(DT)
+```
+
+
+##Dataset
+
+For this assignment, I will be using Movies ratings dataset. This provides extensive ratings from users for different movies. Below link contains detailed information about the dataset.
+
+Dataset Link: https://grouplens.org/datasets/movielens/ 
+
+##Data Import
+
+```{r}
+ratings_na <- read.csv("data/ratings.csv",sep=",",header=TRUE) %>% select(-timestamp) %>% spread(movieId,rating)  %>% select(-userId) %>% as.matrix()
+
+movie <- ratings_na %>% as("realRatingMatrix")
+```
+
+
+
+##Data Exploration
+
+Explore the movies dataset with different chart types and see which has the highest ratings.
+
+
+```{r}
+vector_ratings <- as.vector(movie@data)
+
+#Clearly the distribution has many 0 or missing ratings
+qplot(vector_ratings) + ggtitle("distribution of ratings")
+
+
+#Table count
+table(vector_ratings)
+
+```
+
+
+
+```{r}
+vector_ratings <- vector_ratings[vector_ratings !=0]
+
+qplot(vector_ratings) + ggtitle("Distribution of ratings without 0")
+```
+
+
+###Average ratings by each user
+
+```{r}
+avg_ratings_user <- rowMeans(movie@data)
+
+qplot(avg_ratings_user) + stat_bin(binwidth = .01) + ggtitle("Distribution of average user rating")
+```
+
+
+```{r}
+avg_ratings_movies <- colMeans(movie@data)
+
+qplot(avg_ratings_movies) + stat_bin(binwidth = .01) + ggtitle("Distribution of average movie rating")
+```
+
+
+##Data Preparation
+
+
+Filter the dataset which has some decent ratings.
+
+```{r}
+
+movies_ratings <- movie[rowCounts(movie) > 30, colCounts(movie) > 80]
+
+```
+
+
+##Data modelling
+
+
+###Handelling missing values
+
+Below is the helper function for baseline predictor for missing values
+
+```{r}
+
+baseline_predictor = function(df,train_raw_mean) {
+
+#User bias: means of each user - raw mean
+user_mean =  c(rowMeans(df,na.rm=TRUE)-train_raw_mean)
+
+#book bias: means of each book- raw mean
+movie_mean = c(colMeans(df,na.rm=TRUE)-train_raw_mean) 
+
+temp_df = data.frame()
+
+for(i in 1:nrow(df)){
+  
+  #add all the user and book bias
+  final_bias <- train_raw_mean+ user_mean[i] +movie_mean
+  temp_df <- rbind(temp_df,final_bias)
+  
+}
+
+#Set temp names
+temp_df = setNames(temp_df, c(1:ncol(temp_df))) %>% data.frame()
+
+temp_df[is.na(temp_df)] = train_raw_mean
+
+
+#Return the baseline predicted value
+return(temp_df)
+}
+
+```
+
+Missing values can be calculacuted using different methods given below.
+
+
+```{r}
+
+missingval <- function(umatrix, method) {
+ 
+
+if(method == "mean"){
+
+  train_raw_mean <- mean(umatrix,na.rm = TRUE)
+  umatrix[is.na(umatrix)] = train_raw_mean
+  
+}
+  
+else if(method =="mean_center"){
+    train_raw_mean <- mean(umatrix,na.rm = TRUE)
+  umatrix[is.na(umatrix)] = train_raw_mean
+  
+  umatrix <- scale(umatrix ,center = T,scale=F) %>% as.matrix()
+}
+else if(method=="withna"){
+  umatrix <- umatrix
+  
+}
+else if (method == "baseline"){
+  
+    train_raw_mean <- mean(umatrix,na.rm = TRUE)
+  umatrix <- baseline_predictor(umatrix,train_raw_mean) %>% as.matrix()
+  
+}
+  
+  return(umatrix)
+}
+
+
+```
+
+
+
+###Training and test dataset
+
+Below function helps to split the the training and test dataset.
+
+
+```{r}
+
+percentage_training <- 0.8
+items_to_keep <- 2
+rating_threshold <- 3
+n_eval <- 1
+n_fold <- 4
+
+evaluationmethod <- function(umatrix, method ) {
+ 
+if(method == "split"){
+
+  eval_sets <- evaluationScheme(data = umatrix, method =
+                                "split", train = percentage_training, given = items_to_keep,
+                              goodRating = rating_threshold, k = n_eval)
+
+}
+  else if(method =="bootstrap"){
+    
+     eval_sets <- evaluationScheme(data = umatrix, method =
+                                "bootstrap", train = percentage_training, given = items_to_keep,
+                              goodRating = rating_threshold, k = n_eval)
+    
+  }
+  else if(method =="cv"){
+    
+     eval_sets <- evaluationScheme(data = umatrix, method = "cross-validation", k = n_fold, given = items_to_keep, goodRating = rating_threshold)
+
+    
+  }
+return(eval_sets)
+  
+}
+```
+
+
+###Models evaluate
+
+Below are the different models which we will evaluate to find out the best model for this dataset.
+
+```{r}
+
+models_to_evaluate <- list(
+  IBCF_cos = list(name = "IBCF", param = list(method ="cosine",normalize="center")),
+  IBCF_cor = list(name = "IBCF", param = list(method ="pearson",normalize="center")),
+  UBCF_cos = list(name = "UBCF", param = list(method ="cosine",normalize="center")),
+  UBCF_cor = list(name = "UBCF", param = list(method ="pearson",normalize="center")),
+  SVD = list(name = "SVD",param= list(normalize="center")),
+  SVDF = list(name = "SVDF",param=list(normalize="center")),
+  random = list(name = "RANDOM", param=NULL),
+  popular = list(name="POPULAR", param=NULL),
+  als = list(name="ALS", param=NULL)
+)
+
+
+
+
+
+n_recommendations <- c(1, 5, seq(10, 100, 10))
+
+
+movies_ratings_clean <- missingval(movies_ratings,"withna")
+eval_sets <- evaluationmethod(movies_ratings_clean,"cv")
+
+
+list_results <- evaluate(x = eval_sets, method = models_to_evaluate, n = n_recommendations,progress=F)
+
+
+#ROC Curve  
+plot(list_results, annotate = 1, legend = "topleft")
+title("ROC curve")
+
+
+#Precision-recall curve
+plot(list_results, "prec/rec", annotate = 1, legend = "bottomright")
+title("Precision-recall")
+
+```
+
+
+##Final Prediction
+
+From the about charts it is seems the popular algorithm outperforms other alogrithms. So we can use that algorithm to predict the ratings. 
+
+
+```{r}
+
+items_to_recommend = 6
+
+eval_recommender <- Recommender(data = getData(eval_sets, "train"),
+method = "POPULAR", parameter = NULL)
+
+
+eval_prediction <- predict(object = eval_recommender, newdata =getData(eval_sets, "known"), n = items_to_recommend, type = "ratings")
+
+
+#Prediction accuracy
+(eval_accuracy <- calcPredictionAccuracy(x = eval_prediction, data = getData(eval_sets,"unknown"), byUser =F))
+
+
+```
+
+
+
+
+By comparing the above results we can conclude that the RMSE which we got is generating the serendipity between the items.
+
+
+##Summary
+
+1. We generated ROC curve for various models for movies dataset and calculated the best model for this dataset.
+2. Functions have been developed to change various parameters to develop the best model. This can be further developed by altering different parameters to get the best model with low RMSE.
+3. Point 2 has been validated by changing the model and one paramter to see if it is generating best RMSE value. So the model which we generated has a serendipity.
+4. Through out this project, we have been performing offline evaluation model. There is not real-time or online data involved. Below points can be used for online recommendation model.
+  
+  a. In a real-time situation for this assignment, we will have a online streaming portal like Netflix.
+  b. When a user watches the movie, the algorithm will given recommendations about the next movie to be seen. 
+  c. Algorithm can recommend 5 - 100 movies(approximatly) based on user preference.
+  d. If the user sees the recommended movie and clicks though it, then the algorithm predicted the recommendations correctly.
+  e. Recommendation clicks are validated by click-through rate (CTR). If the algorithm recommends 100 movies, and 10 are clicked, then the CTR is 10%.
+  f. In real-time, algorithms can be changed and compared with other algorithms via A/B testing.
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

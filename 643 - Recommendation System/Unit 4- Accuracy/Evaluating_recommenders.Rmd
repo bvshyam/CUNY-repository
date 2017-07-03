@@ -1,0 +1,222 @@
+---
+title: "Evaluating Recommenders"
+author: "Shyam BV"
+date: "July 1, 2017"
+Output:
+  html_document:
+    highlight: tango
+    theme: cerulean
+    toc: yes
+    toc_depth: 4
+    toc_float:
+      collapsed: yes
+      number_sections: yes
+      smooth_scroll: no
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
+---
+
+##Project Description
+******
+
+The goal of this assignment is give you practice working with accuracy and other recommender system metrics. In this assignment you’re asked to do at least one or (if you like) both of the following:  
+
+• Work in a small group, and/or  
+
+• Choose a different dataset to work with from your previous projects.  
+
+Deliverables 
+
+1. As in your previous assignments, compare the accuracy of at least two recommender system algorithms against your offline data. 
+
+2. Implement support for at least one business or user experience goal such as increased serendipity, novelty, or diversity. 
+
+3. Compare and report on any change in accuracy before and after you’ve made the change in #2. 
+
+4. As part of your textual conclusion, discuss one or more additional experiments that could be performed and/or metrics that could be evaluated only if online evaluation was possible.  Also, briefly propose how you would design a reasonable online evaluation environment. 
+
+You’ll find some of the material discussed in this week’s reading to be helpful in completing this project.  You may also want to look at papers online, or search for “recsys” on youtube or slideshare.net. 
+
+
+```{r include=FALSE}
+if(!require("recommenderlab", character.only = TRUE, quietly = TRUE)) {
+  install.packages("recommenderlab")
+  library("recommenderlab", character.only = TRUE)
+}
+
+if(!require("tidyverse", character.only = TRUE, quietly = TRUE)) {
+  install.packages("tidyverse")
+  library("tidyverse", character.only = TRUE)
+}
+
+# if(!require("Metrics", character.only = TRUE, quietly = TRUE)) {
+#   install.packages("Metrics")
+#   library("Metrics", character.only = TRUE)
+# }
+# 
+# library(DT)
+```
+
+
+
+##Data Importing and cleaning
+
+```{r}
+
+amazon <-  read.csv('data/reviews.csv',header=T,sep=",",
+            stringsAsFactors = FALSE)
+
+```
+
+For simplicity, we will convert the user and item as numerical values
+
+```{r}
+# 
+# sample <- sample(nrow(amazon)*.01)
+# 
+# amazon_sample <- amazon[sample,]
+
+
+duplicate <- duplicated.data.frame(amazon_sample)
+
+amazon_train <- amazon_sample[!duplicate,]
+
+
+
+```
+
+
+
+```{r}
+#Remove duplicates
+duplicate <- duplicated.data.frame(amazon)
+
+amazon_train <- amazon[!duplicate,]
+
+#256059
+
+user_count <- amazon_train %>% select(-1)  %>% group_by(UserId) %>% summarize(count= n()) %>% filter(count > 20) %>%  ungroup(UserId) 
+  
+user_count <-   mutate(user_count,usernum = row_number(c(1000:(1000+nrow(user_count)-1))))
+ 
+#length(unique(user_count$UserId))
+
+
+item_count <- amazon_train %>% select(-2)  %>% group_by(ProductId) %>% summarize(count= n()) %>% filter(count > 20) %>%  ungroup(UserId) 
+
+
+item_count <- mutate(item_count,itemnum = row_number(c(10000:(10000+nrow(item_count)-1))))
+
+#length(unique(item_count$ProductId))
+
+
+amzaon_final <- amazon_train %>% filter(ProductId %in% item_count$ProductId, UserId %in% user_count$UserId) %>% inner_join(.,user_count,by="UserId") %>% inner_join(.,item_count,by="ProductId") %>% select(c(usernum,itemnum,Score))
+
+
+
+
+#Cleanup
+#remove(amazon_train,item_count,user_count)
+
+
+amzaon_final$Score <- as.numeric(amzaon_final$Score)
+
+amazon_train <- amzaon_final %>% mutate(row = row_number(c(1:98683)))
+
+
+spread_test1 <- ratings_na %>% spread(movieId,rating)
+
+spread_test21 <- amzaon_final %>% spread(itemnum,Score)
+
+
+amzaon_final %>% spread(key=itemnum, value=Score,fill=NA)
+
+
+
+
+
+table_wide <- reshape(data = amzaon_final,
+                      direction = "wide",
+                      idvar = "usernum",
+                      timevar = "itemnum",
+                      v.names = "Score")
+
+
+head(table_wide[, 1:5, with = FALSE])
+```
+
+
+
+
+```{r}
+
+
+amazon_train <- amazon_train %>% mutate(row = row_number(c(1:562630)))
+
+
+amazon %>% filter(ProductId=='B000G6RYNE',UserId =='A1Y3XPZK9ZADFW')
+
+```
+
+
+
+
+
+
+
+
+```{r}
+stocks <- data.frame(
+  time = as.Date('2009-01-01') + 0:9,
+  X = rnorm(10, 0, 1),
+  Y = rnorm(10, 0, 2),
+  Z = rnorm(10, 0, 4)
+)
+stocksm <- stocks %>% gather(stock, price, -time)
+stocksm
+stocksm %>% spread(stock, price)
+stocksm %>% spread(time, price)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
