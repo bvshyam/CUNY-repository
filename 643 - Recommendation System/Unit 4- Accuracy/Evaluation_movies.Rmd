@@ -339,8 +339,10 @@ By comparing the above results we can conclude that the RMSE which we got is gen
 
 
 
+##Reference:
 
-
+1. Building a Recommender System with R -- Suresh K. Gorakala/Michele Usuelli
+2. https://github.com/bvshyam/CUNY-repository/tree/master/643%20-%20Recommendation%20System
 
 
 
