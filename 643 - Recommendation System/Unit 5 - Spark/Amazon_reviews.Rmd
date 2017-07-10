@@ -1,0 +1,138 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(sparklyr)
+library(dplyr)
+library(ggplot2)
+
+amazon_ratings <- read.csv("https://s3.us-east-2.amazonaws.com/cunyproject/data/Reviews.csv",header=TRUE,sep=",",stringsAsFactors = F)
+
+
+sc <- spark_connect(master = "local", version = "2.1.0")
+
+
+# amazon_sample <- amazon_ratings %>% select(c(ProductId,UserId,Score)) %>% sample_n(100)
+# 
+# amazon_sample$Score <- as.numeric(amazon_sample$Score)
+# amazon_sample$ProductId <- as.character(amazon_sample$ProductId)
+# amazon_sample$UserId <- as.character(amazon_sample$UserId)
+# 
+# amazon_ratings_sc3 <- copy_to(sc, amazon_sample,overwrite = TRUE)
+
+
+
+amazon_sample1 <- amazon_ratings %>% select(c(ProductId,UserId,Score))
+
+amazon_sample1$Score <- as.numeric(amazon_sample1$Score)
+amazon_sample1$UserId <- as.character(amazon_sample1$UserId)
+amazon_sample1$ProductId <- as.character(amazon_sample1$ProductId)
+
+amazon_ratings_sc4 <- copy_to(sc, amazon_sample1,overwrite = TRUE)
+
+
+
+```
+
+Explore the dataset
+
+
+```{r}
+
+
+#Ratings Distribution
+ratings_distribution <- amazon_ratings_sc4 %>% select(Score, UserId) %>%  group_by(Score) %>%  summarize(counts = count()) %>% collect()
+
+
+ggplot(ratings_distribution,aes(x=Score,y=counts)) + geom_point()
+
+```
+
+
+
+```{r}
+# 
+# 
+# mean(user_distribution$counts)
+# max(user_distribution$counts)
+# 
+# 
+# min(user_distribution$counts)
+# max(item_distribution$counts)
+
+
+#User Distribution
+user_distribution <- amazon_ratings_sc4 %>% select(Score, UserId) %>%  group_by(UserId) %>%  summarize(counts = count()) %>% filter(counts > 3) %>% distinct(UserId) %>% mutate(Usernum = row_number(UserId))
+
+
+#Item Distribution
+item_distribution <- amazon_ratings_sc4 %>% select(Score, ProductId) %>%  group_by(ProductId) %>%  summarize(counts = count()) %>% filter(counts > 3) %>% distinct(ProductId) %>% mutate(Productnum = row_number(ProductId))
+
+#Max Rating count
+
+
+#final_ratings <- amazon_ratings_sc4 %>% filter(UserId %in% user_distribution$UserId, ProductId %in%item_distribution)
+
+
+final_ratings <- amazon_ratings_sc4 %>% inner_join(user_distribution, by = c("UserId")) %>% select(c(Usernum,ProductId,Score)) %>%  inner_join(item_distribution, by = c("ProductId")) %>% select(c(Usernum,Productnum,Score)) 
+
+
+
+final_ratings_df <- final_ratings %>% collect() # 262935
+
+dim(final_ratings)
+
+
+```
+
+
+```{r}
+
+
+als_model <- ml_als_factorization(final_ratings, rating.column = "Score", user.column = "Usernum",item.column = "Productnum",iter.max = 10)
+
+
+summary(als_model)
+
+
+predictions_amazon <- als_model$.model %>% invoke("transform", spark_dataframe(final_ratings)) %>%  collect()
+
+
+```
+
+
+
+
+```{r}
+#Extract user and item matrix
+user.factors.amazon <- as.matrix(als_model$user.factors[,-1])
+item.factors.amazon <- as.matrix(als_model$item.factors[,-1])
+
+#Calculate the predicted ratings
+
+#ratings_pred.amazon <- user.factors.amazon %*% t(item.factors.amazon)
+
+
+#For specific user
+recommendation <- user.factors.amazon[15946,] %*% t(item.factors.amazon)
+
+colnames(recommendation) = als_model$item.factors[,1]
+
+
+#RMSE
+sqrt(mean((predictions$Score-predictions$prediction)^2))
+
+
+```
+
+
+
+```{r}
+
+spark_disconnect(sc)
+
+```
+
+

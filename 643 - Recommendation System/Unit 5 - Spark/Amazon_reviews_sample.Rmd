@@ -1,0 +1,214 @@
+---
+title: "Amazon Fine Food Recommendations"
+author: "Shyam BV"
+date: "7/9/2017"
+output:
+  html_document:
+    highlight: tango
+    theme: cerulean
+    toc: yes
+    toc_depth: 4
+    toc_float:
+      collapsed: yes
+      number_sections: yes
+      smooth_scroll: no
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
+---
+
+
+##Project Description
+
+The goal of this project is give you practice beginning to work with a distributed recommender system.  It is sufficient for this assignment to build out your application on a single node. 
+
+Adapt one of your recommendation systems to work with Apache Spark and compare the performance with your previous iteration. Consider the efficiency of the system and the added complexity of using Spark. You may complete the assignment using PySpark (Python), SparkR (R) , sparklyr (R), or Scala. 
+
+Please include in your conclusion:  For your given recommender system's data, algorithm(s), and (envisioned) implementation, at what point would you see moving to a distributed platform such as Spark becoming necessary? 
+
+You may work on any platform of your choosing, including Databricks Community Edition or in local mode.  You are encouraged but not required to work in a small group on this project.
+
+
+
+```{r include =FALSE}
+library(sparklyr)
+library(dplyr)
+library(ggplot2)
+```
+
+##Dataset
+
+For this assignment we will take amazon fine food reviews dataset. This dataset is a huge dataset which contains ratings and reviews about the particular item or restaurants.
+
+Link: https://www.kaggle.com/snap/amazon-fine-food-reviews
+
+As the dataset is huge we will take a sample of that dataset and try to work on it.
+
+```{r warning=FALSE}
+#Dataset is loaded in  amazon S3 bucket storage
+
+amazon_ratings <- read.csv("https://s3.us-east-2.amazonaws.com/cunyproject/data/Reviews.csv",header=TRUE,sep=",",stringsAsFactors = F)
+
+
+#Create a spark connection
+sc <- spark_connect(master = "local", version = "2.1.0")
+
+
+#Sample of the dataset 
+amazon_sample <- amazon_ratings %>% select(c(ProductId,UserId,Score)) 
+
+amazon_sample$Score <- as.numeric(amazon_sample$Score)
+amazon_sample$ProductId <- as.character(amazon_sample$ProductId)
+amazon_sample$UserId <- as.character(amazon_sample$UserId)
+
+#Copy to spark
+amazon_ratings_sc4 <- copy_to(sc, amazon_sample,overwrite = TRUE)
+
+```
+
+
+##Data Exploration
+
+Lets see the ratings distribution of the dataset. As we get the summary dataset, we will create a scatter plot with the rating counts.
+
+```{r warning=FALSE}
+
+#Ratings Distribution
+ratings_distribution <- amazon_ratings_sc4 %>% select(Score, UserId) %>%  group_by(Score) %>%  summarize(counts = count()) %>% collect()
+
+
+ggplot(ratings_distribution,aes(x=Score,y=counts)) + geom_point()
+
+```
+
+
+
+##Data Preparation
+
+Here the dataset has characters in user id and product id. SPARK ALS algorithm takes only numeric inputs for user id, product id and Score(Ratings). So we will get the unique user id and product id. Then we will assign numbers to it.
+
+```{r warning=FALSE}
+
+
+#User values
+user_distribution <- amazon_ratings_sc4 %>% select(Score, UserId) %>%  group_by(UserId) %>%  summarize(counts = count()) %>% filter(counts > 3) %>% distinct(UserId) %>% mutate(Usernum = row_number(UserId))
+
+
+#Item values
+item_distribution <- amazon_ratings_sc4 %>% select(Score, ProductId) %>%  group_by(ProductId) %>%  summarize(counts = count()) %>% filter(counts > 3) %>% distinct(ProductId) %>% mutate(Productnum = row_number(ProductId))
+
+item_catalog <- item_distribution %>% collect()
+
+#Combine the dataset and get the final values
+final_ratings <- amazon_ratings_sc4 %>% inner_join(user_distribution, by = c("UserId")) %>% select(c(Usernum,ProductId,Score)) %>%  inner_join(item_distribution, by = c("ProductId")) %>% select(c(Usernum,Productnum,Score)) 
+
+
+#Collect to a R dataframe
+final_ratings_df <- final_ratings %>% collect() 
+
+#Dimensions of the complete dataframe
+dim(final_ratings_df)
+
+
+```
+
+
+##Data Modelling
+
+As the dataset is huge, we will model only for the first 100 users. We run the spark ALS(Alternating Least Squares) algorithm for 20 iterations to get perfect output. 
+
+
+
+```{r warning=FALSE}
+
+final_sample <- final_ratings %>% filter(Usernum %in% c(1:100))
+
+
+#ALS algorithm
+als_model_sample <- ml_als_factorization(final_sample, rating.column = "Score", user.column = "Usernum",item.column = "Productnum",iter.max = 20)
+
+
+#Summary
+summary(als_model_sample)
+
+
+#Predictions for existing data
+predictions_amazon_sample_test <- als_model_sample$.model %>% invoke("transform", spark_dataframe(final_sample)) %>%   collect()
+
+
+#Select the user and item latent factor matrix
+user.factors.amazon.sample <- as.matrix(als_model_sample$user.factors[,-1])
+item.factors.amazon.sample <- as.matrix(als_model_sample$item.factors[,-1])
+
+#Calculate the predicted ratings
+
+ratings_pred.amazon.sample <- user.factors.amazon.sample %*% t(item.factors.amazon.sample)
+
+#Add the row names
+rownames(ratings_pred.amazon.sample) = als_model_sample$user.factors[,1]
+
+#Add the column names
+colnames(ratings_pred.amazon.sample) = als_model_sample$item.factors[,1]
+
+```
+
+###Validation
+
+Below is the calculation for RMSE. Error is very less almost negligible. So the model is pretty accurate in the prediction.
+
+```{r}
+#RMSE
+sqrt(mean((predictions_amazon_sample_test$Score-predictions_amazon_sample_test$prediction)^2))
+```
+
+
+
+Top 10 recommendations for a user
+
+```{r}
+#Random user number
+
+user = 10
+
+(data_frame(Productnum = as.numeric(names(head(sort(ratings_pred.amazon.sample[user,], decreasing = T),10))) ) %>% inner_join(item_catalog,by=c("Productnum")))
+
+```
+
+
+```{r include=FALSE}
+remove(sc,item_distribution,amazon_ratings_sc4,user_distribution,final_sample,amazon_sample,amazon_ratings)
+```
+
+
+```{r}
+
+spark_disconnect(sc)
+
+```
+
+
+
+##Summary of  learnings
+
+Environment setup and learnings:
+1. This complete project is developed in Amazon aws EC2 server.
+2. Installed Rstudio server and Spark in the server.
+3. http://ec2-34-229-127-153.compute-1.amazonaws.com/ is the link for the server.
+4. Amazon fine foods dataset has been loaded into Amazon S3 bucket.
+5. Faced some issues in setting up the Rstudio server environment. Finally ended up using an pre-build AMI for rstudio server.
+6. Tried installing spark on a separate cluster with many worker nodes. But there were some issues in it. So created local spark environemnt.
+
+
+Data size issues and learnings:
+
+1. This dataset is approximatly around 250 MB.
+2. As the dataset is huge, I am not able to load this dataset and run it in my local pc. 
+3. So migrated the complete data and installations to Amazon aws cloud.
+4. Although the data is in cloud, faced various issues when I copy the complete dataset to cloud.
+5. Finally ended up in creating a subset of 100 users and 700 items.
+6. When we use the full dataset, there are different errors. Also it took very long time for showing a simple output.
+7. If the data is in spark and perform all the operations then it is faster. If the data is copied to R then the performance is slower.
+8. Window functions like count, sum, etc are throwing some warnings. Github repo of sparkly says that it will be fixed in future versions.
+
+
+
