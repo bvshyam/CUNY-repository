@@ -1,0 +1,40 @@
+---
+title: "Amazon Fake Reviews Attacks"
+author: "Shyam BV"
+date: "July 16, 2017"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+##Topic
+
+Read the article below and consider how to handle attacks on recommender systems. Can you think of a similar example where a collective effort to alter the workings of content recommendations have been successful? How would you design a system to prevent this kind of abuse?
+
+https://www.washingtonpost.com/news/morning-mix/wp/2017/04/19/wisdom-of-the-crowd-imdb-users-gang-up-on-the-promise-before-it-even-opens/?utm_term=.329a75ece088
+
+##Amazon Fake Reviews
+
+Many of them are aware of amazon fake reviews. Not only in amazon, it is a big issue in different industries. It is a big issue in amazon because it uses algorithms to recommend new products. 
+
+http://nypost.com/2017/05/19/scammers-elude-amazon-crackdown-on-fake-reviews-with-new-tricks/
+
+https://sellercentral.amazon.com/forums/thread.jspa?messageID=3932938
+
+Above mentioned link is from an amazon seller. Here the it mentiones about the Fake reviews and sellers. 
+
+###Reviews
+Amazon uses hybrid recommendation approach. So if the fake reviews are high towards particular product. Then the algorithm uses that ratings and recommends that product to the new users. So it attacks on the products which are genuinely rated.
+
+###Sellers
+Amazon also uses similar approach to sellers and their rating. If the rating is fake towards particular seller then the buyer will be more likely to buy it. It also pushes back and attacks genuine sellers.
+
+
+###Methods to remove Attacks
+1. It is often a good methodology to verify the user account in multiple different ways before submitting a review.
+2. Algorithm should also have time and reviews count to a product. By considering this factor, it avoids the sudden influx of reviews. 
+3. Stats should be gathered on the activity from specific IP address and the number of hits should be passed as input to algorithm. Also we need to perform the classification approach to find out fake reviews.
+
+
+
