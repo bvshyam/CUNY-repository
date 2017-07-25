@@ -1,0 +1,101 @@
+---
+title: "Amigo De Libro"
+author: "Tulasi Ramarao, Shyam BV, Kumudini Bhave"
+date: "July 5, 2017"
+output:
+  ioslides_presentation:
+    css: finalproposal.css
+    highlight: espresso
+    logo: sps2.png
+    self_contained: yes
+runtime: shiny
+subtitle: "A Personalized Book Recommender System"
+---
+
+
+
+
+## Rationale
+
+
+**Books are our best friends!!** 
+
+**We yearn, learn and travel a different journey every time we read a book!**
+
+**While we know that each person is different, the thirst for knowledge, creativity , entertainment, the therapeutic and satiating feeling can be provided by a book of interest. And to each one's own..**
+
+**Through *"Amigo De Libro"* we make an effort to put you in good company of yet another friend, a good book, who may take you on to a magical journey.**
+ 
+
+## *Amigo De Libro* **, RecSys, answers..**
+
+
+**What should a particular user who is reading a book on R Programming be recommended to read next? **
+
+**If this user reads computer-related books and children's books, how do we represent his or her interest in books?.**
+
+**User who is interested in R programming and also in Harry potter book may also like Practical Statistics for Data Scientists or even love The Cicada Prophecy, where scientists discover a cure for aging and everyone rushes to drink from the fountain of youth**
+
+
+## .. continued..
+
+**This recommender system answers questions like these and strives to make a book reader's experience both an exciting and rewarding one when buying books through novelty and diversity**
+
+### **Salient Features**
+
+**- Item Based / User Based Collaborative Filtering Recommendation System**
+
+**- Content and/or Context Based Recommendation**
+**(based on attributes from user profile / item profile viz. the reader's age, the book's publication date, etc.)**
+
+**- Sentiment Analysis, if relevant.**
+
+
+## Data Sources
+
+**- Primarily datasets of Book Crossing sourced from**
+http://www2.informatik.uni-freiburg.de/~cziegler/BX/
+The dataset comprises of 
+
+**- Ratings Data (BX-Book-Ratings.CSV )**
+     **(userid , ISBN, rating)**
+     
+**- Users Profile Data (BX-Users.CSV )**
+     **(userid, location, age)**
+
+**- Books Profile Data (BX-Books.CSV )**
+     **(ISBN, BookTitle, BookAuthor, YearofPublication, Publisher, ImageURLSizeS, ImageURLSizeM, ImageURLSizeL)**
+
+**- Subjects from the ISBN DB through their APIs** http://isbndb.com/
+
+## Flow Chart
+
+![](owl2.jpg)
+
+
+## Journal References:
+
+-	Content-based Recommender Systems: State of the Art and Trends   -by Pasquale Lops, Marco de Gemmis and Giovanni Semeraro
+https://link.springer.com/chapter/10.1007/978-0-387-85820-3_3
+
+The authors provide an overview of content-based recommender systems and discusses some of the widely used techniques for representing items and user profiles.
+
+
+## References continued..
+
+-  Hybrid Recommender Systems: Survey and Experiments -by Robin Burke
+https://link.springer.com/article/10.1023%2FA%3A1021240730564?LI=true
+
+The author talks about improving performance and how semantic ratings collected from knowledge-based enhances the effectiveness of collaborative filtering.
+
+-  Other references: Recommender systems - How they work and their impacts
+http://findoutyourfavorite.blogspot.com/2012/04/content-based-filtering.html
+
+In this, new user topics are discussed along with flow charts
+
+
+*****
+
+![](markt.jpg) 
+
+

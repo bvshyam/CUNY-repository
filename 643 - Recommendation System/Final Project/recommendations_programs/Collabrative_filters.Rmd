@@ -1,0 +1,367 @@
+---
+title: "BookRecommender"
+author: "Kumudini, Tulasi, Shyam"
+date: "7/6/2017"
+output: pdf_document
+---
+    
+## Description  
+   
+In this project, a recommender was implemented on a distrubuted system. The Performance of this recommender was then compared with the recommender that was created on Apache Spark using ALS. 
+  
+## Dataset   
+
+The dataset for books was downloaded from #http://www2.informatik.uni-freiburg.de/~cziegler/BX/. There are three datasets -   
+BX-Book-Ratings.csv, BX-Users.csv and BX-Books.csv were used to build the recommendation system.    
+    
+   
+## Installations:   
+
+The recommender on Apache Spark was installed on a single node. The data manipulation in Sparklyr uses the same verbage as dplyr, so the learning curve is said to be easier for R programmers. Also, Sparkly is faster than R and help documentation are easily available in R (?function_name). 
+    
+   
+   
+```{r}
+
+#install.packages("sparklyr",repos = "http://cran.us.r-project.org") # installation from cran
+
+#devtools::install_github("rstudio/sparklyr",force=TRUE) # upgrade to the latest sparklyr  # Is not this, then I get sdf_copy_to Error: Column 'database' must be length 1 or 1, not 0
+# comment out because of this error - > spark install(version = "2.1.0") parse error: premature EOF
+
+suppressWarnings(suppressMessages(library(sparklyr)))
+
+
+#spark_install(version = "2.1.0") 
+
+
+
+```
+   
+The returned spark connection(sc) below provides a remote dplyr data source to the Spark cluster
+
+```{r}
+
+suppressWarnings(suppressMessages(library(dplyr)))
+suppressWarnings(suppressMessages(library(reshape2)))
+suppressWarnings(suppressMessages(library(knitr)))
+suppressWarnings(suppressMessages(library(recommenderlab)))
+suppressWarnings(suppressMessages(library(recosystem)))
+suppressWarnings(suppressMessages(library(irlba)))
+suppressWarnings(suppressMessages(library(stringr))) # str_replace_all
+suppressWarnings(suppressMessages(library(tictoc))) # timing
+
+#cache = TRUE # to speed up compile
+opts_knit$set(verbose=TRUE)  # to see where the code is executing
+
+sc <- spark_connect(master = "local")
+
+#Dataset
+#http://www2.informatik.uni-freiburg.de/~cziegler/BX/
+set.seed(3445) # to keep #s from the results the same
+
+# Set the working directory
+#setwd("/Users/tulasiramarao/Documents/Tulasi/CUNYProjects/DATA643/RPrograms")
+
+
+# load data from local drive
+dfbookratings <- read.csv("../data/BX-Book-Ratings.csv", header = TRUE, sep =";", stringsAsFactors = FALSE)
+colnames(dfbookratings)
+#ncol(dfbookratings)
+#head(dfbookratings)
+#User.ID ISBN Book.Rating
+#nrow(dfbookratings)
+
+dfusers <- read.csv("data/BX-Users.csv", header = TRUE, sep =";", stringsAsFactors = FALSE)
+colnames(dfusers)
+#User.ID Location Age
+
+dfbooks <- read.csv("data/BX-Books.csv", header = TRUE, sep =";", stringsAsFactors = FALSE)
+#colnames(dfbooks)
+
+#ISBN Book.Title Book.Author Year.Of.Publication Publisher Image.URL.S Image.URL.M Image.URL.L
+
+```
+   
+Now, the two datasets are merged - to get a book name for each ISBN.        
+
+```{r}
+
+
+combinedData <- merge(dfbookratings,dfusers, by=c("User.ID"))
+#colnames(combinedData)
+combinedData <- merge(combinedData,dfbooks, by=c("ISBN"))
+
+#Select the relevant columns - skip timestamp and genres, movieID
+myratings <- subset(combinedData,select = c(1,2,3,6))
+
+colnames(myratings) <- c("userID","ISBN","rating","title")
+
+summary(myratings)
+
+```
+   
+   
+The ratings run from 0 to 10.         
+   
+
+```{r}
+# Filter by minimum books read and minimum users per books
+myratings <- myratings %>%
+  group_by(userID) %>%
+  filter(n()>50) %>%
+  group_by(ISBN) %>%
+  filter(n()>25) 
+
+myratings[is.na(myratings)] <- 0
+
+#userid zero ? remove the row
+myratings <- myratings[apply(myratings[c(1)],1,function(z) any(z!=0)),]
+
+
+# remove slashes and spaces ( easy to query later)
+#myratings$ISBN <- str_replace(myratings$ISBN, "\\/", "")
+
+tic()
+# Generating the user-item matrix for the predictor 
+ratingdcast <- dcast(myratings, userID~ISBN, 
+                   value.var = "rating", fill=0, fun.aggregate = mean)
+
+exectime <- toc()
+exectimeALS <- exectime$toc - exectime$tic
+
+# Filling in rownames
+rownames(ratingdcast) = ratingdcast$userID
+
+# Removing the first column
+ratingdcast <- as.matrix(ratingdcast[,-1])
+# Converting to a matrix
+ratingdcast <- as.matrix(ratingdcast)
+
+# Adding unique user id's using the numeric value of the factor value of the profile name
+ratingsdf <- transform(myratings,ISBN=as.numeric(factor(ISBN)))
+
+#Select the relevant columns - skip timestamp and genres, movieID
+ratingsdf <- subset(ratingsdf,select = c(1,2,3))
+
+
+#delete title cos of error - Error: Column `database` must be length 1 or 1, not 0
+#ratingsdf <- subset(ratingsdf,select = c(1,2,3))
+
+ratingsdf$userID <- as.numeric(ratingsdf$userID)
+
+myratingsToDf <- as.data.frame(ratingsdf)
+ratingsdf[is.na(ratingsdf)] <- 0
+
+
+##userid zero ? remove the row
+ratingsdf <- ratingsdf[apply(ratingsdf[c(1)],1,function(z) any(z!=0)),]
+
+```
+
+### I. Alternating Least Squares(ALS) method: 
+
+Copy myratings into Spark and return an R object wrapping the copied object( a spark dataframe)     
+  
+```{r}
+
+#book.tbl <- sdf_copy_to(sc, myratingsToDf, "spark_books",overwrite = TRUE)
+book.tbl <- sdf_copy_to(sc, ratingsdf, overwrite = TRUE)
+
+
+```
+   
+Alternating Least Squares(ALS) to perform matrix factorization on a Spark Dataframe.   
+   
+Create an ALS model:   
+   
+```{r}
+
+# https://github.com/rstudio/sparklyr/blob/master/man/ml_als_factorization.Rd
+# https://rdrr.io/cran/sparklyr/man/ml_als_factorization.html
+
+# Measure time
+tic()
+MLSmodel <- ml_als_factorization(book.tbl, user.column = "userID",item.column = "ISBN",rating.column = "rating", iter.max = 7)
+
+exectime <- toc()
+exectimeALS <- exectime$toc - exectime$tic
+
+summary(MLSmodel)
+
+```
+    
+The execution time was really fast compared to execution time for SVD on regular R.        
+   
+
+Using documentation from    
+https://spark.apache.org/docs/latest/ml-collaborative-filtering.html, the following predictions were created.    
+   
+```{r}
+
+
+#Using documentation from    
+#https://spark.apache.org/docs/latest/ml-collaborative-filtering.html, the following predictions were created.    
+
+
+
+predictions <- MLSmodel$.model %>%
+  invoke("transform", spark_dataframe(book.tbl)) %>%
+  collect()
+
+predictions[predictions$userID == 8,]
+dim(predictions)
+
+pred_RMSE <- sqrt(mean(with(predictions, prediction-rating)^2))
+pred_RMSE
+
+```
+   
+This RMSE will be compared to RMSE from UBCF and irlba package.
+   
+
+```{r}
+
+#userid zero ? remove the row
+predictions2 <- predictions[apply(predictions[c(1)],1,function(z) any(z!=0)),]
+
+```
+
+ALS is a method where the entire loss function is minimized at once, changing half the parameters at a time[Ref#:6}. So, half the parameters are fixed and the other half is recomputed and the process is repeated. ALS uncovers latent features.   
+
+Next, the matrix for the predictions from ALS is calculated. First two dataframes are created - one for userid and one for ISBN w/title.    
+    
+```{r}
+usernames <- ratingsdf %>%
+  distinct(userID) %>%
+  arrange(userID)
+dim(usernames)
+
+
+booknames <- myratings %>%
+  group_by(title) %>% 
+  distinct(title)
+dim(booknames)
+
+booknames <- ratingsdf %>%
+  group_by(ISBN) %>% 
+  distinct(ISBN)
+dim(booknames)
+
+userratings <- myratings %>%
+  distinct(userID,rating) %>%
+  arrange(userID,rating)
+
+```
+
+
+```{r}
+
+u.df <- MLSmodel$user.factors[,-1]
+m.df <- MLSmodel$item.factors[,-1]
+u.matrix <- as.matrix(u.df)
+m.matrix <- as.matrix(m.df)
+
+# now predict
+predict.ALS <- u.matrix %*% t(m.matrix)
+dim(predict.ALS)
+
+rownames(predict.ALS) = as.numeric(usernames$userID)
+colnames(predict.ALS) = booknames$ISBN
+
+kable(predict.ALS[1:5, 1:5])
+
+
+#remove rows with user with zero values
+#predict.ALS <- predict.ALS[!(apply(predict.ALS, 1, function(y) any(y == 0))),]
+
+
+
+predict.ALS.df <- as.data.frame(predict.ALS)
+#predict.ALS[5,1]
+kable(predict.ALS[1:6, 1:6])
+
+#predict.ALS["60392452", "222296"]   # Keep - an example
+
+## Method for the UI 
+Titlelookup  <- subset(dfbooks,select = c(1,2))
+colnames(Titlelookup) <- c("ISBN","title")
+Titlelookup <- Titlelookup[duplicated(Titlelookup)==FALSE,]
+
+getTitle <- function(ISBN1) {
+  title <- subset(Titlelookup, ISBN == ISBN1)$title
+}
+
+getBookNames<- function(isbnum) {
+  isbnum2 <- data.frame(isbnum)
+  colnames(isbnum2) <- c("isbn")
+  isbnum2<- paste0("0",isbnum2$isbn)
+  isbnum2 <- data.frame(isbnum2)
+  colnames(isbnum2) <- c("isbn")
+  #head(Titlelookup[isbnum2 %in% Titlelookup$ISBN]$title,1)
+  head(Titlelookup[Titlelookup$ISBN %in% isbnum2$isbn,],5)$title
+
+}
+
+getALSRecommendation <- function(user,n) {
+     x <- predict.ALS[,c(user)]
+     x.df <- data.frame(x)
+     x.df$isbns <- rownames(x.df)
+     newdata <- x.df[order( -x),] 
+     b <- head(newdata[,"isbns"],n) # to return isbns
+     #b <- data.frame(b)
+     #booktitles <- getBookNames(b) # to return titles
+}
+
+# Test the Predictions per user
+x <- getALSRecommendation(39,10)
+x
+
+y <- getALSRecommendation(325,10)
+y
+
+
+
+```
+
+
+   
+Look up of ratings.       
+    
+```{r}
+# Now for the UI
+
+str(predictions)
+storeDBPredictions <- as.data.frame(predictions)
+write.table(storeDBPredictions, file = "predictionsDBTable.csv", sep = ",", col.names = NA, qmethod = "double", row.names=TRUE)
+
+storeDBTitleISBN <- subset(combinedData,select = c(1,6))
+colnames(storeDBTitleISBN) <- c("ISBN","title")
+
+write.table(storeDBTitleISBN, file = "storeDBTitleISBN.csv", sep = ",", col.names = NA, qmethod = "double", row.names=TRUE)
+
+############################
+getBookRating = function(x){
+  predictions[x[1],x[2]]
+}
+
+Titlelookup  <- subset(dfbooks,select = c(1,2))
+
+colnames(Titlelookup) <- c("ISBN","title")
+
+Titlelookup <- Titlelookup[duplicated(Titlelookup)==FALSE,]
+
+getTitle <- function(ISBN1) {
+  title <- subset(Titlelookup, ISBN == ISBN1)$title
+}
+
+#head(dfbooks)
+(t <- getTitle("0195153448"))
+
+```
+
+```{r}
+# Now disconnect from Spark gracefully
+spark_disconnect(sc)
+
+```
+

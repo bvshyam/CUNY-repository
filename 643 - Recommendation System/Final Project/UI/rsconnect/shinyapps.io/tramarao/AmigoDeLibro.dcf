@@ -1,0 +1,11 @@
+name: amigodelibro
+title: AmigoDeLibro
+account: tramarao
+server: shinyapps.io
+appId: 196312
+bundleId: 901502
+url: https://tramarao.shinyapps.io/AmigoDeLibro/
+when: 1499883851.17229
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: manifest.json

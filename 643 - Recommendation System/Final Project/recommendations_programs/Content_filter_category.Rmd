@@ -1,0 +1,249 @@
+---
+title: "Content Based Recommendation"
+author: "Kumudini, Tulasi, Shyam"
+date: "July 16, 2017"
+output:
+  html_document:
+    fontsize: 17pt
+    highlight: pygments
+    theme: cerulean
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+---
+     
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+*******
+# **Content based Recommender System : Amigo De Libro (Book Friend)**
+
+********
+
+## Summary
+
+This markdown will perform Content based book recommendation according to the user implicit preferences.
+
+```{r warning=FALSE, comment=FALSE, message=FALSE, tidy=TRUE, tidy.opts=list(width.cutoff=150)}
+
+suppressWarnings(suppressMessages(library(tidyr)))
+suppressWarnings(suppressMessages(library(stringr)))
+suppressWarnings(suppressMessages(library(randomForest)))
+suppressWarnings(suppressMessages(library(dplyr)))
+suppressWarnings(suppressMessages(library(knitr)))
+suppressWarnings(suppressMessages(library(stringr))) 
+
+```
+
+
+### Data Loading 
+
+```{r}
+# Book Ratings
+dfbookratings_cfc <- read.csv("../data/BX-Book-Ratings.csv", header = TRUE, sep =";", stringsAsFactors = FALSE) %>% filter(Book.Rating > 0)
+
+#Users information
+dfusers_cfc <- read.csv("../data/BX-Users.csv", header = TRUE, sep =";", stringsAsFactors = FALSE)
+
+#Book information
+dfbooks_cfc <- read.csv("../data/BX-Books.csv", header = TRUE, sep =";", stringsAsFactors = FALSE)
+
+#Book Category from Google API
+bookdec_cfc <- read.csv("../data/final_output_category.csv", header = TRUE, sep =",", stringsAsFactors = FALSE) %>% select(isbn,category)
+
+```
+
+### Data Preparation
+
+```{r}
+#Update implicit prefences of category
+
+dfbooks_filter <- bookdec_cfc %>% mutate(itemnum = row_number()) %>% mutate(reads = 1)
+
+#Update NA category as Unknown
+dfbooks_filter[is.na(dfbooks_filter)] = 'Unknown'
+
+#Correct the column name
+colnames(dfbooks_filter)[1] = 'ISBN'
+
+
+#Merge ratings and books for future reference
+books_recommend <- merge(dfbooks_filter,dfbookratings_cfc, by=c("ISBN"))
+
+
+dfbooks_filter <- dfbooks_filter %>% select(ISBN, itemnum,category,reads) %>% spread(category,reads)
+
+#Update NA as zero rating
+dfbooks_filter[is.na(dfbooks_filter)]=0
+
+```
+
+
+
+
+
+```{r}
+
+#Remove unecessary columns
+dfbooks_filter <- dfbooks_filter[,!apply(dfbooks_filter, 2, function(x) all(is.na(x)))] 
+
+#Update column names
+all_names <- colnames(dfbooks_filter)
+
+all_names_correct <- str_replace_all(all_names,pattern = "[^[:alnum:]]",replacement = ".")
+
+colnames(dfbooks_filter) = all_names_correct
+
+
+
+#Merge everything into one single dataset 
+combinedData_filter <- merge(dfbookratings_cfc,dfusers_cfc, by=c("User.ID")) %>% select(User.ID,ISBN,Book.Rating)
+
+combinedData_filter <- merge(combinedData_filter,dfbooks_filter, by=c("ISBN")) %>% select(-ISBN)
+
+
+colnames(combinedData_filter)[1:3] <- c("userid","brating","itemid")
+
+head(combinedData_filter[,c(1:5)])
+
+```
+
+
+
+```{r}
+#Function for implicit user preferences. 1 if greater than 7. Else 0
+
+nrat = unlist(lapply(combinedData_filter$brating,function(x) {
+  if(x>7) {return(1)}
+  else {return(0)}
+}))
+
+#Combine to the parent Dataframe 
+combinedData_filter = cbind(nrat,combinedData_filter)
+
+
+#0 and 1 ratings in each column
+
+head(apply(combinedData_filter[,-c(2:4)],2,function(x) table(x)))
+
+```
+
+
+
+
+####Scaling the ratings
+
+```{r}
+
+scaled_rating <- scale(combinedData_filter[,-c(1,2,3,4)])
+
+scaled_rating <- cbind(combinedData_filter[,c(1,2,3,4)],scaled_rating)
+
+scaled_rating <- scaled_rating[,!apply(scaled_rating, 2, function(x) all(is.na(x)))]
+
+
+head(scaled_rating)
+
+
+```
+
+
+###Modelling
+
+```{r}
+set.seed(7340)
+
+#Split training and test dataset
+
+which_train <- sample(x=c(T,F),size=nrow(scaled_rating),replace=T,prob=c(.8,.2))
+train <- scaled_rating[which_train,] %>% select(-brating, -userid,-itemid)
+
+test <- scaled_rating[!which_train,] %>% select(-brating, -userid,-itemid)
+
+fit = randomForest(as.factor(nrat)~.,train)
+
+summary(fit)
+```
+
+
+
+###Predictions
+
+
+```{r}
+
+predictions = predict(fit,test,type="class")
+
+head(predictions)
+
+
+```
+
+
+###Evaluation of the model
+
+```{r}
+
+cm = table(predictions,test$nrat)
+
+(accuracy <- sum(diag(cm))/sum(cm))
+
+#Precision
+(precision <- diag(cm)/rowSums(cm))
+
+
+#recall
+(recall <- (diag(cm)/colSums(cm)))
+```
+
+
+
+###Recommendation for User
+
+```{r}
+totalbooks_1 <- books_recommend %>% select(ISBN) %>% unique()
+
+
+
+nonrated = function(userid) {
+
+  (ratedbooks = books_recommend[books_recommend$User.ID ==userid,]$ISBN)
+  (nonratedbooks = totalbooks_1[!totalbooks_1$ISBN %in% ratedbooks,])
+  df = data.frame(cbind(rep(userid),nonratedbooks,0))
+
+  names(df) = c("User.ID","ISBN","nrat")
+
+  return(df)
+}
+
+
+
+recommendation_list = function(userid,count) {
+activeusernonratings <- nonrated(userid)
+
+activeuserratings = merge(activeusernonratings,dfbooks_filter,"ISBN")
+
+predictions_user <- predict(fit,activeuserratings[,-c(1:4)],type="class") %>% data.frame(activeuserratings$ISBN,recommend_movies = .)
+
+set.seed(73)
+
+final_recommend = predictions_user[which(predictions_user$recommend_movies==1),] %>% select(ISBN=1) %>% sample_n(count,replace=F) 
+
+return(final_recommend)
+}
+
+
+
+
+#remove(bookdec,combinedData_filter,dfbooks_df,scaled_rating, all_names,all_names_correct,cm,nrat,which_train,test,train,totalbooks,books_recommend)
+
+
+```
+
+
